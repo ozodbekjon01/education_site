@@ -55,7 +55,7 @@ def download_certificate(cert_id):
     can.drawString(330, 97, f" {cert_id}")  # {id}
     
     # QR kodi
-    qr_url = f"http://127.0.0.1:5000/certificate/{cert_id}/verify"
+    qr_url = f"http://library.ustoznext.uz/certificate/{cert_id}/verify"
     qr_img = qrcode.make(qr_url)
     qr_bytes = io.BytesIO()
     qr_img.save(qr_bytes, format="PNG")
