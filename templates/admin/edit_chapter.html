@@ -1,0 +1,27 @@
+{% extends "admin_base.html" %}
+{% block title %}Bo‘limni tahrirlash{% endblock %}
+
+{% block content %}
+
+<h1 class="dash-title">Bo‘limni tahrirlash</h1>
+
+<div class="form">
+<form method="POST">
+
+    <label>Bo‘lim nomi</label>
+    <input type="text" name="name" value="{{ chapter[1] }}" required>
+<br>
+    <label>Sarlavha</label>
+    <input type="text" name="title" value="{{ chapter[2] }}">
+<br>
+    <label>Tartib raqami</label>
+    <input type="number" name="number" value="{{ chapter[3] }}" required>
+<br>
+    <button type="submit" class="save-btn">
+        Yangilash
+    </button>
+
+</form>
+</div>
+
+{% endblock %}

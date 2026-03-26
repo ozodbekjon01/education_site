@@ -1,0 +1,61 @@
+{% extends "admin_base.html" %}
+{% block title %}Mavzu tahrirlash{% endblock %}
+
+{% block content %}
+<h1 class="dash-title">Bo‘lim: {{ chapter[1] }} - Mavzu tahrirlash</h1>
+
+<form method="POST" enctype="multipart/form-data" class="form" style="width: 100%;">
+
+<label>Mavzu nomi</label>
+<input type="text" name="topic_name" value="{{ topic[1] }}" required>
+
+<label>Video URL</label>
+<input type="text" name="topic_video" value="{{ topic[2] }}">
+
+<label>Tavsif / Kontent</label>
+<textarea name="topic_content" rows="20">{{ topic[3] }}</textarea>
+
+<label>Davomiyligi (daqiqa)</label>
+<input type="number" name="topic_time" value="{{ topic[4] }}" min="0">
+
+<label>Tartib raqami</label>
+<input type="number" name="topic_number" value="{{ topic[5] }}" min="1">
+
+<label>Biriktirilgan test</label>
+<select name="test_id">
+<option value="">— Test tanlanmagan —</option>
+{% for t in tests %}
+<option value="{{ t[0] }}" {% if topic[7]|string == t[0]|string %}selected{% endif %}>
+    {{ t[1] }}
+</option>
+{% endfor %}
+</select>
+
+<hr>
+
+<h3>Mavjud PDFlar</h3>
+
+{% for pdf in pdfs %}
+<div style="margin-bottom:8px">
+<a href="/{{ pdf[1] }}" target="_blank">📄 PDF {{ loop.index }}</a>
+
+<a href="/admin/pdf/{{ pdf[0] }}/delete"
+onclick="return confirm('PDF o‘chirilsinmi?')"
+style="color:red;margin-left:10px">
+🗑 O‘chirish
+</a>
+</div>
+{% endfor %}
+
+<hr>
+
+<label>Yangi PDF qo‘shish</label>
+<input type="file" name="topic_pdf[]" multiple accept="application/pdf">
+
+<button type="submit" class="save-btn">Saqlash</button>
+
+</form>
+
+
+<a href="/admin/courses/{{ course_id }}/edit"><button class="mini-btn-pro">↩ Kursga qaytish</button></a>
+{% endblock %}

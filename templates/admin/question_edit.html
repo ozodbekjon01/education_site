@@ -1,0 +1,43 @@
+{% extends "admin_base.html" %}
+{% block title %}Savolni tahrirlash{% endblock %}
+
+{% block content %}
+<h1 class="dash-title">Savolni tahrirlash</h1>
+
+<!-- Savolni tahrirlash -->
+<form method="POST" class="form">
+    <label>Savol matni</label>
+    <textarea name="question_text" required>{{ question[1] }}</textarea>
+    <button type="submit" class="save-btn">Saqlash</button>
+</form>
+
+<hr class="divider">
+
+<!-- Variantlar -->
+<h2>Variantlar</h2>
+<a href="/admin/questions/{{ question[0] }}/answers/add">
+    <button class="add-btn">+ Variant qo‘shish</button>
+</a>
+
+<table class="table">
+    <tr>
+        <th>#</th>
+        <th>Matni</th>
+        <th>To‘g‘ri</th>
+        <th>Amal</th>
+    </tr>
+    {% for a in answers %}
+    <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ a[1] }}</td>
+        <td>{% if a[3] %}✅{% else %}❌{% endif %}</td>
+        <td>
+            <a href="/admin/answers/{{ a[0] }}/edit" class="mini">✏️</a>
+            <form action="/admin/answers/{{ a[0] }}/delete" method="POST" style="display:inline;">
+                <button type="submit" class="mini-danger" onclick="return confirm('O‘chirishni tasdiqlaysizmi?')">X</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "admin_base.html" %}
+{% block title %}Variantni tahrirlash{% endblock %}
+
+{% block content %}
+
+<h1 class="dash-title">
+    Savol: {{ question[1] }}
+</h1>
+
+<form method="POST" class="form">
+
+    <label>Variant matni</label>
+    <input type="text" name="text" value="{{ answer[1] }}" required>
+
+    <label>
+        <input type="checkbox" name="is_correct" {% if answer[3] == 1 %} checked {% endif %}>
+        To‘g‘ri javob
+    </label>
+
+    <br><br>
+
+    <button type="submit" class="save-btn">
+        Saqlash
+    </button>
+
+</form>
+
+<br>
+
+<a href="/admin/tests/{{ question[2] }}/questions">
+    <button class="add-btn">⬅ Ortga</button>
+</a>
+
+{% endblock %}

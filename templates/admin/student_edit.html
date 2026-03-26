@@ -1,0 +1,24 @@
+{% extends "admin_base.html" %}
+{% block title %}O‘quvchini tahrirlash{% endblock %}
+
+{% block content %}
+<h1 class="dash-title">O‘quvchini tahrirlash</h1>
+
+<form method="POST" class="form">
+    <label>Login</label>
+    <input type="text" name="login" value="{{ student['login'] }}" required>
+
+    <label>To‘liq ism</label>
+    <input type="text" name="full_name" value="{{ student['full_name'] }}" required>
+
+    <label>Telefon raqam</label>
+    <input type="text" name="number" value="{{ student['number'] }}">
+
+    <label>Parol (faqat o‘zgartirmoqchi bo‘lsangiz kiriting)</label>
+    <input type="password" name="password" placeholder="Yangi parol">
+
+    <button type="submit" class="save-btn">Saqlash</button>
+</form>
+
+<a href="/admin/students" class="btn">« Orqaga</a>
+{% endblock %}

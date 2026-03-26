@@ -1,0 +1,28 @@
+{% extends "admin_base.html" %}
+{% block title %}Profil{% endblock %}
+
+{% block content %}
+<h1 class="dash-title">Profil</h1>
+
+<form method="POST" action="{{ url_for('admin.profile') }}" class="form">
+    <label>Login (o‘zgartirish mumkin emas)</label>
+    <input type="text" value="{{ admin[1] }}" disabled>
+
+    <label>To‘liq ism</label>
+    <input type="text" name="full_name" value="{{ admin[3] }}" required>
+
+    <label>Telefon</label>
+    <input type="text" name="number" value="{{ admin[4] }}">
+
+    <label>Yangi parol</label>
+    <input type="password" name="password" placeholder="Yangi parol">
+
+    <label>Parolni tasdiqlash</label>
+    <input type="password" name="password_confirm" placeholder="Parolni qayta kiriting">
+
+    <label>Role</label>
+    <input type="text" value="{{ admin[5] }}" disabled>
+
+    <button type="submit" class="save-btn">Saqlash</button>
+</form>
+{% endblock %}

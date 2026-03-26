@@ -1,0 +1,55 @@
+{% extends "admin_base.html" %}
+{% block title %}{{ course_name }} - Yozilgan o‘quvchilar{% endblock %}
+
+{% block content %}
+<h1>{{ course_name }} kursiga yozilgan o‘quvchilar</h1>
+
+<!-- Qidiruv -->
+<form method="GET" class="search-form">
+    <input type="text" name="search" placeholder="Ism, login yoki telefon..." value="{{ search_query }}">
+    <button type="submit" class="save-btn">Qidirish</button>
+</form>
+
+{% if followers %}
+<table class="table">
+    <tr>
+        <th>ID</th>
+        <th>To‘liq ism</th>
+        <th>Login</th>
+        <th>Telefon</th>
+    </tr>
+    {% for f in followers %}
+    <tr>
+        <td>{{ f[0] }}</td>
+        <td>{{ f[1] }}</td>
+        <td>{{ f[2] }}</td>
+        <td>{{ f[3] }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<!-- Pagination -->
+<div class="pagination">
+    {% if page > 1 %}
+        <a href="?page={{ page-1 }}&search={{ search_query }}">« Oldingi</a>
+    {% endif %}
+
+    {% for p in range(1, total_pages+1) %}
+        {% if p == page %}
+            <strong>{{ p }}</strong>
+        {% else %}
+            <a href="?page={{ p }}&search={{ search_query }}">{{ p }}</a>
+        {% endif %}
+    {% endfor %}
+
+    {% if page < total_pages %}
+        <a href="?page={{ page+1 }}&search={{ search_query }}">Keyingi »</a>
+    {% endif %}
+</div>
+
+{% else %}
+<p class="text-muted">Bu kursga hech kim yozilmagan</p>
+{% endif %}
+
+<a href="/admin/courses" class="btn">Orqaga</a>
+{% endblock %}

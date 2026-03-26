@@ -1,0 +1,28 @@
+{% extends "admin_base.html" %}
+{% block title %}Savol qo‘shish{% endblock %}
+
+{% block content %}
+<h1 class="dash-title">Savol va Variantlar - {{ test[1] }}</h1>
+
+<form method="POST" class="form">
+    <label>Savol matni</label>
+    <textarea name="text" rows="3" required>{% if question %}{{ question[1] }}{% endif %}</textarea>
+
+    <h3>Variantlar</h3>
+    {% for i in range(4) %}
+        <div class="answer-block">
+            <input type="text" name="answers[]" placeholder="Variant {{ i+1 }}" 
+            value="{% if question and question[-1]|length > i %}{{ question[-1][i][1] }}{% endif %}" >
+            <label>
+                <input type="radio" name="correct" value="{{ i }}" 
+                {% if question and question[-1]|length > i and question[-1][i][3] %} checked {% endif %}>
+                To‘g‘ri javob
+            </label>
+        </div>
+    {% endfor %}
+
+    <button type="submit" class="save-btn">Saqlash</button>
+</form>
+
+<a href="/admin/tests/{{ test[0] }}/edit"><button class="add-btn">Orqaga</button></a>
+{% endblock %}

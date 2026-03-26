@@ -1,0 +1,46 @@
+{% extends "admin_base.html" %}
+{% block title %}Testni tahrirlash{% endblock %}
+
+{% block content %}
+
+<h1 class="dash-title">Testni tahrirlash</h1>
+
+<hr class="divider">
+
+<a href="/admin/tests/{{ test[0] }}/questions">
+    <button class="add-btn">📋 Savollar va variantlarni tahrirlash</button>
+</a>
+
+<form method="POST" class="form">
+
+    <label>Nomi</label>
+    <input type="text" name="name" value="{{ test[1] }}" required>
+
+    <label>Sarlavha</label>
+    <input type="text" name="title" value="{{ test[2] }}">
+
+    <label>Vaqt (daqiqa)</label>
+    <input type="number" name="time" min="1" value="{{ test[3] }}" required>
+
+    <label>Minimal ball</label>
+    <input type="number" name="min_score" min="0" value="{{ test[4] }}" required>
+
+    <label>Holati</label>
+    <select name="openness">
+        <option value="open" {% if test[5] == "open" %}selected{% endif %}>
+            Ochiq
+        </option>
+        <option value="closed" {% if test[5] == "closed" %}selected{% endif %}>
+            Yopiq
+        </option>
+    </select>
+
+    <button type="submit" class="save-btn">Saqlash</button>
+
+</form>
+
+<a href="/admin/tests">
+    <button class="add-btn">⬅ Ortga</button>
+</a>
+
+{% endblock %}

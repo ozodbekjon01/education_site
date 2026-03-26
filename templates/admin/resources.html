@@ -1,0 +1,111 @@
+{% extends "admin_base.html" %}
+{% block title %}Resurs boshqaruvi{% endblock %}
+
+{% block content %}
+
+<style>
+
+.container{
+max-width:900px;
+margin:auto;
+padding:20px;
+}
+
+.resource-card{
+background:#f7f7f7;
+padding:15px;
+border-radius:10px;
+margin-bottom:10px;
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.delete-btn{
+background:#ef4444;
+color:white;
+padding:6px 12px;
+border-radius:6px;
+text-decoration:none;
+}
+
+.upload-form{
+background:white;
+padding:20px;
+border-radius:12px;
+margin-bottom:20px;
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+
+.upload-form input{
+width:100%;
+padding:8px;
+margin-bottom:10px;
+border-radius:6px;
+border:1px solid #ddd;
+}
+
+.upload-form button{
+background:#3b82f6;
+color:white;
+border:none;
+padding:8px 16px;
+border-radius:6px;
+cursor:pointer;
+}
+
+</style>
+
+<div class="container">
+
+<h2>Resurs boshqaruvi</h2>
+
+<div class="upload-form">
+
+<form method="POST" enctype="multipart/form-data">
+
+<input type="text" name="title" placeholder="Resurs nomi" required>
+
+<input type="file" name="file" required>
+
+<button type="submit">Yuklash</button>
+
+</form>
+
+</div>
+
+<h3>Mavjud resurslar</h3>
+
+{% for r in resources %}
+
+<div class="resource-card">
+
+<div>
+
+<b>{{ r[1] }}</b><br>
+<small>{{ r[2] }}</small>
+
+</div>
+
+<div>
+
+<a href="/static/resources/{{ r[2] }}" target="_blank">
+Ko‘rish
+</a>
+
+<a href="/admin/resources/delete/{{ r[0] }}"
+class="delete-btn"
+onclick="return confirm('O‘chirmoqchimisiz?')">
+O'chirish
+</a>
+
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+{% endblock %}

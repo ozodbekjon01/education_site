@@ -1,0 +1,39 @@
+{% extends "admin_base.html" %}
+{% block title %}Mavzu qo‘shish{% endblock %}
+
+{% block content %}
+<h1 class="dash-title">Bo‘lim: {{ chapter[1] }} - Yangi Mavzu qo‘shish</h1>
+
+<form method="POST" enctype="multipart/form-data" class="form" style="width:100%;">
+
+    <label>Mavzu nomi</label>
+    <input type="text" name="topic_name" required>
+
+    <label>Video URL</label>
+    <input type="text" name="topic_video">
+
+    <label>Tavsif / Kontent</label>
+    <textarea name="topic_content" rows="30"></textarea>
+
+    <label>Davomiyligi (daqiqa)</label>
+    <input type="number" name="topic_time" min="0">
+
+    <label>PDF fayllar</label>
+    <input type="file" name="topic_pdf[]" accept="application/pdf" multiple>
+
+    <label>Biriktirilgan test</label>
+    <select name="test_id">
+        <option value="">— Test tanlanmagan —</option>
+        {% for t in tests %}
+        <option value="{{ t[0] }}">{{ t[1] }}</option>
+        {% endfor %}
+    </select>
+
+    <button type="submit" class="save-btn">Saqlash</button>
+
+</form>
+
+
+
+<a href="/admin/courses/{{ course_id }}/edit"><button class="mini-btn-pro">↩ Kursga qaytish</button></a>
+{% endblock %}

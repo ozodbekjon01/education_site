@@ -1,0 +1,88 @@
+{% extends "admin_base.html" %}
+{% block title %}O‘quvchilar{% endblock %}
+
+{% block content %}
+<h1 class="dash-title">O‘quvchilar</h1>
+
+<div class="topbar">
+    <form method="get">
+        <input class="search" type="text" name="search" placeholder="Qidirish..." value="{{ search }}">
+        <button class="add-btn">Qidirish</button>
+    </form>
+</div>
+
+<table class="table">
+    <tr>
+        <th>ID</th>
+        <th>Login</th>
+        <th>To‘liq ism</th>
+        <th>Telefon</th>
+        <th>Kurslar va progress</th>
+        <th>Test urinishlar</th>
+        <th>Amallar</th>
+    </tr>
+
+    {% for s, courses_info, test_stats in students %}
+    <tr>
+        <td>{{ s[0] }}</td>
+        <td>{{ s[1] }}</td>
+        <td>{{ s[3] }}</td>
+        <td>{{ s[4] }}</td>
+
+        <!-- Kurslar va progress -->
+        <td>
+            {% if courses_info %}
+                {% for c in courses_info %}
+                    {{ c.course_name }} — {{ c.percent_done }}%
+                    {% if c.certificate_date %}
+                        <span class="badge-success">Sertifikat: {{ c.certificate_date }}</span>
+                    {% endif %}
+                    <br>
+                {% endfor %}
+            {% else %}
+                <span class="text-muted">Kursga yozilmagan</span>
+            {% endif %}
+        </td>
+
+        <!-- Test urinishlari -->
+        <td>
+            {% if test_stats %}
+                {% for t in test_stats %}
+                    
+                        {{ t[1] }}: {{ t[2] }} urinish, max {{ t[3] }}
+                    <br>
+                {% endfor %}
+            {% else %}
+                <span class="text-muted">Test urinish yo‘q</span>
+            {% endif %}
+        </td>
+
+        <!-- Amallar -->
+        <td>
+            <a href="/admin/students/{{ s[0] }}/edit" class="mini">✏️</a>
+            <a href="/admin/students/{{ s[0] }}/delete" class="mini-danger" onclick="return confirm('O‘chirishni tasdiqlaysizmi?')">❌</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<!-- Pagination -->
+<div class="pagination">
+    {% if page > 1 %}
+        <a href="?page={{ page - 1 }}">« Oldingi</a>
+    {% endif %}
+
+    {% for p in range(1, total_pages + 1) %}
+        {% if p == page %}
+            <strong>{{ p }}</strong>
+        {% else %}
+            <a href="?page={{ p }}">{{ p }}</a>
+        {% endif %}
+    {% endfor %}
+
+    {% if page < total_pages %}
+        <a href="?page={{ page + 1 }}">Keyingi »</a>
+    {% endif %}
+</div>
+
+{% endblock %}

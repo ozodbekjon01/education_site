@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block title %}Postni tahrirlash{% endblock %}
+
+{% block content %}
+<style>
+.edit-container{
+    max-width:700px;
+    margin:auto;
+    padding:20px;
+    color:#e5e7eb;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* ===== FORM ===== */
+.edit-form{
+    background:#1f2233; /* qoramtir fon */
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 6px 20px rgba(0,0,0,0.25);
+}
+
+.edit-form input,
+.edit-form textarea{
+    width:100%;
+    padding:12px;
+    margin-bottom:12px;
+    border-radius:8px;
+    border:1px solid #2e334c;
+    background:#252a40;
+    color:#e5e7eb;
+    transition: all 0.3s;
+}
+
+.edit-form input:focus,
+.edit-form textarea:focus{
+    border-color:#3b82f6;
+    box-shadow:0 0 8px rgba(59,130,246,0.5);
+    outline:none;
+}
+
+.edit-form button{
+    background:#3b82f6;
+    color:white;
+    border:none;
+    padding:12px 20px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:600;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.edit-form button:hover{
+    background:#2563eb;
+    transform: scale(1.03);
+}
+
+.cancel-btn{
+    margin-left:12px;
+    text-decoration:none;
+    color:#94a3b8;
+    transition: color 0.3s, transform 0.2s;
+}
+
+.cancel-btn:hover{
+    color:#ffffff;
+    transform: scale(1.02);
+}
+
+h2{
+    margin-bottom:20px;
+    color:#ffffff;
+    text-align:center;
+}
+</style>
+
+<div class="edit-container">
+
+<h2>Postni tahrirlash</h2>
+
+<form method="POST" class="edit-form">
+
+    <input 
+        type="text"
+        name="title"
+        value="{{ post[2] }}"
+        required
+    >
+
+    <textarea 
+        name="content"
+        rows="6"
+        required
+    >{{ post[3] }}</textarea>
+
+    <div style="display:flex; align-items:center; gap:10px;">
+        <button type="submit">Saqlash</button>
+        <a href="/student/forum" class="cancel-btn">Bekor qilish</a>
+    </div>
+
+</form>
+
+</div>
+{% endblock %}

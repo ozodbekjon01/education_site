@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+{% block title %}Mening yutuqlarim{% endblock %}
+
+{% block content %}
+<style>
+.achievements{
+    max-width:1000px;
+    margin:auto;
+    padding:20px;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color:#e5e7eb;
+}
+
+/* ===== SECTION ===== */
+.section{
+    background:#1f2233; /* qoramtir fon */
+    padding:22px;
+    margin-bottom:20px;
+    border-radius:12px;
+    box-shadow:0 4px 14px rgba(0,0,0,0.25);
+}
+
+.section h3{
+    margin-bottom:15px;
+    color:#ffffff;
+}
+
+/* ===== STATS ===== */
+.stats{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+    gap:15px;
+}
+
+.stat{
+    background:#252a40;
+    padding:18px;
+    border-radius:10px;
+    text-align:center;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.stat:hover{
+    transform: translateY(-4px);
+    box-shadow:0 10px 25px rgba(0,0,0,0.3);
+}
+
+.stat h1{
+    margin:0;
+    font-size:2rem;
+    color:#3b82f6; /* aksent */
+}
+
+.stat h4{
+    margin-top:6px;
+    font-size:0.95rem;
+    color:#94a3b8;
+}
+
+/* ===== RECENT TOPICS ===== */
+.recent-topic{
+    padding:8px 0;
+    border-bottom:1px solid #2e334c;
+}
+
+/* ===== CERTIFICATES ===== */
+.cert{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:#252a40;
+    padding:12px 14px;
+    border-radius:8px;
+    margin-top:10px;
+    transition: background 0.3s, transform 0.3s;
+}
+
+.cert:hover{
+    transform: translateY(-2px);
+    background:#2e334c;
+}
+
+.button{
+    background:#3b82f6;
+    color:white;
+    padding:7px 14px;
+    border-radius:6px;
+    text-decoration:none;
+    font-size:14px;
+    transition: background 0.3s, transform 0.3s;
+}
+
+.button:hover{
+    background:#2563eb;
+    transform: scale(1.05);
+}
+
+/* ===== MOBILE ===== */
+@media (max-width:768px){
+
+.achievements{
+    padding:15px;
+}
+
+.section{
+    padding:18px;
+}
+
+.cert{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:10px;
+}
+
+.button{
+    width:100%;
+    text-align:center;
+}
+
+}
+</style>
+
+<div class="achievements">
+
+    <h2>Mening yutuqlarim</h2>
+
+    <!-- ===== STATISTICS ===== -->
+    <div class="section stats">
+        <div class="stat">
+            <h1>{{ total_topics }}</h1>
+            <h4>So‘nggi 7 kunda o‘qilgan mavzular</h4>
+        </div>
+        <div class="stat">
+            <h1>{{ total_minutes }}</h1>
+            <h4>Umumiy vaqt (minut)</h4>
+        </div>
+        <div class="stat">
+            <h1>#{{ position }}</h1>
+            <h4>Joriy o‘rin</h4>
+        </div>
+    </div>
+
+    <!-- ===== RECENT TOPICS ===== -->
+    <div class="section">
+        <h3>So‘nggi 7 kunda yakunlangan mavzular</h3>
+        {% if recent_topics %}
+            <ul style="margin-left: 30px;">
+            {% for t in recent_topics %}
+                <li class="recent-topic">{{ t['name'] }} — {{ t['time'] }} min</li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>Hali mavzu yakunlanmagan.</p>
+        {% endif %}
+    </div>
+
+    <!-- ===== CERTIFICATES ===== -->
+    <div class="section">
+        <h3>Sertifikatlar</h3>
+        {% if certificates %}
+            {% for c in certificates %}
+                <div class="cert">
+                    <span>{{ c['course_name'] }} — {{ c['date'] }}</span>
+                    <a class="button" href="{{ url_for('dashboard.download_certificate', cert_id=c['id']) }}">Yuklab olish</a>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Sizda hali sertifikat mavjud emas.</p>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock %}

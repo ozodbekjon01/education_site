@@ -1,0 +1,246 @@
+{% extends "admin_base.html" %}
+{% block title %}Forum boshqaruvi{% endblock %}
+
+{% block content %}
+
+<style>
+
+.forum-container{
+max-width:900px;
+margin:auto;
+}
+
+.forum-title{
+font-size:28px;
+margin-bottom:25px;
+font-weight:600;
+}
+
+.ask-box{
+background:#ffffff;
+padding:20px;
+border-radius:10px;
+box-shadow:0 5px 15px rgba(0,0,0,0.08);
+margin-bottom:30px;
+}
+
+.ask-box textarea{
+width:100%;
+height:90px;
+padding:10px;
+border-radius:6px;
+border:1px solid #ddd;
+resize:none;
+font-size:14px;
+}
+
+.ask-btn{
+margin-top:10px;
+background:#2563eb;
+color:white;
+border:none;
+padding:10px 18px;
+border-radius:6px;
+cursor:pointer;
+transition:.3s;
+}
+
+.ask-btn:hover{
+background:#1e40af;
+}
+
+.post{
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 4px 12px rgba(0,0,0,0.08);
+margin-bottom:20px;
+transition:.3s;
+}
+
+.post:hover{
+transform:translateY(-3px);
+box-shadow:0 8px 20px rgba(0,0,0,0.1);
+}
+
+.post-author{
+font-weight:600;
+font-size:16px;
+color:#111827;
+}
+
+.post-text{
+margin:10px 0;
+font-size:15px;
+color:#374151;
+}
+
+.post-meta{
+font-size:13px;
+color:#6b7280;
+}
+
+.delete-post{
+color:#ef4444;
+font-size:13px;
+text-decoration:none;
+margin-top:5px;
+display:inline-block;
+}
+
+.delete-post:hover{
+text-decoration:underline;
+}
+
+.comment-section{
+margin-top:15px;
+padding-left:15px;
+border-left:3px solid #e5e7eb;
+}
+
+.comment{
+background:#f9fafb;
+padding:8px 10px;
+border-radius:6px;
+margin-bottom:8px;
+font-size:14px;
+}
+
+.comment b{
+color:#111827;
+}
+
+.comment a{
+color:#ef4444;
+font-size:12px;
+margin-left:10px;
+}
+
+.comment-form{
+display:flex;
+gap:8px;
+margin-top:10px;
+}
+
+.comment-form input{
+flex:1;
+padding:7px;
+border:1px solid #ddd;
+border-radius:5px;
+}
+
+.comment-form button{
+background:#10b981;
+border:none;
+color:white;
+padding:7px 14px;
+border-radius:5px;
+cursor:pointer;
+}
+
+.comment-form button:hover{
+background:#059669;
+}
+
+</style>
+
+<div class="forum-container">
+
+<div class="forum-title">
+Forum moderatsiyasi
+</div>
+
+<div class="ask-box">
+
+<form action="/forum/add" method="post">
+
+<textarea name="text" placeholder="Savol yozing..." required></textarea>
+
+<button class="ask-btn" type="submit">
+Savol berish
+</button>
+
+</form>
+
+</div>
+
+
+{% for post in posts %}
+
+<div class="post">
+
+<div class="post-author">
+{{ post[2] }}
+</div>
+
+<div class="post-text">
+{{ post[3] }}
+</div>
+
+<div class="post-meta">
+Muallif: {{ post[5] }}
+</div>
+
+<a class="delete-post" href="/admin/forum/delete/post/{{ post[0] }}">
+Postni o‘chirish
+</a>
+
+
+<div class="comment-section">
+
+{% for comment in comments %}
+{% if comment[2] == post[0] %}
+
+<div class="comment">
+
+<b>{{ comment[5] }}</b>  
+{{ comment[3] }}
+
+<a href="/admin/forum/delete/comment/{{ comment[0] }}">
+O‘chirish
+</a>
+
+</div>
+
+{% endif %}
+{% endfor %}
+
+
+<form class="comment-form" action="/admin/forum/comment/{{ post[0] }}" method="post">
+
+<input type="text" name="text" placeholder="Javob yozing..." required>
+
+<button type="submit">
+Yuborish
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+{% endfor %}
+<div class="pagination">
+
+{% if page > 1 %}
+<a href="?page={{ page-1 }}">⬅ Oldingi</a>
+{% endif %}
+
+{% for p in range(1, total_pages + 1) %}
+
+<a href="?page={{ p }}"
+class="{% if p == page %}active{% endif %}">
+{{ p }}
+</a>
+
+{% endfor %}
+
+{% if page < total_pages %}
+<a href="?page={{ page+1 }}">Keyingi ➡</a>
+{% endif %}
+
+</div>
+</div>
+
+{% endblock %}

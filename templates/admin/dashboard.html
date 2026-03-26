@@ -1,0 +1,103 @@
+{% extends "admin_base.html" %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    <h1 class="dash-title">Admin Dashboard</h1>
+
+    <!-- ====== STATISTIKA KARTALARI ====== -->
+    <div class="cards">
+        <div class="card">
+            <h2>{{ students }}</h2>
+            <p>O‘quvchilar</p>
+        </div>
+        <div class="card">
+            <h2>{{ active_students_count }}</h2>
+            <p>Faol o‘quvchilar (7 kun)</p>
+        </div>
+        <div class="card">
+            <h2>{{ courses }}</h2>
+            <p>Kurslar</p>
+        </div>
+        <div class="card">
+            <h2>{{ avg_progress }}%</h2>
+            <p>Kurslar bo‘yicha o‘rtacha progress</p>
+        </div>
+        <div class="card">
+            <h2>{{ tests }}</h2>
+            <p>Testlar</p>
+        </div>
+        <div class="card">
+            <h2>{{ avg_test_score }}</h2>
+            <p>Testlar bo‘yicha o‘rtacha ball</p>
+        </div>
+    </div>
+
+    <!-- ====== SERTIFIKAT TEKSHIRISH ====== -->
+    <div class="card certificate-check" style="margin-top: 30px;">
+        <h3>Sertifikatni tekshirish</h3>
+        <form method="POST" action="/admin/dashboard/certificate_check">
+            <input type="number" name="certificate_id" placeholder="Sertifikat ID" required>
+            <button type="submit" class="save-btn">Tekshirish</button>
+        </form>
+
+        {% if certificate_info %}
+            <div class="certificate-result" style="margin-top: 10px;">
+                <p><strong>ID:</strong> {{ certificate_info[0] }}</p>
+                <p><strong>Foydalanuvchi:</strong> {{ certificate_info[1] }} ({{ certificate_info[2] }})</p>
+                <p><strong>Kurs:</strong> {{ certificate_info[3] }}</p>
+                <p><strong>Sana:</strong> {{ certificate_info[4] }}</p>
+                <a href="/certificate/{{ certificate_info[0] }}/download" class="button">Yuklab olish</a>
+            </div>
+        {% elif certificate_error %}
+            <p class="text-danger">{{ certificate_error }}</p>
+        {% endif %}
+    </div>
+
+    <!-- ====== FAOL O'QUVCHILAR RO'YXATI ====== -->
+    <div class="active-students" style="margin-top: 30px;">
+        <h3>Oxirgi 7 kun ichida faol o‘quvchilar (maks 50)</h3>
+        {% if active_students %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Foydalanuvchi</th>
+                        <th>Login</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for s in active_students %}
+                        <tr>
+                            <td>{{ loop.index }}</td>  {# enumerate o'rniga loop.index ishlatiladi #}
+                            <td><a href="{{ url_for('admin.students', search=s[1]) }}">{{ s[1] }}</a></td>
+                            <td>{{ s[2] }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        {% else %}
+            <p>Faol o‘quvchilar topilmadi.</p>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+.dashboard { max-width: 1200px; margin: auto; padding: 20px; }
+.cards { display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 20px; }
+.card { flex: 1 1 200px; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); text-align: center; }
+.card h2 { font-size: 28px; margin-bottom: 5px; }
+.card p { font-size: 14px; color: #555; }
+.certificate-check input { padding: 8px; border-radius: 6px; border: 1px solid #ccc; margin-right: 10px; }
+.certificate-check button { padding: 8px 12px; border-radius: 6px; border: none; background: #0056d2; color: #fff; cursor: pointer; }
+.certificate-check button:hover { background: #0041a8; }
+.active-students table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+.active-students th, .active-students td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+.active-students th { background: #f6f8ff; }
+.button { display:inline-block; padding:6px 12px; background:#0056d2; color:white; border-radius:6px; text-decoration:none; }
+.button:hover { background:#0041a8; }
+.text-danger { color: red; }
+</style>
+
+{% endblock %}

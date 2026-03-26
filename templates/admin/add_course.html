@@ -1,0 +1,19 @@
+{% extends "admin_base.html" %}
+{% block title %}Kurs qo‘shish{% endblock %}
+
+{% block content %}
+<h1 class="dash-title">Yangi Kurs Qo‘shish</h1>
+
+<form method="post" class="form" enctype="multipart/form-data">
+    <label>Nomi</label>
+    <input type="text" name="name" required>
+
+    <label>Sarlavha</label>
+    <input type="text" name="title" required>
+
+    <label>Rasm</label>
+    <input type="file" name="img" accept="image/*">
+
+    <button type="submit" class="save-btn">Saqlash</button>
+</form>
+{% endblock %}

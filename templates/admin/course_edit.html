@@ -1,0 +1,91 @@
+{% extends "admin_base.html" %}
+{% block title %}Kursni tahrirlash{% endblock %}
+
+{% block content %}
+
+<h1 class="dash-title">Kursni tahrirlash</h1>
+
+<form method="POST" class="form" enctype="multipart/form-data">
+    <input type="hidden" name="course_id" value="{{ course[0] }}">
+
+    <label>Kurs nomi</label>
+    <input type="text" name="course_name" value="{{ course[1] }}" required>
+
+    <label>Kurs sarlavhasi</label>
+    <input type="text" name="course_title" value="{{ course[2] }}" required>
+
+    <label>Rasmni almashtirish</label>
+
+    {% if course[3] %}
+        <img src="{{ url_for('static', filename='icons/' + course[3]) }}" width="120">
+    {% endif %}
+
+    <input type="file" name="course_img" accept="image/*">
+
+    <button type="submit" class="save-btn">Saqlash</button>
+</form>
+
+<hr class="divider">
+
+{% for chapter in course[-1] %}
+<div class="chapter-card-pro">
+
+    <div class="chapter-top">
+        <h3>{{ chapter[1] }}</h3>
+        <div>
+        <a href="/admin/courses/{{course[0]}}/editchapter/{{ chapter[0]}}" class="btn">tahrirlash</a>
+        <a href="/admin/courses/{{course[0]}}/deletechapter/{{ chapter[0]}}" class="danger-btn" onclick="return confirm('O‘chirishni tasdiqlaysizmi?')">O‘chirish</a>
+        </div>
+    </div>
+
+    <table class="table">
+        <tr>
+            <th>Tavsif</th>
+            <th>Tartib</th>
+        </tr>
+        <tr>
+            <td>{{ chapter[2] }}</td>
+            <td>{{ chapter[3] }}</td>
+        </tr>
+    </table>
+
+    <br>
+
+    <h4>Mavzular</h4>
+
+    <table class="table">
+        <tr>
+            <th>#</th>
+            <th>Nomi</th>
+            <th>Video</th>
+            <th>tartib</th>
+            <th>Davomiyligi</th>
+            <th>Amal</th>
+        </tr>
+
+        {% for topic in chapter[-1] %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ topic[1] }}</td>
+            <td> {% if topic[2] %} <p>bor
+            </p> {% else %} <p> yo'q</p> {% endif %} </td>
+            <td>{{ topic[5] }}</td>
+            <td>{{ topic[4] }} daqiqa</td>
+            <td>
+                <a href="/admin/courses/{{course[0]}}/{{chapter[0]}}/{{topic[0]}}/edit" class="mini">✏️</a>
+                
+                <a href="/admin/courses/{{course[0]}}/{{chapter[0]}}/{{topic[0]}}/delete" class="mini-danger" onclick="return confirm('O‘chirishni tasdiqlaysizmi?')">X</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <br>
+    <a href="/admin/courses/{{course[0]}}/{{chapter[0]}}/topicadd"><button class="mini-btn-pro">+ Mavzu qo‘shish</button></a>
+
+</div>
+{% endfor %}
+
+<a href="/admin/courses/{{course[0]}}/addchapter"><button class="add-section-btn">+ Bo‘lim qo‘shish</button></a>
+
+{% endblock %}

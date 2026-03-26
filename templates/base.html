@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<title>{% block title %}{% endblock %}</title>
+
+<style>
+/* --- Body & Background --- */
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #0f111a 0%, #1c1f2a 100%);
+    color: #e5e7eb;
+    min-height: 100vh;
+}
+
+/* --- Navbar --- */
+nav {
+    border-radius: 20px;
+    padding: 0px 30px;
+    display: flex;
+    position: sticky;
+    top: 0;
+    background: rgba(30, 40, 95, 0.01);
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    backdrop-filter: blur(10px);
+}
+
+.navigation {
+    display: flex;
+    gap: 12px;
+}
+
+.navbut {
+    text-decoration: none;
+    padding: 10px 18px;
+    background: rgba(30, 40, 95, 0.15);
+    border-radius: 8px;
+    color: white;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+
+}
+
+.navbut:hover {
+    background: rgba(161, 195, 250, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+}
+
+.icon {
+    height: 50px;
+}
+
+/* --- Footer --- */
+.footer {
+    background: #0f111a;
+    color: #cbd5e1;
+    padding: 35px 10px;
+    margin-top: 50px;
+    text-align: center;
+    border-top: 2px solid #3b82f6;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+.footer-links a {
+    color: #cbd5e1;
+    text-decoration: none;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.3s;
+}
+
+.footer-links a:hover {
+    color: #3b82f6;
+}
+
+.footer-copy {
+    font-size: 13px;
+    opacity: 0.8;
+}
+
+/* --- Mobile Bottom Navbar --- */
+.bottom-nav {
+    display: none;
+}
+
+/* --- Responsive --- */
+@media (max-width:768px){
+    .navigation {
+        display: none;
+    }
+
+    .bottom-nav {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 60px;
+        background: rgba(15,17,26,0.98);
+        border-top: 1px solid #3b82f6;
+        box-shadow: 0 -2px 10px rgba(0,0,0,0.3);
+        z-index: 1000;
+        backdrop-filter: blur(8px);
+    }
+
+    .bottom-nav a {
+        text-decoration: none;
+        color: #e5e7eb;
+        font-size: 12px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: color 0.3s, transform 0.3s;
+    }
+
+    .bottom-nav a:hover {
+        color: #3b82f6;
+        transform: translateY(-3px);
+    }
+
+    .bottom-nav i {
+        font-size: 20px;
+    }
+
+    .content {
+        padding-bottom: 80px;
+    }
+}
+
+/* --- Smooth Transition for All Elements --- */
+* {
+    transition: all 0.3s ease;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="contentbar">
+
+<nav>
+    <div>
+        <img class="icon" src="{{ url_for('static', filename='icons/logo.png') }}">
+    </div>
+
+    <div class="navigation">
+        <a href="/student/dashboard"><button class="navbut"><i class="fa-solid fa-house"></i> Bosh sahifa</button></a>
+        <a href="/student/courses"><button class="navbut"><i class="fa-solid fa-book-open-reader"></i> Kurslar</button></a>
+        <a href="/student/tests"><button class="navbut"><i class="fa-solid fa-clipboard-question"></i> Testlar</button></a>
+        <a href="/student/achievements"><button class="navbut"><i class="fa-solid fa-medal"></i> Yutuqlar</button></a>
+        <a href="/student/forum"><button class="navbut"><i class="fa-solid fa-comment"></i> Forum</button></a>
+        <a href="/student/resources"><button class="navbut"><i class="fa-solid fa-folder-open"></i> Resurslar</button></a>
+        <a href="/student/profile"><button class="navbut"><i class="fa-solid fa-circle-user"></i> Profil</button></a>
+    </div>
+</nav>
+
+<div class="content">
+{% block content %}{% endblock %}
+</div>
+
+</div>
+
+<footer class="footer">
+    <div class="footer-links">
+        <a href="https://youtube.com" target="_blank"><i class="fa-brands fa-youtube"></i> YouTube</a>
+        <a href="https://t.me/your_channel" target="_blank"><i class="fa-brands fa-telegram"></i> Telegram</a>
+        <a href="https://instagram.com" target="_blank"><i class="fa-brands fa-instagram"></i> Instagram</a>
+    </div>
+    <div class="footer-copy">
+        © 2026 Elektron ta'lim platformasi
+    </div>
+</footer>
+
+<div class="bottom-nav">
+    <a href="/student/dashboard"><i class="fa-solid fa-house"></i><span>Bosh sahifa</span></a>
+    <a href="/student/courses"><i class="fa-solid fa-book-open-reader"></i><span>Kurslar</span></a>
+    <a href="/student/tests"><i class="fa-solid fa-clipboard-question"></i><span>Testlar</span></a>
+    <a href="/student/achievements"><i class="fa-solid fa-medal"></i><span>Yutuqlar</span></a>
+    <a href="/student/forum"><i class="fa-solid fa-comment"></i><span>Forum</span></a>
+    <a href="/student/resources"><i class="fa-solid fa-folder-open"></i><span>Resurslar</span></a>
+    <a href="/student/profile"><i class="fa-solid fa-circle-user"></i><span>Profil</span></a>
+</div>
+
+</body>
+</html>

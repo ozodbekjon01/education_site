@@ -1,0 +1,32 @@
+{% extends "admin_base.html" %}
+{% block title %}Test qo‘shish{% endblock %}
+
+{% block content %}
+
+<h1 class="dash-title">Yangi Test Qo‘shish</h1>
+
+<form method="POST" class="form">
+
+    <label>Nomi</label>
+    <input type="text" name="name" required>
+
+    <label>Sarlavha</label>
+    <input type="text" name="title">
+
+    <label>Vaqt (daqiqa)</label>
+    <input type="number" name="time" min="1" required>
+
+    <label>Minimal ball</label>
+    <input type="number" name="min_score" min="0" required>
+
+    <label>Holati</label>
+    <select name="openness">
+        <option value="open">Ochiq</option>
+        <option value="closed">Yopiq</option>
+    </select>
+
+    <button type="submit" class="save-btn">Saqlash</button>
+
+</form>
+
+{% endblock %}

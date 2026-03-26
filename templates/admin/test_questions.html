@@ -1,0 +1,66 @@
+{% extends "admin_base.html" %}
+{% block title %}Savollar boshqaruvi{% endblock %}
+
+{% block content %}
+
+<h1 class="dash-title">
+    "{{ test[1] }}" — Savollar
+</h1>
+
+<a href="/admin/tests/{{ test[0] }}/questions/add">
+    <button class="add-btn">+ Savol qo‘shish</button>
+</a>
+
+<br><br>
+
+{% for q in questions %}
+<div class="chapter-card-pro">
+
+    <div class="chapter-top">
+        <h3>{{ loop.index }}. {{ q[1] }}</h3>
+        <div>
+            <a href="/admin/questions/{{ q[0] }}/edit">✏️</a>
+            <a href="/admin/questions/{{ q[0] }}/delete"
+               onclick="return confirm('O‘chirishni tasdiqlaysizmi?')">❌</a>
+        </div>
+    </div>
+
+    <table class="table">
+        <tr>
+            <th>Variant</th>
+            <th>To‘g‘ri</th>
+            <th>Amal</th>
+        </tr>
+
+        {% for a in q[-1] %}
+        <tr>
+            <td>{{ a[1] }}</td>
+            <td>
+                {% if a[3] == 1 %}
+                    ✅
+                {% else %}
+                    ❌
+                {% endif %}
+            </td>
+            <td>
+                <a href="/admin/answers/{{ a[0] }}/edit">✏️</a>
+                <a href="/admin/answers/{{ a[0] }}/delete"
+                   onclick="return confirm('O‘chirishni tasdiqlaysizmi?')">X</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <a href="/admin/questions/{{ q[0] }}/answers/add">
+        <button class="mini-btn-pro">+ Variant qo‘shish</button>
+    </a>
+
+</div>
+{% endfor %}
+
+<br>
+<a href="/admin/tests/{{ test[0] }}/edit">
+    <button class="add-btn">⬅ Ortga</button>
+</a>
+
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "admin_base.html" %}
+{% block title %}Kurslar{% endblock %}
+
+{% block content %}
+<h1 class="dash-title">Kurslar</h1>
+
+<div class="topbar">
+    <form method="get">
+        <input class="search" type="text" name="search" placeholder="Qidirish..." value="{{ search }}">
+        <button class="add-btn" type="submit">Qidirish</button>
+    </form>
+    <a href="/admin/courses/add"><button class="add-btn">+ Kurs qo‘shish</button></a>
+</div>
+
+<table class="table">
+    <tr>
+        <th>ID</th>
+        <th>Nomi</th>
+        <th>Sarlavha</th>
+        <th>Rasm</th>
+        <th>Obunachilar</th>
+        <th>Amallar</th>
+    </tr>
+    {% for c in courses %}
+    <tr>
+        <td>{{ c[0] }}</td>
+        <td>{{ c[1] }}</td>
+        <td>{{ c[2] }}</td>
+        <td>
+            <img src="{{ url_for('static', filename='icons/' + c[3]) }}" width="80">
+        </td>
+        <td><a href="admin/courses/{{ c[0] }}/followers"><strong>{{ c[4] }}</strong></a></td>
+        <td>
+            <a href="/admin/courses/{{ c[0] }}/edit">✏️</a>
+            
+            <form action="{{ url_for('admin.delete_course', course_id=c[0]) }}" method="post" onsubmit="return confirm('Rostdan o‘chirmoqchimisiz?');">
+                <button type="submit">❌</button>
+            </form>
+
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<div class="pagination">
+    {% for i in range(1, total_pages+1) %}
+        <a href="?page={{ i }}&search={{ search }}">{{ i }}</a>
+    {% endfor %}
+</div>
+{% endblock %}

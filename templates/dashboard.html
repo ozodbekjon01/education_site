@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LMC - Learning Management Center</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+  </style>
+</head>
+<body class="bg-white text-gray-800 scroll-smooth">
+
+  <!-- Header -->
+  <header class="fixed w-full bg-white shadow-md z-50">
+    <div class="container mx-auto flex justify-between items-center py-4 px-6">
+      <div class="text-2xl font-bold text-purple-600">LMC</div>
+      <nav class="space-x-6 hidden md:flex">
+        <a href="#home" class="hover:text-purple-600">Bosh sahifa</a>
+        <a href="#platform" class="hover:text-purple-600">Platforma haqida</a>
+        <a href="#features" class="hover:text-purple-600">Imkoniyatlar</a>
+        <a href="#courses" class="hover:text-purple-600">Kurslar</a>
+        <a href="#contact" class="hover:text-purple-600">Bog‘lanish</a>
+        <a href="#start" class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition">Boshlash</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="home" class="pt-24 bg-gradient-to-r from-blue-400 via-purple-500 to-indigo-500 text-white">
+    <div class="container mx-auto flex flex-col md:flex-row items-center px-6 py-20">
+      <div class="md:w-1/2 space-y-6">
+        <h1 class="text-4xl md:text-5xl font-bold">LMC bilan zamonaviy bilim oling</h1>
+        <p class="text-lg md:text-xl">Onlayn kurslar, real vaqt mashqlar va interaktiv ta’lim tizimi barchasi bitta platformada.</p>
+        <div class="space-x-4">
+          <a href="#start" class="bg-white text-purple-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition">O‘rganishni boshlash</a>
+          <a href="#demo" class="border border-white px-6 py-3 rounded-lg hover:bg-white hover:text-purple-600 transition">Demo ko‘rish</a>
+        </div>
+      </div>
+      <div class="md:w-1/2 mt-10 md:mt-0">
+        <img src="https://via.placeholder.com/500x350.png?text=LMC+Dashboard" alt="LMC Dashboard" class="rounded-xl shadow-lg">
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="py-20 bg-gray-50">
+    <div class="container mx-auto px-6 text-center">
+      <h2 class="text-3xl font-bold mb-12">Platforma imkoniyatlari</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+        <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
+          <div class="text-4xl mb-4">📹</div>
+          <h3 class="text-xl font-semibold mb-2">Interaktiv darslar</h3>
+          <p>Video va interaktiv darslar bilan bilim oling.</p>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
+          <div class="text-4xl mb-4">📝</div>
+          <h3 class="text-xl font-semibold mb-2">Real vaqt mashqlar</h3>
+          <p>O‘z bilimlaringizni amaliy mashqlar orqali sinab ko‘ring.</p>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
+          <div class="text-4xl mb-4">💬</div>
+          <h3 class="text-xl font-semibold mb-2">O‘qituvchi bilan chat</h3>
+          <p>Savollaringizga tezkor javob oling.</p>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
+          <div class="text-4xl mb-4">📊</div>
+          <h3 class="text-xl font-semibold mb-2">Natijalarni kuzatish</h3>
+          <p>Progress va natijalarni qulay dashboard orqali kuzating.</p>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
+          <div class="text-4xl mb-4">📂</div>
+          <h3 class="text-xl font-semibold mb-2">Kurs boshqaruvi</h3>
+          <p>Kurslarni yaratish va boshqarish qulayligi.</p>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
+          <div class="text-4xl mb-4">🎥</div>
+          <h3 class="text-xl font-semibold mb-2">Video va fayl yuklash</h3>
+          <p>Dars materiallarini va resurslarni yuklash imkoniyati.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it Works -->
+  <section id="platform" class="py-20">
+    <div class="container mx-auto px-6 text-center">
+      <h2 class="text-3xl font-bold mb-12">Qanday ishlaydi</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+        <div class="p-6">
+          <div class="text-6xl mb-4">📝</div>
+          <h3 class="text-xl font-semibold mb-2">Ro‘yxatdan o‘ting</h3>
+          <p>Foydalanuvchi sifatida tizimga ro‘yxatdan o‘ting va shaxsiy profil yarating.</p>
+        </div>
+        <div class="p-6">
+          <div class="text-6xl mb-4">📚</div>
+          <h3 class="text-xl font-semibold mb-2">Kurs tanlang</h3>
+          <p>O‘zingizga mos kursni tanlab, darhol o‘rganishni boshlang.</p>
+        </div>
+        <div class="p-6">
+          <div class="text-6xl mb-4">🚀</div>
+          <h3 class="text-xl font-semibold mb-2">O‘rganishni boshlang</h3>
+          <p>Interaktiv darslar, mashqlar va chat orqali bilimlaringizni oshiring.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Courses Preview -->
+  <section id="courses" class="py-20 bg-gray-50">
+    <div class="container mx-auto px-6 text-center">
+      <h2 class="text-3xl font-bold mb-12">Kurslarimiz</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+        <div class="bg-white rounded-xl shadow hover:shadow-lg transition p-6">
+          <img src="https://via.placeholder.com/400x200.png?text=Kurs+1" alt="Kurs 1" class="rounded-lg mb-4">
+          <h3 class="text-xl font-semibold mb-2">SQL Boshlang‘ich</h3>
+          <p class="mb-2">O‘qituvchi: D.G‘Jumayeva</p>
+          <a href="#" class="text-purple-600 font-semibold hover:underline">Ko‘rish</a>
+        </div>
+        <div class="bg-white rounded-xl shadow hover:shadow-lg transition p-6">
+          <img src="https://via.placeholder.com/400x200.png?text=Kurs+2" alt="Kurs 2" class="rounded-lg mb-4">
+          <h3 class="text-xl font-semibold mb-2">Python Dasturlash</h3>
+          <p class="mb-2">O‘qituvchi: N.T.Tosheva</p>
+          <a href="#" class="text-purple-600 font-semibold hover:underline">Ko‘rish</a>
+        </div>
+        <div class="bg-white rounded-xl shadow hover:shadow-lg transition p-6">
+          <img src="https://via.placeholder.com/400x200.png?text=Kurs+3" alt="Kurs 3" class="rounded-lg mb-4">
+          <h3 class="text-xl font-semibold mb-2">Ma’lumotlar Bazasi</h3>
+          <p class="mb-2">O‘qituvchi: D.G‘Jumayeva</p>
+          <a href="#" class="text-purple-600 font-semibold hover:underline">Ko‘rish</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="py-20">
+    <div class="container mx-auto px-6 text-center space-y-10">
+      <h2 class="text-3xl font-bold">Statistika</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10 text-purple-600">
+        <div>
+          <p class="text-5xl font-bold">1000+</p>
+          <p>O‘quvchi</p>
+        </div>
+        <div>
+          <p class="text-5xl font-bold">50+</p>
+          <p>Kurs</p>
+        </div>
+        <div>
+          <p class="text-5xl font-bold">20+</p>
+          <p>O‘qituvchi</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="start" class="py-20 bg-purple-600 text-white text-center">
+    <h2 class="text-3xl md:text-4xl font-bold mb-6">Bugunoq o‘rganishni boshlang</h2>
+    <a href="#contact" class="bg-white text-purple-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition">Ro‘yxatdan o‘tish</a>
+  </section>
+
+  <!-- Footer -->
+  <footer id="contact" class="bg-gray-800 text-white py-10">
+    <div class="container mx-auto px-6 text-center space-y-4">
+      <p>Email: info@lmc.uz | Telefon: +998 90 123 45 67</p>
+      <div class="space-x-4">
+        <a href="#" class="hover:text-purple-400">Telegram</a>
+        <a href="#" class="hover:text-purple-400">Facebook</a>
+        <a href="#" class="hover:text-purple-400">Instagram</a>
+      </div>
+      <p class="text-sm mt-4">© 2026 LMC. Barcha huquqlar himoyalangan.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

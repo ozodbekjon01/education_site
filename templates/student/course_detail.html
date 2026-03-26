@@ -1,0 +1,222 @@
+{% extends "base.html" %}
+{% block title %} {{ course.name }} {% endblock %}
+
+{% block content %}
+
+<style>
+
+/* ===== HERO ===== */
+.course-hero{
+    max-width:1200px;
+    margin:0 auto;
+    padding:30px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:40px;
+    background:#1f2233; /* qoramtir fon */
+    border-radius:20px;
+    color:#e5e7eb;
+}
+
+.course-left{
+    flex:1;
+}
+
+.course-left h1{
+    font-size:2.3rem;
+    margin-bottom:10px;
+    color:#ffffff;
+}
+
+.course-title{
+    color:#94a3b8;
+    margin-bottom:20px;
+}
+
+/* meta info */
+.meta{
+    display:flex;
+    gap:20px;
+    margin-bottom:25px;
+    color:#94a3b8;
+}
+
+/* buttons */
+.btn-primary{
+    display:inline-block;
+    background:#3b82f6; /* minimal professional ko‘k */
+    color:white;
+    padding:12px 22px;
+    border-radius:10px;
+    text-decoration:none;
+    font-weight:600;
+    transition: background 0.3s, transform 0.3s;
+}
+
+.btn-success{
+    display:inline-block;
+    background:#10b981; /* minimal yashil */
+    color:white;
+    padding:12px 22px;
+    border-radius:10px;
+    text-decoration:none;
+    font-weight:600;
+    transition: background 0.3s, transform 0.3s;
+}
+
+.btn-primary:hover{
+    background:#2563eb;
+    transform: scale(1.03);
+}
+
+.btn-success:hover{
+    background:#0f766e;
+    transform: scale(1.03);
+}
+
+/* course image */
+.course-right img{
+    width:300px;
+    border-radius:15px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.25);
+}
+
+/* ===== CHAPTERS ===== */
+.chapters-section{
+    max-width:1200px;
+    margin:40px auto 0;
+    padding:30px;
+}
+
+.chapters-section h2{
+    margin-bottom:20px;
+    color:#e5e7eb;
+}
+
+/* chapter card */
+.chapter-card{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px;
+    border-radius:12px;
+    background:#252a40;
+    box-shadow:0 4px 12px rgba(0,0,0,0.15);
+    margin-bottom:15px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.chapter-card:hover{
+    transform: translateY(-3px);
+    box-shadow:0 12px 25px rgba(0,0,0,0.25);
+}
+
+.chapter-left{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+/* chapter number */
+.chapter-number{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:#3b82f6;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+}
+
+.chapter-right{
+    color:#94a3b8;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width:768px){
+
+.course-hero{
+    flex-direction:column;
+    text-align:center;
+    padding:20px;
+}
+
+.course-right img{
+    width:100%;
+    max-width:350px;
+    margin-top:20px;
+}
+
+.meta{
+    justify-content:center;
+}
+
+.chapters-section{
+    padding:20px;
+}
+
+.chapter-card{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:10px;
+}
+
+}
+</style>
+
+<div class="course-hero">
+
+    <div class="course-left">
+        <h1>{{ course.name }}</h1>
+        <p class="course-title">{{ course.title }}</p>
+
+        <div class="meta">
+            <span>📚 {{ chapters|length }} Bob</span>
+            <span>🎥 {{ chapters|sum(attribute='topic_count') }} Mavzu</span>
+        </div>
+
+        {% if enrolled %}
+            <a href="/student/continue/{{ course.id }}" class="btn-primary">
+                ▶ Davom etish
+            </a>
+        {% else %}
+            <a href="/student/enroll/{{ course.id }}" class="btn-success">
+                🚀 Kursga yozilish
+            </a>
+        {% endif %}
+    </div>
+
+    {% if course.img %}
+    <div class="course-right">
+        <img src="{{ url_for('static', filename='icons/' + course.img) }}">
+    </div>
+    {% endif %}
+
+</div>
+
+
+<div class="chapters-section">
+    <h2>Kurs tarkibi</h2>
+
+    {% for chapter in chapters %}
+        <div class="chapter-card">
+            <div class="chapter-left">
+                <div class="chapter-number">{{ chapter.number }}</div>
+                <div>
+                    <h3>{{ chapter.name }}</h3>
+                    <p>{{ chapter.topic_count }} ta mavzu</p>
+                </div>
+            </div>
+
+            <div class="chapter-right">
+                ⏱ Strukturali dars
+            </div>
+        </div>
+    {% endfor %}
+
+</div>
+
+{% endblock %}

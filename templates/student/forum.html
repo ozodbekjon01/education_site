@@ -1,0 +1,292 @@
+{% extends "base.html" %}
+{% block title %}Forum{% endblock %}
+
+{% block content %}
+<style>
+.forum-container {
+    display: flex;
+    gap: 30px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #e5e7eb;
+}
+
+/* FORUM KONTEYNER */
+.forums{
+    width: 60%;
+}
+
+/* HEADERS */
+.forum-header {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #ffffff;
+}
+
+/* POST */
+.forum-post {
+    background: #1f2233;
+    padding: 18px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+}
+
+.forum-post h4 {
+    margin: 0 0 8px 0;
+    color: #3b82f6;
+}
+
+.forum-post p {
+    margin: 0;
+    color: #cbd5e1;
+}
+
+.forum-post .post-meta {
+    margin-top: 12px;
+    font-size: 0.9rem;
+    color: #94a3b8;
+}
+
+.forum-post .post-meta span {
+    margin-right: 15px;
+}
+
+.forum-post .post-meta .reply-btn,
+.forum-post .post-meta .edit-btn,
+.forum-post .post-meta .delete-btn {
+    border: none;
+    padding: 6px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.forum-post .post-meta .reply-btn { background: #3b82f6; color:white; }
+.forum-post .post-meta .reply-btn:hover { background: #2563eb; }
+
+.edit-btn { background:#10b981; color:white; }
+.edit-btn:hover { background:#059669; }
+
+.delete-btn { background:#ef4444; color:white; }
+.delete-btn:hover { background:#dc2626; }
+
+/* COMMENTS */
+.comments{
+    margin-top:15px;
+    padding-left:15px;
+}
+
+.comment{
+    background:#252a40;
+    padding:10px;
+    border-radius:8px;
+    margin-top:8px;
+    border-left:4px solid #3b82f6;
+    color:#e5e7eb;
+}
+
+.comment p{
+    margin:4px 0;
+}
+
+.comment span{
+    font-size:12px;
+    color:#94a3b8;
+}
+
+.comment .delete-btn{
+    font-size:12px;
+    padding:4px 8px;
+    margin-left:10px;
+}
+
+/* FILTER BUTTONS */
+.filter-btn{
+    padding:8px 14px;
+    border-radius:8px;
+    text-decoration:none;
+    font-size:14px;
+    transition: all 0.2s;
+    background:#374151;
+    color:#e5e7eb;
+}
+
+.filter-btn:hover{
+    background:#4b5563;
+}
+
+.filter-btn.active{
+    background:#3b82f6;
+    color:white;
+}
+
+/* ASK FORM */
+.ask-form{
+    width: 40%;
+    background: #1f2233;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+    flex-shrink: 0;
+    height: max-content;
+    transition: none;
+}
+
+.ask-form input, .ask-form textarea {
+    width: 100%;
+    padding:10px;
+    margin-bottom:10px;
+    border-radius:8px;
+    border:1px solid #2e334c;
+    background:#252a40;
+    color:#e5e7eb;
+    transition: all 0.3s;
+}
+
+.ask-form input:focus, .ask-form textarea:focus {
+    border-color:#3b82f6;
+    box-shadow:0 0 8px rgba(59,130,246,0.5);
+    outline:none;
+}
+
+.ask-form button{
+    background:#3b82f6;
+    color:white;
+    border:none;
+    padding:10px 18px;
+    border-radius:8px;
+    cursor:pointer;
+    transition: all 0.2s;
+}
+
+.ask-form button:hover{
+    background:#2563eb;
+    transform: scale(1.03);
+}
+
+/* MOBILE */
+@media (max-width:900px){
+    .ask-form{
+        position:fixed;
+        left:0;
+        right:0;
+        width:100%;
+        z-index:1000;
+        bottom:40px;
+        background:#1f2233;
+        border-top:1px solid #2e334c;
+        box-shadow:0 -6px 20px rgba(0,0,0,0.25);
+    }
+    .forum-container{
+        flex-direction:column;
+        padding-bottom:260px;
+    }
+    .forums{
+        width:100%;
+    }
+}
+</style>
+
+<div class="forum-container">
+    
+    <div class="forums">
+        <h2 class="forum-header">Forum</h2>
+
+        <form method="GET" style="margin-bottom:20px;">
+            <input type="text" name="search" placeholder="Savol qidirish..."
+            style="padding:8px;border-radius:8px;border:1px solid #2e334c;background:#252a40;color:#e5e7eb;width:70%;">
+            
+            <button type="submit"
+            style="padding:8px 14px;background:#3b82f6;color:white;border:none;border-radius:8px;">
+            Qidirish
+            </button>
+            <div style="display:flex;gap:10px;margin-bottom:15px;">
+
+                <a href="?filter=all&search={{ search }}"
+                class="filter-btn {% if filter_type=='all' %}active{% endif %}">
+                Barcha savollar
+                </a>
+
+                <a href="?filter=mine&search={{ search }}"
+                class="filter-btn {% if filter_type=='mine' %}active{% endif %}">
+                Mening savollarim
+                </a>
+
+                <a href="?filter=commented&search={{ search }}"
+                class="filter-btn {% if filter_type=='commented' %}active{% endif %}">
+                Men javob yozganlar
+                </a>
+
+            </div>
+        </form>
+
+        {% for post in posts %}
+        <div class="forum-post">
+            <h4>{{ post[2] }}</h4>
+            <p>{{ post[3] }}</p>
+
+            <div class="post-meta">
+                <span>Muallif: {{ post[5] }}</span>
+                <span>{{ post[4] }}</span>
+
+                {% if post[1] == session["user_id"] %}
+                <a href="/student/forum/edit/{{ post[0] }}" class="edit-btn">Tahrirlash</a>
+                <a href="/student/forum/delete/{{ post[0] }}" class="delete-btn" onclick="return confirm('Postni o‘chirmoqchimisiz?')">O'chirish</a>
+                {% endif %}
+            </div>
+
+            <div class="comments">
+            {% for comment in comments %}
+                {% if comment[2] == post[0] %}
+                <div class="comment">
+                    <b>{{ comment[5] }}</b>
+                    <p>{{ comment[3] }}</p>
+                    <span>{{ comment[4] }}</span>
+                    {% if comment[1] == session["user_id"] %}
+                    <a href="/student/forum/comment/delete/{{ comment[0] }}"
+                    class="delete-btn"
+                    onclick="return confirm('Kommentni o‘chirmoqchimisiz?')">
+                    O'chirish
+                    </a>
+                    {% endif %}
+                </div>
+                {% endif %}
+            {% endfor %}
+            </div>
+
+            <form action="/student/forum/comment/{{ post[0] }}" method="POST" style="margin-top:10px;">
+                <textarea name="content" placeholder="Javob yozish" required style="width:100%; padding:10px; border-radius:8px; border:1px solid #2e334c; background:#252a40; color:#e5e7eb;"></textarea>
+                <button type="submit" style="margin-top:6px;">Yuborish</button>
+            </form>
+        </div>
+        {% endfor %}
+
+        <div style="margin-top:30px; color:#e5e7eb;">
+            {% if page > 1 %}
+            <a href="?page={{ page-1 }}&search={{ search }}&filter={{ filter_type }}">Oldingi</a>
+            {% endif %}
+
+            <span> {{ page }} / {{ total_pages }} </span>
+
+            {% if page < total_pages %}
+            <a href="?page={{ page+1 }}&search={{ search }}&filter={{ filter_type }}">Keyingi</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <form action="{{ url_for('forum.forum') }}" method="POST" class="ask-form">
+        <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+            <input type="text" name="title" placeholder="Savol mavzusi" required>
+            <button type="submit">Jo'natish</button>
+        </div>
+        <textarea name="content" placeholder="Savol mazmuni" required style="height:auto;"></textarea>
+    </form>
+
+</div>
+{% endblock %}

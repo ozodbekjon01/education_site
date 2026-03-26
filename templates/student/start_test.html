@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+
+{% block title %}{{ test['name'] }}{% endblock %}
+
+{% block content %}
+
+<style>
+
+.test-container{
+    max-width:900px;
+    margin:auto;
+    background:#1f1f1f; /* qoramtir fon */
+    padding:25px;
+    border-radius:12px;
+    box-shadow:0 4px 18px rgba(0,0,0,0.6);
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color:#f5f5f5; /* matn oq rangda */
+}
+
+/* HEADER */
+
+.test-header{
+    margin-bottom:25px;
+    border-bottom:1px solid #333;
+    padding-bottom:12px;
+}
+
+.test-header h2{
+    margin:0;
+    color:#3b82f6; /* sarlavha ko‘k */
+}
+
+.test-header p{
+    color:#d1d5db;
+}
+
+/* QUESTION CARD */
+
+.question-card{
+    background:#2a2a2a; /* kartalar qoramtir */
+    padding:18px;
+    border-radius:10px;
+    margin-bottom:18px;
+    border:1px solid #3b3b3b;
+    transition:0.2s;
+}
+
+.question-card:hover{
+    box-shadow:0 3px 12px rgba(0,0,0,0.8);
+}
+
+/* QUESTION TITLE */
+
+.question-title{
+    font-size:16px;
+    margin-bottom:14px;
+    font-weight:500;
+    color:#f5f5f5;
+}
+
+/* ANSWERS */
+
+.answer{
+    display:block;
+    padding:10px 12px;
+    border-radius:6px;
+    cursor:pointer;
+    transition:0.2s;
+    border:1px solid transparent;
+    color:#f5f5f5;
+}
+
+.answer:hover{
+    background:#3b3b3b;
+}
+
+.answer input{
+    margin-right:8px;
+}
+
+/* SELECTED ANSWER */
+
+.answer input:checked + span{
+    font-weight:600;
+    color:#3b82f6;
+}
+
+.answer:has(input:checked){
+    background:#2563eb33; /* biroz ko‘k rangli fon */
+    border:1px solid #3b82f6;
+}
+
+/* SUBMIT BUTTON */
+
+.submit-btn{
+    margin-top:20px;
+    background:#3b82f6;
+    color:white;
+    border:none;
+    padding:12px 25px;
+    font-size:15px;
+    border-radius:8px;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+.submit-btn:hover{
+    background:#2563eb;
+    transform:scale(1.02);
+}
+
+/* MOBILE */
+
+@media (max-width:768px){
+
+.test-container{
+    padding:18px;
+}
+
+.question-title{
+    font-size:15px;
+}
+
+.answer{
+    padding:12px;
+}
+
+.submit-btn{
+    width:100%;
+}
+
+}
+
+</style>
+
+
+<div class="test-container">
+
+<div class="test-header">
+<h2>{{ test['name'] }}</h2>
+<p>{{ test['title'] }}</p>
+</div>
+
+<form method="post">
+
+{% for q in questions %}
+
+<div class="question-card">
+
+<p class="question-title">
+<b>{{ loop.index }}.</b> {{ q['text'] }}
+</p>
+
+{% for a in answers[q['id']] %}
+
+<label class="answer">
+
+<input
+type="radio"
+name="{{ q['id'] }}"
+value="{{ a['id'] }}"
+required
+>
+
+<span>{{ a['text'] }}</span>
+
+</label>
+
+{% endfor %}
+
+</div>
+
+{% endfor %}
+
+<button class="submit-btn" type="submit">
+Testni topshirish
+</button>
+
+</form>
+
+</div>
+
+{% endblock %}

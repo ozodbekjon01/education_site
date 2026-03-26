@@ -1,0 +1,27 @@
+{% extends "admin_base.html" %}
+{% block title %}Bo‘lim qo‘shish{% endblock %}
+
+{% block content %}
+
+<h1 class="dash-title">Bo‘lim qo‘shish</h1>
+
+<div class="form">
+<form method="POST">
+
+    <label>Bo‘lim nomi</label>
+    <input type="text" name="name" required>
+<br>
+    <label>Sarlavha</label>
+    <input type="text" name="title">
+<br>
+    <label>Tartib raqami</label>
+    <input type="number" name="number" required>
+<br>
+    <button type="submit" class="save-btn">
+        Saqlash
+    </button>
+
+</form>
+</div>
+
+{% endblock %}

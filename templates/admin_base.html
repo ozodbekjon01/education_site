@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">    
+    <title>Admin-{% block title %}{% endblock %}</title>
+</head>
+<body>
+
+<div class="contentbar">
+
+<div class="nav">
+    <div>
+        <div class="bosh">
+            <img class="icon" src="{{ url_for('static', filename='icons/logo.png') }}" alt="">
+            
+        </div>
+        <hr>
+        <div class="navigation">
+            <a href="/admin/dashboard"><button class="navbut"> <i class="fa-solid fa-house"></i> bosh sahifa</button></a>
+            <a href="/admin/courses"><button class="navbut"> <i class="fa-solid fa-book-open-reader"></i> kurslar</button></a>
+            <a href="/admin/tests"><button class="navbut"> <i class="fa-solid fa-clipboard-question"></i> testlar</button></a>
+            <a href="/admin/students"><button class="navbut"> <i class="fa-solid fa-medal"></i> o'quvchilar</button></a>
+            <a href="/admin/forum"><button class="navbut"><i class="fa-solid fa-comment"></i> forum</button></a>
+            <a href="/admin/resources"><button class="navbut"><i class="fa-solid fa-folder-open"></i> resurslar</button></a>
+            <a href="/admin/profile"><button class="navbut"> <i class="fa-solid fa-circle-user"></i> profil</button></a>
+        </div>
+    </div>
+    <div>
+    <hr>
+    <div class="navigation">
+        <a href=""><button class="navbut"> <i class="fa-solid fa-circle-user"></i> admin paneli</button></a>
+        <a href="/logout"><button class="navbut"> <i class="fa-solid fa-right-from-bracket"></i> chiqish</button></a>
+
+    </div>
+    </div>
+</div>
+
+<hr>
+<div class="content">
+    {% block content %}{% endblock %}
+</div>
+
+</div>
+
+</body>
+</html>
