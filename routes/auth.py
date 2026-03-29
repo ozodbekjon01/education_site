@@ -67,7 +67,7 @@ def register():
         password = request.form.get('password')
         password2 = request.form.get('password2')
 
-        if not all([full_name, number, login_input, password, password2]):
+        if not all([full_name, login_input, password, password2]):
             error = "Barcha maydonlarni to‘ldiring."
             return render_template("register.html", error=error)
 
@@ -90,7 +90,7 @@ def register():
             c.execute("""
                 INSERT INTO users (login, password, full_name, number, role)
                 VALUES (?, ?, ?, ?, ?)
-            """, (login_input, hashed, full_name, number, "student"))
+            """, (login_input, hashed, full_name, None, "student"))
 
             conn.commit()
 
