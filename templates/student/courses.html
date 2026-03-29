@@ -34,6 +34,7 @@
     display: flex;
     flex-direction: column;
     color: #cbd5e1;
+background: var(--card-bg);color: var(--text-color);
 }
 
 .course-card:hover {
@@ -133,12 +134,12 @@
                         <div style="height:160px; background:#2c2f45; display:flex; align-items:center; justify-content:center; color:#64748b;">Rasm yo‘q</div>
                     {% endif %}
                     <div class="course-content">
-                        <h3>{{ c['name'] }}</h3>
-                        <p>{{ c['title'] }}</p>
+                        <h3 style="color: var(--text-color);">{{ c['name'] }}</h3>
+                        <p style="color: var(--text-color);">{{ c['title'] }}</p>
                         <div class="progress-container">
                             <div class="progress-bar" style="width: {{ progress }}%;"></div>
                         </div>
-                        <p>{{ progress|round(1) }}% o‘tilgan</p>
+                        <p style="color: var(--text-color);">{{ progress|round(1) }}% o‘tilgan</p>
                         <a href="/student/course/{{ c['id'] }}" class="enter-btn">Kursga kirish</a>
                     </div>
                 </div>

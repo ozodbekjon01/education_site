@@ -19,6 +19,31 @@ body {
     min-height: 100vh;
 }
 
+
+body.dark {
+    --bg-color: #0f111a;
+    --text-color: #e5e7eb;
+    --card-bg: #1f2233;
+    --nav-bg: rgba(110, 2, 235, 0.41);
+}
+
+/* foydalanish */
+body {
+    background: var(--bg-color);
+    color: var(--text-color);
+}
+
+nav {
+    background: var(--nav-bg);
+}
+
+.feature-card {
+    background: var(--card-bg);
+}
+
+
+
+
 /* --- Navbar --- */
 nav {
     border-radius: 20px;
@@ -26,7 +51,6 @@ nav {
     display: flex;
     position: sticky;
     top: 0;
-    background: rgba(110, 2, 235, 0.41);
     justify-content: space-between;
     align-items: center;
     z-index: 100;
@@ -165,8 +189,11 @@ rgba(110, 2, 235, 0.41)}
 <div class="contentbar">
 
 <nav>
-    <div>
+    <div style="display: flex; gap: 15px; align-items: center;">
         <img class="icon" src="{{ url_for('static', filename='icons/logo.png') }}">
+        <button onclick="toggleTheme()" class="navbut">
+    <i class="fa-solid fa-moon"></i>
+</button>
     </div>
 
     <div class="navigation">
@@ -204,6 +231,30 @@ rgba(110, 2, 235, 0.41)}
     <a href="/student/resources"><i class="fa-solid fa-folder-open"></i><span>Resurslar</span></a>
     <a href="/student/profile"><i class="fa-solid fa-circle-user"></i><span>Profil</span></a>
 </div>
+
+
+<script>
+function toggleTheme() {
+    const body = document.body;
+    body.classList.toggle("dark");
+
+    // localStorage saqlash
+    if(body.classList.contains("dark")){
+        localStorage.setItem("theme", "dark");
+    } else {
+        localStorage.setItem("theme", "light");
+    }
+}
+
+// Sahifa ochilganda theme ni yuklash
+window.onload = () => {
+    const savedTheme = localStorage.getItem("theme");
+    if(savedTheme === "dark"){
+        document.body.classList.add("dark");
+    }
+}
+</script>
+
 
 </body>
 </html>

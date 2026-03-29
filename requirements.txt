@@ -1,0 +1,4 @@
+flask
+reportlab
+PyPDF2
+qrcode

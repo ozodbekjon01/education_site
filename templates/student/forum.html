@@ -11,6 +11,7 @@
     padding: 20px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #e5e7eb;
+    background: var(--card-bg);color: var(--text-color);
 }
 
 /* FORUM KONTEYNER */
@@ -23,6 +24,7 @@
     font-size: 1.8rem;
     margin-bottom: 20px;
     color: #ffffff;
+    background: var(--card-bg);color: var(--text-color);
 }
 
 /* POST */
@@ -32,6 +34,7 @@
     border-radius: 12px;
     margin-bottom: 15px;
     box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+    background: var(--card-bg);color: var(--text-color);
 }
 
 .forum-post h4 {
@@ -42,12 +45,14 @@
 .forum-post p {
     margin: 0;
     color: #cbd5e1;
+    background: var(--card-bg);color: var(--text-color);
 }
 
 .forum-post .post-meta {
     margin-top: 12px;
     font-size: 0.9rem;
     color: #94a3b8;
+    background: var(--card-bg);color: var(--text-color);
 }
 
 .forum-post .post-meta span {
@@ -89,6 +94,7 @@
     margin-top:8px;
     border-left:4px solid #3b82f6;
     color:#e5e7eb;
+    background: var(--card-bg);color: var(--text-color);
 }
 
 .comment p{
@@ -98,6 +104,7 @@
 .comment span{
     font-size:12px;
     color:#94a3b8;
+    background: var(--card-bg);color: var(--text-color);
 }
 
 .comment .delete-btn{
@@ -115,6 +122,7 @@
     transition: all 0.2s;
     background:#374151;
     color:#e5e7eb;
+    background: var(--card-bg);color: var(--text-color);
 }
 
 .filter-btn:hover{
@@ -136,6 +144,7 @@
     flex-shrink: 0;
     height: max-content;
     transition: none;
+    background: var(--card-bg);color: var(--text-color);
 }
 
 .ask-form input, .ask-form textarea {
@@ -147,6 +156,7 @@
     background:#252a40;
     color:#e5e7eb;
     transition: all 0.3s;
+    background: var(--card-bg);color: var(--text-color);
 }
 
 .ask-form input:focus, .ask-form textarea:focus {
@@ -200,7 +210,7 @@
 
         <form method="GET" style="margin-bottom:20px;">
             <input type="text" name="search" placeholder="Savol qidirish..."
-            style="padding:8px;border-radius:8px;border:1px solid #2e334c;background:#252a40;color:#e5e7eb;width:70%;">
+            style="padding:8px;border-radius:8px;border:1px solid #2e334c;background: var(--card-bg);color: var(--text-color);width:70%;">
             
             <button type="submit"
             style="padding:8px 14px;background:#3b82f6;color:white;border:none;border-radius:8px;">
@@ -261,7 +271,7 @@
             </div>
 
             <form action="/student/forum/comment/{{ post[0] }}" method="POST" style="margin-top:10px;">
-                <textarea name="content" placeholder="Javob yozish" required style="width:100%; padding:10px; border-radius:8px; border:1px solid #2e334c; background:#252a40; color:#e5e7eb;"></textarea>
+                <textarea name="content" placeholder="Javob yozish" required style="width:100%; padding:10px; border-radius:8px; border:1px solid #2e334c; background: var(--card-bg);color: var(--text-color);"></textarea>
                 <button type="submit" style="margin-top:6px;">Yuborish</button>
             </form>
         </div>

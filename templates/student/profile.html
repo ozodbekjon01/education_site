@@ -5,13 +5,14 @@
 <style>
 :root {
     --primary-color: #3b82f6;        /* Asosiy accent rang */
-    --secondary-color: #2a2a2a;      /* Kartalar / formalar fon */
-    --bg-color: #1f1f1f;             /* Sahifa fon */
-    --text-color: #f5f5f5;           /* Asosiy matn */
-    --text-secondary: #aaaaaa;       /* Izoh matnlar */
+    --secondary-color: var(--card-bg);      /* Kartalar / formalar fon */
+    --bg-color: var(--card-bg);             /* Sahifa fon */
+    --text-color: var(--text-color);           /* Asosiy matn */
+    --text-secondary: var(--text-color);       /* Izoh matnlar */
     --danger-color: #ef4444;         /* Xatolik / ogohlantirish */
     --border-radius: 15px;
     --transition: 0.3s;
+    background: var(--card-bg);color: var(--text-color);
 }
 
 body {
@@ -242,7 +243,7 @@ body {
 
 <div class="profile-container">
     <div class="profile-header"></div>
-    <div class="profile-card">
+    <div class="profile-card" style="background: linear-gradient(135deg, #677de9 0%, #905ecb 100%);">
         <img src="{{ url_for('static', filename='icons/profile.png') }}" alt="Profil rasmi" class="profile-avatar">
         <div class="profile-info">
             <h2>{{ user['full_name'] }}</h2>
@@ -259,31 +260,31 @@ body {
       {% endif %}
     {% endwith %}
 
-    <div class="section">
-        <form method="post" class="profile-form">
+    <div class="section" style="background: var(--card-bg);color: var(--text-color);">
+        <form method="post" class="profile-form" style="background: var(--card-bg);color: var(--text-color);">
             <label>To‘liq ism:</label>
-            <input type="text" name="full_name" value="{{ user['full_name'] }}">
+            <input style="background: var(--card-bg);color: var(--text-color);" type="text" name="full_name" value="{{ user['full_name'] }}">
 
             <label>Telefon raqami:</label>
-            <input type="text" name="number" value="{{ user['number'] or '' }}">
+            <input style="background: var(--card-bg);color: var(--text-color);" type="text" name="number" value="{{ user['number'] or '' }}">
 
             <label>Rol:</label>
-            <input type="text" value="{{ user['role'] }}" disabled>
+            <input style="background: var(--card-bg);color: var(--text-color);" type="text" value="{{ user['role'] }}" disabled>
 
             <label>Ro‘yxatdan o‘tgan sana:</label>
-            <input type="text" value="{{ user['date'] }}" disabled>
+            <input style="background: var(--card-bg);color: var(--text-color);" type="text" value="{{ user['date'] }}" disabled>
 
             <hr style="margin:20px 0; border-color:#555;">
 
             <h3>Parolni o‘zgartirish</h3>
             <label>Eski parol:</label>
-            <input type="password" name="old_password">
+            <input style="background: var(--card-bg);color: var(--text-color);" type="password" name="old_password">
 
             <label>Yangi parol:</label>
-            <input type="password" name="new_password">
+            <input style="background: var(--card-bg);color: var(--text-color);" type="password" name="new_password">
 
             <label>Yangi parolni tasdiqlash:</label>
-            <input type="password" name="confirm_password">
+            <input style="background: var(--card-bg);color: var(--text-color);" type="password" name="confirm_password">
 
             <div style="display:flex; flex-wrap:wrap; gap:10px;">
                 <button type="submit" class="button">Yangilash</button>
@@ -292,11 +293,11 @@ body {
         </form>
     </div>
 
-    <div class="section">
+    <div class="section" style="background: var(--card-bg);color: var(--text-color);">
         <h3>Mening kurslarim</h3>
         {% if courses %}
             {% for c in courses %}
-                <div class="course-card">
+                <div class="course-card" style="background: var(--card-bg);color: var(--text-color);">
                     <span>{{ c['name'] }}{% if c['title'] %} - {{ c['title'] }}{% endif %}</span>
                     <span class="course-progress">{{ c['completed'] }}/{{ c['total_topics'] }} mavzu yakunlandi</span>
                 </div>
