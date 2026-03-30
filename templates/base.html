@@ -75,6 +75,7 @@ rgba(110, 2, 235, 0.41)}
     gap: 8px;
     transition: all 0.3s ease;
     box-sizing: border-box;
+    background: var(--card-bg);color: var(--text-color);
 
 }
 
@@ -191,11 +192,10 @@ rgba(110, 2, 235, 0.41)}
 <nav>
     <div style="display: flex; gap: 15px; align-items: center;">
         <img class="icon" src="{{ url_for('static', filename='icons/logo.png') }}">
-        <button onclick="toggleTheme()" class="navbut">
-    <i class="fa-solid fa-moon"></i>
-</button>
+        
     </div>
 
+    <div style="display: flex; gap: 12px; align-items: center;">
     <div class="navigation">
         <a href="/student/dashboard"><button class="navbut"><i class="fa-solid fa-house"></i> Bosh sahifa</button></a>
         <a href="/student/courses"><button class="navbut"><i class="fa-solid fa-book-open-reader"></i> Kurslar</button></a>
@@ -204,6 +204,10 @@ rgba(110, 2, 235, 0.41)}
         <a href="/student/forum"><button class="navbut"><i class="fa-solid fa-comment"></i> Forum</button></a>
         <a href="/student/resources"><button class="navbut"><i class="fa-solid fa-folder-open"></i> Resurslar</button></a>
         <a href="/student/profile"><button class="navbut"><i class="fa-solid fa-circle-user"></i> Profil</button></a>
+    </div>
+    <button onclick="toggleTheme()" class="navbut" style="background: rgba(255, 255, 0, 0.71);" >
+            <i class="fa-solid fa-moon"></i><i class="fa-solid fa-sun"></i>
+        </button>
     </div>
 </nav>
 
@@ -215,10 +219,10 @@ rgba(110, 2, 235, 0.41)}
 
 <footer class="footer" style="background: linear-gradient(135deg, #677de9 0%, #905ecb 100%); ">
     
-    <div class="footer-links">
-        <a href="https://youtube.com" target="_blank"><i class="fa-brands fa-youtube"></i> YouTube</a>
-        <a href="https://t.me/your_channel" target="_blank"><i class="fa-brands fa-telegram"></i> Telegram</a>
-        <a href="https://instagram.com" target="_blank"><i class="fa-brands fa-instagram"></i> Instagram</a>
+    <div class="footer-links" >
+        <a href="https://youtube.com" target="_blank" style="color: var(--text-color);"><i class="fa-brands fa-youtube" style="color: red; font-size: 20px;"></i > YouTube</a>
+        <a href="https://t.me/your_channel" target="_blank" style="color: var(--text-color);"><i class="fa-brands fa-telegram" style="color: #05c6f1; font-size:20px;"></i> Telegram</a>
+        <a href="https://instagram.com" target="_blank" style="color: var(--text-color);"><i class="fa-brands fa-instagram" style="color: #ea00ff; font-size: 20px;"></i> Instagram</a>
     </div>
 </footer>
 
