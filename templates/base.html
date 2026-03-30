@@ -10,6 +10,14 @@
 <title>{% block title %}{% endblock %}</title>
 
 <style>
+
+:root {
+    --bg-color: #ffffff;
+    --text-color: #000000;
+    --card-bg: #f3f4f6;
+    --nav-bg: rgba(255,255,255,0.8);
+}
+
 /* --- Body & Background --- */
 body {
     margin: 0;
@@ -19,6 +27,9 @@ body {
     min-height: 100vh;
 }
 
+body {
+    background: var(--bg-color);
+}
 
 body.dark {
     --bg-color: #0f111a;
@@ -61,6 +72,64 @@ rgba(110, 2, 235, 0.41)}
 .navigation {
     display: flex;
     gap: 12px;
+}
+
+
+
+.theme-toggle {
+    width: 60px;
+    height: 30px;
+    background: #1f2233;
+    border-radius: 50px;
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 3px;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.4);
+}
+
+.toggle-circle {
+    width: 24px;
+    height: 24px;
+    background: linear-gradient(135deg, #3b82f6, #9333ea);
+    border-radius: 50%;
+    position: absolute;
+    left: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.toggle-circle i {
+    position: absolute;
+    font-size: 12px;
+    color: white;
+    transition: opacity 0.3s ease;
+}
+
+.toggle-circle .fa-sun {
+    opacity: 0;
+}
+
+/* DARK MODE */
+body.dark .theme-toggle {
+    background: #0f111a;
+}
+
+body.dark .toggle-circle {
+    left: 33px;
+    background: linear-gradient(135deg, #0e41f8, #0121d4);
+}
+
+body.dark .fa-sun {
+    opacity: 1;
+}
+
+body.dark .fa-moon {
+    opacity: 0;
 }
 
 .navbut {
@@ -129,6 +198,24 @@ rgba(110, 2, 235, 0.41)}
 /* --- Mobile Bottom Navbar --- */
 .bottom-nav {
     display: none;
+}
+
+/* Default (LIGHT MODE) */
+.toggle-circle .fa-sun {
+    opacity: 1;
+}
+
+.toggle-circle .fa-moon {
+    opacity: 0;
+}
+
+/* DARK MODE */
+body.dark .fa-sun {
+    opacity: 0;
+}
+
+body.dark .fa-moon {
+    opacity: 1;
 }
 
 /* --- Responsive --- */
@@ -205,9 +292,12 @@ rgba(110, 2, 235, 0.41)}
         <a href="/student/resources"><button class="navbut"><i class="fa-solid fa-folder-open"></i> Resurslar</button></a>
         <a href="/student/profile"><button class="navbut"><i class="fa-solid fa-circle-user"></i> Profil</button></a>
     </div>
-    <button onclick="toggleTheme()" class="navbut" style="background: rgba(255, 255, 0, 0.71);" >
-            <i class="fa-solid fa-moon"></i><i class="fa-solid fa-sun"></i>
-        </button>
+    <div class="theme-toggle" onclick="toggleTheme()">
+        <div class="toggle-circle">
+            <i class="fa-solid fa-moon"></i>
+            <i class="fa-solid fa-sun"></i>
+        </div>
+    </div>
     </div>
 </nav>
 
@@ -238,24 +328,23 @@ rgba(110, 2, 235, 0.41)}
 
 
 <script>
-function toggleTheme() {
-    const body = document.body;
-    body.classList.toggle("dark");
-
-    // localStorage saqlash
-    if(body.classList.contains("dark")){
-        localStorage.setItem("theme", "dark");
+function setTheme(theme) {
+    if (theme === "dark") {
+        document.body.classList.add("dark");
     } else {
-        localStorage.setItem("theme", "light");
+        document.body.classList.remove("dark");
     }
+    localStorage.setItem("theme", theme);
 }
 
-// Sahifa ochilganda theme ni yuklash
+function toggleTheme() {
+    const isDark = document.body.classList.contains("dark");
+    setTheme(isDark ? "light" : "dark");
+}
+
 window.onload = () => {
-    const savedTheme = localStorage.getItem("theme");
-    if(savedTheme === "dark"){
-        document.body.classList.add("dark");
-    }
+    const savedTheme = localStorage.getItem("theme") || "light";
+    setTheme(savedTheme);
 }
 </script>
 
