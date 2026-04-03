@@ -6,54 +6,92 @@
 <style>
 
 .container{
-max-width:900px;
-margin:auto;
-padding:20px;
+    max-width:900px;
+    margin:auto;
+    padding:20px;
+    color: var(--text);
 }
 
+/* RESOURCE CARD */
 .resource-card{
-background:#f7f7f7;
-padding:15px;
-border-radius:10px;
-margin-bottom:10px;
+    background: var(--white);
+    padding:15px;
+    border-radius:10px;
+    margin-bottom:10px;
 
-display:flex;
-justify-content:space-between;
-align-items:center;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    box-shadow:0 6px 20px rgba(0,0,0,0.4);
+    transition:.3s;
 }
 
+.resource-card:hover{
+    transform: translateY(-2px);
+    box-shadow:0 10px 25px rgba(0,0,0,0.5);
+}
+
+/* DELETE BUTTON */
 .delete-btn{
-background:#ef4444;
-color:white;
-padding:6px 12px;
-border-radius:6px;
-text-decoration:none;
+    background:#ef4444;
+    color:white;
+    padding:6px 12px;
+    border-radius:6px;
+    text-decoration:none;
+    transition:.2s;
 }
 
+.delete-btn:hover{
+    background:#dc2626;
+}
+
+/* UPLOAD FORM */
 .upload-form{
-background:white;
-padding:20px;
-border-radius:12px;
-margin-bottom:20px;
-box-shadow:0 4px 10px rgba(0,0,0,0.1);
+    background: var(--white);
+    padding:20px;
+    border-radius:12px;
+    margin-bottom:20px;
+    box-shadow:0 6px 20px rgba(0,0,0,0.4);
 }
 
 .upload-form input{
-width:100%;
-padding:8px;
-margin-bottom:10px;
-border-radius:6px;
-border:1px solid #ddd;
+    width:100%;
+    padding:8px;
+    margin-bottom:10px;
+    border-radius:6px;
+    border:1px solid var(--border);
+    background:#020617;
+    color: var(--text);
 }
 
+/* BUTTON */
 .upload-form button{
-background:#3b82f6;
-color:white;
-border:none;
-padding:8px 16px;
-border-radius:6px;
-cursor:pointer;
+    background: var(--primary);
+    color:white;
+    border:none;
+    padding:8px 16px;
+    border-radius:6px;
+    cursor:pointer;
+    transition:.3s;
 }
+
+.upload-form button:hover{
+    background: var(--primary-light);
+}
+
+/* LINK */
+.resource-card a{
+    color: var(--primary);
+    text-decoration:none;
+    margin-right:10px;
+}
+
+.resource-card a:hover{
+    text-decoration: underline;
+}
+
+</style>
 
 </style>
 

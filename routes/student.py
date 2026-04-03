@@ -22,6 +22,31 @@ def get_db():
         g.db.row_factory = sqlite3.Row
     return g.db
 
+def login_required(f):
+    def wrapper(*args, **kwargs):
+        if "user_id" not in session:
+            return redirect(url_for('auth.login', next=request.path))
+        return f(*args, **kwargs)
+    return wrapper
+
+
+@bp.before_request
+def require_login():
+    open_routes = [
+        "student.student_dashboard",
+        "student.student_courses"
+    ]
+
+    # agar route ochiq bo‘lsa → tekshirmaymiz
+    if request.endpoint in open_routes:
+        return
+
+    # qolganlari uchun login talab qilinadi
+    if "user_id" not in session:
+        return redirect(url_for('auth.login', next=request.path))
+
+
+
 @bp.route('/dashboard')
 def student_dashboard():
     db = get_db()
@@ -338,7 +363,7 @@ def topic(topic_id):
             all_questions = list(all_questions)
             import random
             random.shuffle(all_questions)
-            questions = all_questions[:10] if len(all_questions) >= 10 else all_questions
+            questions = all_questions[:20] if len(all_questions) >= 20 else all_questions
 
             # Javoblar
             answers = {}
