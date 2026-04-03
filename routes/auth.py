@@ -5,9 +5,17 @@ from werkzeug.security import generate_password_hash, check_password_hash
 bp = Blueprint('auth', __name__)
 
 # ================= LOGIN =================
+from urllib.parse import urlparse
+
+def is_safe_url(target):
+    ref_url = urlparse(request.host_url)
+    test_url = urlparse(target)
+    return test_url.netloc == "" or test_url.netloc == ref_url.netloc
+
+
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
-    next_page = request.args.get('next')  # qayerdan kelganini olish
+    next_page = request.args.get('next')
 
     if "user_id" in session:
         return redirect(next_page or "/")
@@ -17,7 +25,9 @@ def login():
     if request.method == 'POST':
         login_input = request.form.get('login')
         password_input = request.form.get('password')
-        next_page = request.form.get('next')  # POST dan ham olish
+        next_page = request.form.get('next')
+        if next_page in ["None", "", None]:
+            next_page = None
 
         if not login_input or not password_input:
             error = "Barcha maydonlarni to‘ldiring."
@@ -35,19 +45,20 @@ def login():
             session['name'] = user["full_name"]
             session['role'] = user["role"]
 
-            if session['role'] == "admin":
+            # admin alohida
+            if user["role"] == "admin":
                 return redirect("/admin/dashboard")
-            
-            # 🔥 ASOSIY QISM
-            return redirect(next_page or (
-                "/admin/dashboard" if user["role"] == "admin"
-                else "/student/dashboard"
-            ))
+
+            # next_page xavfsiz bo‘lsa ishlatamiz
+            if next_page and is_safe_url(next_page) and next_page not in ["/login", "/register"]:
+                return redirect(next_page)
+
+            return redirect("/student/dashboard")
+
         else:
             error = "Login yoki parol noto‘g‘ri."
 
     return render_template("login.html", error=error, next=next_page)
-
 
 # ================= REGISTER =================
 @bp.route('/register', methods=['GET', 'POST'])
