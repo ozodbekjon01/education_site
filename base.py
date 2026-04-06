@@ -270,3 +270,141 @@ c.execute("CREATE INDEX IF NOT EXISTS idx_answer_question ON answers(question_id
 # c.execute("UPDATE studies SET date = CURRENT_TIMESTAMP WHERE date IS NULL")
 # conn.commit()
 # conn.close()
+
+
+
+
+
+
+
+import sqlite3
+from datetime import datetime, timedelta
+
+# DB bilan ulanish
+conn = sqlite3.connect('database.db')
+c = conn.cursor()
+
+# UTC -> UTC+5 qo‘shish funksiyasi
+def add_utc5(value):
+    if value is None:
+        return datetime.utcnow() + timedelta(hours=5)
+    return datetime.strptime(value, "%Y-%m-%d %H:%M:%S") + timedelta(hours=5)
+
+# 1️⃣ USERS jadvali
+c.execute("ALTER TABLE users RENAME TO old_users")
+c.execute("""
+CREATE TABLE users(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    login TEXT UNIQUE NOT NULL,
+    password TEXT NOT NULL,
+    full_name TEXT NOT NULL,
+    number TEXT,
+    role TEXT NOT NULL DEFAULT 'student',
+    date TEXT DEFAULT (DATETIME('now', '+5 hours'))
+)
+""")
+# ma’lumotlarni ko‘chirish
+c.execute("SELECT * FROM old_users")
+rows = c.fetchall()
+for r in rows:
+    id, login, password, full_name, number, role, date = r
+    c.execute("INSERT INTO users (id,login,password,full_name,number,role,date) VALUES (?,?,?,?,?,?,?)",
+              (id, login, password, full_name, number, role, (add_utc5(date).strftime("%Y-%m-%d %H:%M:%S"))))
+c.execute("DROP TABLE old_users")
+
+
+# 2️⃣ CERTIFICATES jadvali
+c.execute("ALTER TABLE certificates RENAME TO old_certificates")
+c.execute("""
+CREATE TABLE certificates(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    course_id INTEGER NOT NULL,
+    date TEXT DEFAULT (DATETIME('now', '+5 hours')),
+    UNIQUE(user_id, course_id),
+    FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY(course_id) REFERENCES courses(id) ON DELETE CASCADE
+)
+""")
+c.execute("SELECT * FROM old_certificates")
+rows = c.fetchall()
+for r in rows:
+    id, user_id, course_id, date = r
+    c.execute("INSERT INTO certificates (id,user_id,course_id,date) VALUES (?,?,?,?)",
+              (id,user_id,course_id,(add_utc5(date).strftime("%Y-%m-%d %H:%M:%S"))))
+c.execute("DROP TABLE old_certificates")
+
+
+# 3️⃣ FORUM POSTS jadvali
+c.execute("ALTER TABLE forum_posts RENAME TO old_forum_posts")
+c.execute("""
+CREATE TABLE forum_posts(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    title TEXT NOT NULL,
+    content TEXT NOT NULL,
+    created_at TEXT DEFAULT (DATETIME('now', '+5 hours')),
+    FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
+)
+""")
+c.execute("SELECT * FROM old_forum_posts")
+rows = c.fetchall()
+for r in rows:
+    id, user_id, title, content, created_at = r
+    c.execute("INSERT INTO forum_posts (id,user_id,title,content,created_at) VALUES (?,?,?,?,?)",
+              (id,user_id,title,content,(add_utc5(created_at).strftime("%Y-%m-%d %H:%M:%S"))))
+c.execute("DROP TABLE old_forum_posts")
+
+
+# 4️⃣ FORUM COMMENTS jadvali
+c.execute("ALTER TABLE forum_comments RENAME TO old_forum_comments")
+c.execute("""
+CREATE TABLE forum_comments(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    post_id INTEGER NOT NULL,
+    content TEXT NOT NULL,
+    created_at TEXT DEFAULT (DATETIME('now', '+5 hours')),
+    FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY(post_id) REFERENCES forum_posts(id) ON DELETE CASCADE
+)
+""")
+c.execute("SELECT * FROM old_forum_comments")
+rows = c.fetchall()
+for r in rows:
+    id, user_id, post_id, content, created_at = r
+    c.execute("INSERT INTO forum_comments (id,user_id,post_id,content,created_at) VALUES (?,?,?,?,?)",
+              (id,user_id,post_id,content,(add_utc5(created_at).strftime("%Y-%m-%d %H:%M:%S"))))
+c.execute("DROP TABLE old_forum_comments")
+
+
+# 5️⃣ STUDIES jadvali
+c.execute("ALTER TABLE studies RENAME TO old_studies")
+c.execute("""
+CREATE TABLE studies(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    topic_id INTEGER NOT NULL,
+    value TEXT,
+    date TEXT DEFAULT (DATETIME('now', '+5 hours')),
+    UNIQUE(user_id, topic_id),
+    FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY(topic_id) REFERENCES topics(id) ON DELETE CASCADE
+)
+""")
+c.execute("SELECT * FROM old_studies")
+rows = c.fetchall()
+for r in rows:
+    id, user_id, topic_id, value, *rest = r
+    # rest may include date if exists
+    old_date = rest[0] if rest else None
+    c.execute("INSERT INTO studies (id,user_id,topic_id,value,date) VALUES (?,?,?,?,?)",
+              (id,user_id,topic_id,value,(add_utc5(old_date).strftime("%Y-%m-%d %H:%M:%S"))))
+c.execute("DROP TABLE old_studies")
+
+
+# commit va close
+conn.commit()
+conn.close()
+
+print("Barcha jadvallar UTC+5 bilan yangilandi ✅")

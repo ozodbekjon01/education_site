@@ -235,6 +235,66 @@ body.dark .fa-moon {
     opacity: 1;
 }
 
+
+
+.lang-selector {
+    position: relative;
+    user-select: none;
+}
+
+.lang-current {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--card-bg);
+    padding: 8px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.lang-current:hover {
+    background: rgba(100,100,255,0.2);
+}
+
+.lang-dropdown {
+    position: absolute;
+    top: 45px;
+    right: 0;
+    background: var(--card-bg);
+    border-radius: 10px;
+    overflow: hidden;
+    display: none;
+    flex-direction: column;
+    min-width: 160px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    z-index: 999;
+}
+
+.lang-dropdown div {
+    padding: 10px 14px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.lang-dropdown div:hover {
+    background: rgba(100,100,255,0.2);
+}
+
+
+.goog-te-banner-frame.skiptranslate {
+    display: none !important;
+}
+
+body {
+    top: 0px !important;
+}
+
+.goog-te-gadget {
+    display: none !important;
+}
+
 /* --- Responsive --- */
 @media (max-width:1100px){
     .navigation {
@@ -309,7 +369,22 @@ body.dark .fa-moon {
         <a href="/student/resources"><button class="navbut"><i class="fa-solid fa-folder-open"></i> Resurslar</button></a>
         <a href="/student/profile"><button class="navbut"><i class="fa-solid fa-circle-user"></i> Profil</button></a>
     </div>
-    <div id="google_translate_element"></div>
+    <div class="lang-selector">
+    <div class="lang-current" onclick="toggleLangMenu()">
+        <i class="fa-solid fa-globe"></i>
+        <span id="current-lang">UZ</span>
+        <i class="fa-solid fa-chevron-down"></i>
+    </div>
+
+    <div class="lang-dropdown" id="lang-menu">
+        <div onclick="changeLang('uz')">🇺🇿 O‘zbek</div>
+        <div onclick="changeLang('en')">🇬🇧 English</div>
+        <div onclick="changeLang('ru')">🇷🇺 Русский</div>
+    </div>
+</div>
+
+<!-- Google translate hidden -->
+<div id="google_translate_element" style="display:none;"></div>
     <div class="theme-toggle" onclick="toggleTheme()">
         <div class="toggle-circle">
             <i class="fa-solid fa-moon"></i>
@@ -325,12 +400,17 @@ body.dark .fa-moon {
 
 </div>
 
-<footer class="footer" style="background: linear-gradient(135deg, #677de9 0%, #905ecb 100%); ">
-    
-    <div class="footer-links" >
-        <a href="https://youtube.com" target="_blank" style="color: var(--text-color);"><i class="fa-brands fa-youtube" style="color: red; font-size: 20px;"></i > YouTube</a>
-        <a href="https://t.me/your_channel" target="_blank" style="color: var(--text-color);"><i class="fa-brands fa-telegram" style="color: #05c6f1; font-size:20px;"></i> Telegram</a>
-        <a href="https://instagram.com" target="_blank" style="color: var(--text-color);"><i class="fa-brands fa-instagram" style="color: #ea00ff; font-size: 20px;"></i> Instagram</a>
+<footer class="footer" style="background: linear-gradient(135deg, #1f2937 0%, #4b5563 100%);">
+    <div class="footer-links">
+        <a href="https://youtube.com" target="_blank" style="color: #FF0000;">
+            <i class="fa-brands fa-youtube" style="font-size: 20px;"></i> YouTube
+        </a>
+        <a href="https://t.me/your_channel" target="_blank" style="color: #05c6f1;">
+            <i class="fa-brands fa-telegram" style="font-size: 20px;"></i> Telegram
+        </a>
+        <a href="https://instagram.com" target="_blank" style="color: #E1306C;">
+            <i class="fa-brands fa-instagram" style="font-size: 20px;"></i> Instagram
+        </a>
     </div>
 </footer>
 
@@ -346,18 +426,111 @@ body.dark .fa-moon {
 
 
 <script>
+
+/* ================= CONFIG ================= */
+const LANG_KEY = "lang";
+
+/* ================= GOOGLE INIT ================= */
 function googleTranslateElementInit() {
     new google.translate.TranslateElement({
         pageLanguage: 'uz',
-        includedLanguages: 'uz,en,ru',
-        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+        includedLanguages: 'uz,en,ru'
     }, 'google_translate_element');
 }
-</script>
 
-<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+/* ================= UTILS ================= */
+function getTranslateSelect() {
+    return document.querySelector(".goog-te-combo");
+}
 
-<script>
+/* ================= LANGUAGE ================= */
+function applyLanguage(lang) {
+    const select = getTranslateSelect();
+    if (!select) return false;
+
+    select.value = lang;
+    select.dispatchEvent(new Event("change"));
+
+    const currentLang = document.getElementById("current-lang");
+    if (currentLang) {
+        currentLang.innerText = lang.toUpperCase();
+    }
+
+    return true;
+}
+
+function changeLang(lang) {
+    localStorage.setItem(LANG_KEY, lang);
+
+    let attempts = 0;
+
+    function tryApply() {
+        if (applyLanguage(lang)) return;
+
+        if (++attempts < 30) {
+            setTimeout(tryApply, 200);
+        }
+    }
+
+    tryApply();
+    closeLangMenu();
+}
+
+/* ================= DROPDOWN ================= */
+function toggleLangMenu() {
+    const menu = document.getElementById("lang-menu");
+    if (!menu) return;
+
+    menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+}
+
+function closeLangMenu() {
+    const menu = document.getElementById("lang-menu");
+    if (menu) menu.style.display = "none";
+}
+
+/* ================= INIT ================= */
+window.addEventListener("load", () => {
+
+    /* ===== LANGUAGE INIT ===== */
+    const savedLang = localStorage.getItem(LANG_KEY) || "uz";
+
+    const currentLang = document.getElementById("current-lang");
+    if (currentLang) {
+        currentLang.innerText = savedLang.toUpperCase();
+    }
+
+    let attempts = 0;
+
+    function waitForTranslate() {
+        if (applyLanguage(savedLang)) return;
+
+        if (++attempts < 30) {
+            setTimeout(waitForTranslate, 200);
+        }
+    }
+
+    waitForTranslate();
+
+    /* ===== CLICK OUTSIDE ===== */
+    document.addEventListener("click", (e) => {
+        const menu = document.getElementById("lang-menu");
+        const btn = document.querySelector(".lang-current");
+
+        if (!menu || !btn) return;
+
+        if (!btn.contains(e.target) && !menu.contains(e.target)) {
+            menu.style.display = "none";
+        }
+    });
+
+    /* ===== THEME INIT ===== */
+    const savedTheme = localStorage.getItem("theme") || "light";
+    setTheme(savedTheme);
+
+});
+
+/* ================= THEME ================= */
 function setTheme(theme) {
     if (theme === "dark") {
         document.body.classList.add("dark");
@@ -372,11 +545,9 @@ function toggleTheme() {
     setTheme(isDark ? "light" : "dark");
 }
 
-window.onload = () => {
-    const savedTheme = localStorage.getItem("theme") || "light";
-    setTheme(savedTheme);
-}
 </script>
+
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 
 </body>
