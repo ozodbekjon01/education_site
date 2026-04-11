@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, sessio
 import sqlite3
 import hashlib
 
+
 bp = Blueprint('dashboard', __name__)
 
 def get_db():
@@ -11,7 +12,7 @@ def get_db():
 from flask import send_file, abort
 import sqlite3, io
 from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import A4
+from reportlab.lib.pagesizes import A4,landscape
 from reportlab.lib.utils import ImageReader
 from PyPDF2 import PdfReader, PdfWriter
 import qrcode
@@ -43,16 +44,16 @@ def download_certificate(cert_id):
     
     # Kalitlarni almashtirish uchun canvas yaratish
     packet = io.BytesIO()
-    can = canvas.Canvas(packet, pagesize=A4)
+    can = canvas.Canvas(packet, pagesize=landscape(A4))
     
     # {name}, {course}, {date}, {id} joylashuvi
-    can.setFont("Helvetica-Bold", 24)
-    can.drawString(100, 540, full_name)  # {name}
-    can.setFont("Helvetica", 24)
-    can.drawString(100, 460, course_name)  # {course}
+    can.setFont("Helvetica-Bold", 40)
+    can.drawString(60, 240, full_name)  # {name}
+    can.setFont("Helvetica", 30)
+    can.drawString(60, 360, course_name)  # {course}
     can.setFont("Helvetica", 12)
-    can.drawString(110, 424, date)  # {date}
-    can.drawString(330, 97, f" {cert_id}")  # {id}
+    can.drawString(650, 526, date)  # {date}
+    can.drawString(180, 75, f" {cert_id}")  # {id}
     
     # QR kodi
     qr_url = f"http://138.249.7.175:5300/certificate/{cert_id}/verify"
@@ -61,7 +62,7 @@ def download_certificate(cert_id):
     qr_img.save(qr_bytes, format="PNG")
     qr_bytes.seek(0)
     qr_reader = ImageReader(qr_bytes)
-    can.drawImage(qr_reader, 200, 194, width=170, height=170)  # {qr} joyi
+    can.drawImage(qr_reader, 400, 35, width=170, height=170)  # {qr} joyi
     
     can.save()
     packet.seek(0)
