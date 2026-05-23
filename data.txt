@@ -1,0 +1,631 @@
+1. SQL tilida funksiyalar nima uchun ishlatiladi?
+A) Jadval yaratish uchun
+B) Ma'lumotlarni manipulyatsiya qilish va tahlil qilishda
+C) Foydalanuvchi yaratish uchun
+D) Tranzaktsiya boshqarish uchun
+Javob: B
+2. Agregat funksiya argumenti nima bo'ladi?
+A) Bitta qiymat
+B) Butun ustun bo'lib, bitta qiymat qaytaradi
+C) Bir nechta ustun
+D) Jadval nomi
+Javob: B
+3. SQL tilida funksiyalar nechta asosiy turkumga bo'linadi?
+A) 3 ta
+B) 4 ta
+C) 5 ta
+D) 6 ta
+Javob: C
+4. SQL funksiyalarining asosiy turkumlari qaysilar?
+A) DDL, DML, DCL, TCL, DQL
+B) Matematik, String, Sana/Vaqt, Agregat, Mantiqiy
+C) SELECT, INSERT, UPDATE, DELETE, DROP
+D) CREATE, ALTER, DROP, GRANT, COMMIT
+Javob: B
+5. Agregat funksiyalar qanday ustunlar bilan ishlaydi?
+A) Faqat matnli ustunlar
+B) Sonli yoki hisoblanuvchi ustunlar
+C) Faqat sana ustunlari
+D) Faqat mantiqiy ustunlar
+Javob: B
+6. ABS(x) funksiyasi nima qaytaradi?
+A) x ning kvadratini
+B) x ning absolyut (mutlaq) qiymatini
+C) x ning ildizini
+D) x ning yaxlitlangan qiymatini
+Javob: B
+7. ABS(-10) qanday natija beradi?
+A) -10
+B) 0
+C) 10
+D) 100
+Javob: C
+8. CEIL(x) funksiyasi nima qiladi?
+A) x ni pastga yaxlitlaydi
+B) x dan katta yoki teng eng kichik butun sonni qaytaradi
+C) x ning absolyut qiymatini qaytaradi
+D) x ni nolga yaxlitlaydi
+Javob: B
+9. CEIL(4.3) qanday natija beradi?
+A) 4
+B) 4.3
+C) 5
+D) 3
+Javob: C
+10. FLOOR(x) funksiyasi nima qiladi?
+A) x dan katta yoki teng eng kichik butun sonni qaytaradi
+B) x dan kichik yoki teng eng katta butun sonni qaytaradi
+C) x ning mutlaq qiymatini qaytaradi
+D) x ni yuqoriga yaxlitlaydi
+Javob: B
+11. FLOOR(4.9) qanday natija beradi?
+A) 5
+B) 4.9
+C) 4
+D) 3
+Javob: C
+12. MS Access dasturida CEIL(x) funksiyasining ekvivalenti qaysi formula?
+A) Int(x)
+B) Abs(x)
+C) -Int(-x)
+D) Round(x)
+Javob: C
+13. MS Access dasturida FLOOR(x) funksiyasining ekvivalenti nima?
+A) -Int(-x)
+B) Int(x)
+C) Abs(x)
+D) Round(x)
+Javob: B
+14. ABS() funksiyasi manfiy sonlarga nima qiladi?
+A) Nolga aylantiradi
+B) Musbatga aylantiradi
+C) O'zgartirmaydi
+D) Ikkilaydi
+Javob: B
+15. Access da ABS funksiyasi so'rovda qanday yoziladi?
+A) ABSOLUTE([Son])
+B) Abs([Son])
+C) ABS_Value([Son])
+D) Module([Son])
+Javob: B
+16. Access dasturida ABS funksiyasidan foydalanishda so'rov qaysi menyudan yaratiladi?
+A) Главная → Запрос
+B) Создание → Конструктор запросов
+C) Внешние данные → Запрос
+D) Работа с БД → Запрос
+Javob: B
+17. Access da so'rov konstruktorida natija ustuniga nom berish qanday yoziladi?
+A) Nom = Funksiya
+B) Nom: Funksiya([Maydon])
+C) Funksiya AS Nom
+D) [Nom] Funksiya
+Javob: B
+18. Access da 'Modul qiymat: Abs([Son])' — bu nima?
+A) Jadval yaratish
+B) Son maydonining absolyut qiymatini 'Modul qiymat' nomi bilan chiqarish
+C) Maydon o'chirish
+D) Sana funksiyasi
+Javob: B
+19. Access da so'rovni ishga tushirish uchun qaysi tugma bosiladi?
+A) Сохранить (Ctrl+S)
+B) Выполнить (Run — qizil undov belgisi)
+C) Закрыть
+D) Добавить
+Javob: B
+20. Access da yangi ma'lumotlar bazasi yaratishda qaysi band tanlanadi?
+A) Открыть базу данных
+B) Пустая база данных (Blank Database)
+C) Шаблон базы данных
+D) Импорт данных
+Javob: B
+21. Access da jadval tuzilishini loyihalash uchun qaysi rejim ishlatiladi?
+A) Режим таблицы
+B) Конструктор таблиц (Table Design)
+C) Режим формы
+D) Режим отчёта
+Javob: B
+22. LENGTH(s) funksiyasi nima qaytaradi?
+A) Matnning birinchi harfini
+B) Matn uzunligini (belgilar sonini)
+C) Matnning so'nggi harfini
+D) Matnni katta harfga o'tkazadi
+Javob: B
+23. LENGTH('Salom') qanday natija beradi?
+A) 4
+B) 6
+C) 5
+D) 3
+Javob: C
+24. LENGTH('A B C') qanday natija beradi?
+A) 3
+B) 4
+C) 5
+D) 6
+Javob: C
+25. MS Access dasturida LENGTH() funksiyasining ekvivalenti nima?
+A) LEN()
+B) SIZE()
+C) COUNT()
+D) STRLEN()
+Javob: A
+26. Access da 'Belgilar_soni: Len([Matn])' — bu nima qiladi?
+A) Matnni katta harfga o'tkazadi
+B) Matn maydonidagi har bir satrning belgilar sonini chiqaradi
+C) Matnni o'chiradi
+D) Matnni kichik harfga o'tkazadi
+Javob: B
+27. UPPER(s) funksiyasi nima qiladi?
+A) Matnni kichik harfga o'tkazadi
+B) Matnni katta harfga o'tkazadi
+C) Bo'sh joylarni olib tashlaydi
+D) Matn uzunligini qaytaradi
+Javob: B
+28. UPPER('hello') qanday natija beradi?
+A) 'hello'
+B) 'Hello'
+C) 'HELLO'
+D) 5
+Javob: C
+29. MS Access dasturida UPPER() funksiyasining ekvivalenti nima?
+A) BigCase()
+B) UCase()
+C) UpperCase()
+D) ToUpper()
+Javob: B
+30. UPPER funksiyasi qaysi jarayonlarda qo'llaniladi?
+A) Faqat raqamli ma'lumotlar uchun
+B) Matnni standartlashtirish, taqqoslash, qidiruvni aniq bajarish uchun
+C) Faqat sana ma'lumotlari uchun
+D) Jadval yaratish uchun
+Javob: B
+31. Access da 'Katta_harf: UCase([Matn])' — bu nima qiladi?
+A) Matn uzunligini chiqaradi
+B) Matn maydonidagi barcha harflarni katta harfga o'tkazadi
+C) Matnni o'chiradi
+D) Bo'sh joylarni olib tashlaydi
+Javob: B
+32. LOWER(s) funksiyasi nima qiladi?
+A) Matnni katta harfga o'tkazadi
+B) Matnni kichik harfga o'tkazadi
+C) Bo'sh joylarni olib tashlaydi
+D) Matn uzunligini qaytaradi
+Javob: B
+33. LOWER('HELLO') qanday natija beradi?
+A) 'HELLO'
+B) 'Hello'
+C) 'hello'
+D) 5
+Javob: C
+34. MS Access dasturida LOWER() funksiyasining ekvivalenti nima?
+A) SmallCase()
+B) LCase()
+C) LowerCase()
+D) ToLower()
+Javob: B
+35. Access da 'Kichik_harf: LCase([Matn])' nima qiladi?
+A) Matn uzunligini chiqaradi
+B) Barcha harflarni kichik harfga aylantiradi
+C) Bo'sh joylarni olib tashlaydi
+D) Katta harfga o'tkazadi
+Javob: B
+36. LOWER funksiyasi qaysi jarayonlarda qulay?
+A) Faqat raqamli ma'lumotlar uchun
+B) Matnni standart ko'rinishga keltirish, qidiruvda harf kattaligi ta'sirini yo'qotish uchun
+C) Faqat sana uchun
+D) Jadval yaratish uchun
+Javob: B
+37. TRIM(s) funksiyasi nima qiladi?
+A) Matnni katta harfga o'tkazadi
+B) Matn boshidagi va oxiridagi bo'sh joylarni olib tashlaydi
+C) Matn uzunligini qaytaradi
+D) Matnni o'chiradi
+Javob: B
+38. TRIM(' SQL ') qanday natija beradi?
+A) ' SQL '
+B) 'SQL'
+C) 'sql'
+D) 3
+Javob: B
+39. TRIM funksiyasi qaysi jarayonlarda qo'llaniladi?
+A) Faqat raqamli ma'lumotlar uchun
+B) Foydalanuvchi kiritgan matnni tozalash, qidiruv funksiyalarining aniq ishlashini ta'minlash uchun
+C) Sana ma'lumotlari uchun
+D) Jadval yaratish uchun
+Javob: B
+40. Access da TRIM funksiyasi so'rovda qanday yoziladi?
+A) Strip([Matn])
+B) Trim([Matn])
+C) Clean([Matn])
+D) Remove([Matn])
+Javob: B
+41. Access da 'Trimlangan: Trim([Matn])' — bu nima?
+A) Matn uzunligini chiqaradi
+B) Matn boshidagi va oxiridagi bo'sh joylarni olib tashlagan matnni chiqaradi
+C) Matnni katta harfga o'tkazadi
+D) Matnni o'chiradi
+Javob: B
+42. NOW() funksiyasi nima qaytaradi?
+A) Faqat joriy sanani
+B) Faqat joriy vaqtni
+C) Joriy sana va vaqtni birgalikda
+D) Yil qiymatini
+Javob: C
+43. CURDATE() funksiyasi nima qaytaradi?
+A) Joriy sana va vaqt
+B) Faqat joriy sanani (vaqtsiz)
+C) Faqat joriy vaqtni
+D) Yilni
+Javob: B
+44. YEAR(date) funksiyasi nima qiladi?
+A) Oy qiymatini ajratadi
+B) Kun qiymatini ajratadi
+C) Sana qiymatidan yil qismini ajratib oladi
+D) Joriy sana va vaqtni qaytaradi
+Javob: C
+45. YEAR('2024-01-30') qanday natija beradi?
+A) 01
+B) 30
+C) 2024
+D) 2024-01-30
+Javob: C
+46. MONTH(date) funksiyasi nima qiladi?
+A) Yilni ajratadi
+B) Kunni ajratadi
+C) Berilgan sananing oy qismini qaytaradi
+D) Soatni qaytaradi
+Javob: C
+47. MONTH('2024-01-30') qanday natija beradi?
+A) 2024
+B) 30
+C) 1
+D) 01-30
+Javob: C
+48. DAY(date) funksiyasi nima qiladi?
+A) Yilni ajratadi
+B) Oyni ajratadi
+C) Berilgan sanadan kun qismini ajratib oladi
+D) Soatni qaytaradi
+Javob: C
+49. DAY('2024-01-30') qanday natija beradi?
+A) 2024
+B) 1
+C) 30
+D) 01
+Javob: C
+50. MS Access dasturida CURDATE() funksiyasining ekvivalenti nima?
+A) Today()
+B) Date()
+C) Now()
+D) CurDate()
+Javob: B
+51. NOW() va CURDATE() o'rtasidagi farq nima?
+A) Farqi yo'q
+B) NOW() sana va vaqtni, CURDATE() faqat sanani qaytaradi
+C) CURDATE() sana va vaqtni qaytaradi
+D) Ikkalasi ham faqat vaqtni qaytaradi
+Javob: B
+52. Access da NOW() funksiyasi so'rovda qanday yoziladi?
+A) Today()
+B) CurrentDateTime()
+C) NOW()
+D) Now()
+Javob: D
+53. Access da 'Hozirgi_vaqt: NOW()' — bu nima?
+A) Faqat sanani chiqaradi
+B) Joriy sana va vaqtni 'Hozirgi_vaqt' nomli ustunda ko'rsatadi
+C) Faqat vaqtni chiqaradi
+D) Yil qiymatini chiqaradi
+Javob: B
+54. Access da 'Joriy_sana: Date()' — bu nima qiladi?
+A) Joriy sana va vaqtni chiqaradi
+B) Faqat joriy sanani chiqaradi
+C) Yil qiymatini chiqaradi
+D) Oy qiymatini chiqaradi
+Javob: B
+55. Access da YEAR funksiyasi so'rovda qanday yoziladi?
+A) GetYear([Sana])
+B) Year([Sana])
+C) YEAR_OF([Sana])
+D) DateYear([Sana])
+Javob: B
+56. Access da 'Yil: Year([Sana])' so'rovi nima chiqaradi?
+A) Oy qiymatini
+B) Kun qiymatini
+C) Har bir yozuv uchun yil qismini
+D) Joriy sanani
+Javob: C
+57. Access da MONTH funksiyasi so'rovda qanday yoziladi?
+A) GetMonth([Sana])
+B) Month([Sana])
+C) MONTH_OF([Sana])
+D) DateMonth([Sana])
+Javob: B
+58. Access da 'Oy: Month([Sana])' nima chiqaradi?
+A) Yil qiymatini
+B) Oy qiymatini (1 dan 12 gacha)
+C) Kun qiymatini
+D) Joriy sanani
+Javob: B
+59. Access da DAY funksiyasi so'rovda qanday yoziladi?
+A) GetDay([Sana])
+B) Day([Sana])
+C) DAY_OF([Sana])
+D) DateDay([Sana])
+Javob: B
+60. MONTH funksiyasi qaysi jarayonlarda qo'llaniladi?
+A) Faqat raqamli ma'lumotlar uchun
+B) Statistika, oylar bo'yicha guruhlash va grafiklar qurishda
+C) Faqat matnli ma'lumotlar uchun
+D) Jadval yaratish uchun
+Javob: B
+61. DAY funksiyasi qaysi jarayonlarda qo'llaniladi?
+A) Faqat matnli ma'lumotlar uchun
+B) Kundalik tahlil, kalendar funksiyalari yoki vaqt bo'yicha filtrlashda
+C) Faqat raqamli ma'lumotlar uchun
+D) Jadval yaratish uchun
+Javob: B
+62. COUNT() funksiyasi nima hisoblaydi?
+A) Qiymatlar yig'indisini
+B) Maydondagi bo'sh bo'lmagan yozuvlar sonini
+C) O'rtacha qiymatni
+D) Maksimal qiymatni
+Javob: B
+63. SUM() funksiyasi nima hisoblaydi?
+A) Yozuvlar sonini
+B) Tanlangan maydondagi barcha raqamli qiymatlarning umumiy yig'indisini
+C) O'rtacha qiymatni
+D) Minimal qiymatni
+Javob: B
+64. AVG() funksiyasi nima hisoblaydi?
+A) Yozuvlar sonini
+B) Maksimal qiymatni
+C) Tanlangan maydondagi raqamlarning o'rtacha arifmetigini
+D) Minimal qiymatni
+Javob: C
+65. MAX() funksiyasi nima qaytaradi?
+A) Minimal qiymatni
+B) O'rtacha qiymatni
+C) Maydondagi eng katta qiymatni
+D) Yozuvlar sonini
+Javob: C
+66. MIN() funksiyasi nima qaytaradi?
+A) Maksimal qiymatni
+B) O'rtacha qiymatni
+C) Maydondagi eng kichik (minimal) qiymatni
+D) Yozuvlar sonini
+Javob: C
+67. SELECT COUNT(*) FROM students — bu nima chiqaradi?
+A) O'rtacha qiymat
+B) Eng katta qiymat
+C) Jadvaldagi yozuvlar soni
+D) Yig'indi
+Javob: C
+68. SELECT SUM(salary) FROM employees — bu nima chiqaradi?
+A) O'rtacha ish haqi
+B) Barcha xodimlarning ish haqilari yig'indisi
+C) Eng katta ish haqi
+D) Xodimlar soni
+Javob: B
+69. SELECT AVG(age) FROM students — bu nima chiqaradi?
+A) Eng katta yosh
+B) Eng kichik yosh
+C) Talabalarning o'rtacha yoshi
+D) Talabalar soni
+Javob: C
+70. SELECT MAX(price) FROM products — bu nima chiqaradi?
+A) Eng arzon mahsulot narxi
+B) O'rtacha narx
+C) Eng qimmat mahsulot narxi
+D) Mahsulotlar soni
+Javob: C
+71. SELECT MIN(price) FROM products — bu nima chiqaradi?
+A) Eng qimmat mahsulot narxi
+B) O'rtacha narx
+C) Eng arzon mahsulot narxi
+D) Mahsulotlar soni
+Javob: C
+72. Access da agregat funksiyalarni qo'llash uchun so'rov konstruktorida qaysi tugma bosiladi?
+A) Run (Выполнить)
+B) Save (Сохранить)
+C) Totals / Итоги (Σ)
+D) Add (Добавить)
+Javob: C
+73. Access da 'Totals (Итоги)' tugmasi bosilganda pastki qismda qaysi yangi qator paydo bo'ladi?
+A) Field (Поле)
+B) Criteria (Условие отбора)
+C) Группа операций
+D) Sort (Сортировка)
+Javob: C
+74. Access da COUNT funksiyasini tanlash uchun 'Группа операций' dan qaysi buyruq tanlanadi?
+A) Сумма
+B) Среднее
+C) Количество (Count)
+D) Максимум
+Javob: C
+75. Access da SUM funksiyasini tanlash uchun 'Группа операций' dan qaysi buyruq tanlanadi?
+A) Количество
+B) Сумма (Sum)
+C) Среднее
+D) Минимум
+Javob: B
+76. Access da AVG funksiyasini tanlash uchun 'Группа операций' dan qaysi buyruq tanlanadi?
+A) Количество
+B) Сумма
+C) Среднее (Avg)
+D) Максимум
+Javob: C
+77. Access da MAX funksiyasini tanlash uchun 'Группа операций' dan qaysi buyruq tanlanadi?
+A) Минимум
+B) Среднее
+C) Сумма
+D) Максимум (Max)
+Javob: D
+78. Access da MIN funksiyasini tanlash uchun 'Группа операций' dan qaysi buyruq tanlanadi?
+A) Максимум
+B) Минимум (Min)
+C) Среднее
+D) Сумма
+Javob: B
+79. SUM() funksiyasi NULL qiymatlarni hisobga oladimi?
+A) Ha, har doim
+B) Yo'q, NULL qiymatlar hisob-kitoblarga qo'shilmaydi
+C) Faqat ba'zi hollarda
+D) Faqat katta NULL lar uchun
+Javob: B
+80. AVG() funksiyasi bo'sh (NULL) satrlarni qanday qayta ishlaydi?
+A) Nol sifatida hisoblaydi
+B) Avtomatik tarzda chiqarib tashlaydi
+C) Xato qaytaradi
+D) Alohida sanaydi
+Javob: B
+81. COUNT(*) va COUNT(ustun) o'rtasidagi farq nima?
+A) Farqi yo'q
+B) COUNT(*) barcha qatorlarni, COUNT(ustun) NULL bo'lmagan qiymatlarni hisoblaydi
+C) COUNT(ustun) barcha qatorlarni hisoblaydi
+D) Ikkalasi ham bir xil ishlaydi
+Javob: B
+82. IF(condition, true_value, false_value) funksiyasi nima qiladi?
+A) Har doim true_value qaytaradi
+B) Shart TRUE bo'lsa true_value, aks holda false_value qaytaradi
+C) Har doim false_value qaytaradi
+D) Shart tekshirmaydi
+Javob: B
+83. SELECT IF(10>5, 'Yes', 'No') — bu nima chiqaradi?
+A) 'No'
+B) 10
+C) 5
+D) 'Yes'
+Javob: D
+84. CASE operatori nima uchun ishlatiladi?
+A) Jadval yaratish uchun
+B) Bir nechta shartlarni tekshirish uchun
+C) Ma'lumot o'chirish uchun
+D) Tranzaktsiya boshqarish uchun
+Javob: B
+85. MS Access dasturida klassik IF operatori o'rnida qaysi funksiya qo'llaniladi?
+A) IFF()
+B) IIf() (Immediate If)
+C) IFELSE()
+D) CASE()
+Javob: B
+86. IIf funksiyasi qanday ta'riflanadi?
+A) Jadval yaratuvchi funksiya
+B) Mantiqiy shartni tekshiruvchi va natijaga qarab ikki xil qiymatdan birini qaytaruvchi funksiya
+C) Ma'lumotlarni o'chiruvchi funksiya
+D) Sana qaytaruvchi funksiya
+Javob: B
+87. Access da 'Natija: IIf([Ball]>=60, O'tdi, Yiqildi)' — bu nima?
+A) Ball maydonidagi qiymatni o'zgartiradi
+B) Ball 60 va undan yuqori bo'lsa 'O'tdi', aks holda 'Yiqildi' deb natija chiqaradi
+C) Jadvalni o'chiradi
+D) Ball maydonini saralaydi
+Javob: B
+88. MS Access dasturida CASE operatori mavjudmi?
+A) Ha, to'liq mavjud
+B) Yo'q, uning o'rniga Switch() funksiyasi ishlatiladi
+C) Faqat SQL Server versiyasida
+D) Faqat MySQL bilan ishlaganda
+Javob: B
+89. Access da Switch() funksiyasi CASE o'rnida qanday ishlaydi?
+A) Faqat bitta shartni tekshiradi
+B) Bir nechta shartlarni ketma-ket tekshirib, birinchi to'g'ri shartning qiymatini qaytaradi
+C) Har doim birinchi qiymatni qaytaradi
+D) Hech narsa qaytarmaydi
+Javob: B
+90. CASE operatori qaysi MBBTlarda to'g'ridan-to'g'ri ishlatiladi?
+A) Faqat MS Access da
+B) SQL Server, MySQL, PostgreSQL kabi MBBTlarda
+C) Faqat Oracle da
+D) Hech qaysi MBBTda
+Javob: B
+92. SQL funksiyalari odatda qanday qaytaradi?
+A) Bir nechta jadval
+B) Oldindan belgilangan operatsiyalar asosida hisoblangan qiymat
+C) Faqat NULL
+D) Faqat matn
+Javob: B
+93. LENGTH() funksiyasi bo'sh joylarni sanaydimi?
+A) Yo'q
+B) Ha, bo'sh joylar ham belgi sifatida sanaladi
+C) Faqat bosh bo'sh joylarni
+D) Faqat oxirdagi bo'sh joylarni
+Javob: B
+94. UPPER va LOWER funksiyalarining asosiy maqsadi nima?
+A) Matn uzunligini o'zgartirish
+B) Harflar registrini boshqarish (katta/kichik harfga o'tkazish)
+C) Bo'sh joylarni olib tashlash
+D) Matnni o'chirish
+Javob: B
+95. TRIM funksiyasi matnning qaysi qismidagi bo'sh joylarni olib tashlaydi?
+A) Faqat boshidagi
+B) Faqat oxiridagi
+C) Boshi va oxiridagi
+D) O'rtasidagi
+Javob: C
+96. AVG() funksiyasi faqat qaysi turdagi maydonlarda ishlaydi?
+A) Faqat matnli
+B) Faqat sana
+C) Raqamli maydonlarda
+D) Mantiqiy maydonlarda
+Javob: C
+97. MAX() funksiyasi qanday amaliy holatlarda ishlatiladi?
+A) Faqat matnli ma'lumotlar uchun
+B) Eng yuqori narx, eng katta ball, eng ko'p miqdor kabi maksimal qiymatni topishda
+C) Faqat sana ma'lumotlari uchun
+D) Jadval yaratishda
+Javob: B
+98. MIN() funksiyasi nima uchun juda qulay vosita hisoblanadi?
+A) Matnni katta harfga o'tkazish uchun
+B) Eng past ball, eng arzon narx, eng kam resurs kabi minimal qiymatlarni topish uchun
+C) Tranzaktsiyani boshqarish uchun
+D) Jadval yaratish uchun
+Javob: B
+99. Access da so'rovga nom berish uchun qaysi tugma kombinatsiyasi ishlatiladi?
+A) Ctrl+Z
+B) Ctrl+S
+C) Ctrl+P
+D) Ctrl+A
+Javob: B
+100. Access da yaratilgan so'rovlarni keyingi safar qaysi bo'limdan ochish mumkin?
+A) Таблицы
+B) Формы
+C) Запросы (Queries)
+D) Отчёты
+Javob: C
+
+101. Matematik funksiyalar qaysi turdagi ma'lumotlar ustida operatsiyalar bajaradi?
+A) Matnli
+B) Sonli
+C) Sana
+D) Mantiqiy
+Javob: B
+102. String funksiyalar qaysi turdagi ma'lumotlar ustida ishlaydi?
+A) Sonli
+B) Sana
+C) Matnli
+D) Mantiqiy
+Javob: C
+103. Sana va vaqt funksiyalari qaysi turdagi ma'lumotlar bilan ishlaydi?
+A) Faqat sonli
+B) Sana va vaqt ma'lumotlari bilan
+C) Faqat matnli
+D) Faqat mantiqiy
+Javob: B
+104. IIf funksiyasida nechta argument bo'ladi?
+A) 1 ta
+B) 2 ta
+C) 3 ta (shart, rost_qiymat, yolg'on_qiymat)
+D) 4 ta
+Javob: C
+105. Access da agregat funksiya natijasi odatda qanday nomlanadi?
+A) Result
+B) 'Выражение1' yoki siz bergan nom
+C) Field1
+D) Column1
+Javob: B
+106. SQL tilida funksiyalarni to'g'ri qo'llashning asosiy afzalligi nima?
+A) Jadvallarni o'chirish
+B) Ma'lumotlar bazasi bilan ishlashni qulay, samarali va optimallashtirish
+C) Foydalanuvchi huquqlarini boshqarish
+D) Tranzaktsiyalarni bekor qilish
+Javob: B
