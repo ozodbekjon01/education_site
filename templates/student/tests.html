@@ -2,148 +2,153 @@
 {% block title %}Testlar{% endblock %}
 
 {% block content %}
-
 <style>
-
-.test-list{
-    max-width:900px;
-    margin:auto;
-    padding:20px;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: var(--card-bg);color: var(--text-color); /* matn oq rangda */
+.test-list-container {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 0 16px;
 }
 
-.test-list h2{
-    color:#3b82f6;
+.page-heading {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+    color: var(--text-color);
 }
 
-/* TEST ITEM */
-
-.test-item{
-    background:#2a2a2a; /* qoramtir kartalar */
-    padding:22px;
-    margin-bottom:18px;
-    border-radius:12px;
-    box-shadow:0 4px 14px rgba(0,0,0,0.6);
-    transition:0.2s;
-    color:#f5f5f5;
-    background: var(--card-bg);color: var(--text-color);
+.test-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    padding: 24px;
+    margin-bottom: 20px;
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
-.test-item:hover{
-    transform:translateY(-2px);
-    box-shadow:0 6px 20px rgba(0,0,0,0.8);
+.test-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--primary);
 }
 
-.test-item h3{
-    margin-top:0;
-    margin-bottom:8px;
-    color:#3b82f6;
+.test-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
 }
 
-.test-item p{
-    margin:4px 0;
-    color:#d1d5db;
-    font-size:14px;
-    background: var(--card-bg);color: var(--text-color);
+.test-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin: 0;
 }
 
-/* Buttons */
-
-.button{
-    background:#3b82f6;
-    color:white;
-    padding:10px 16px;
-    border-radius:8px;
-    text-decoration:none;
-    display:inline-block;
-    margin-top:10px;
-    font-weight:500;
-    transition:0.2s;
+.test-meta {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 16px;
+    font-size: 0.92rem;
+    color: var(--text-muted);
 }
 
-.button:hover{
-    background:#2563eb;
-    transform:scale(1.05);
+.test-meta span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
-/* Statuses */
-
-.passed{
-    color:#22c55e; /* yashil qoramtirga mos */
-    font-weight:600;
+.test-status-box {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--card-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
 }
 
-.failed{
-    color:#ef4444; /* qizil qoramtirga mos */
-    font-weight:600;
+.status-badge {
+    font-size: 0.95rem;
+    font-weight: 600;
 }
 
-/* MOBILE */
+.status-badge.passed { color: #16a34a; }
+.status-badge.failed { color: #dc2626; }
+.status-badge.unattempted { color: var(--text-muted); }
 
-@media(max-width:768px){
-    .test-item{
-        padding:18px;
+.test-btn {
+    background: var(--primary);
+    color: #ffffff;
+    padding: 9px 22px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.92rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.test-btn:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+}
+
+@media(max-width:768px) {
+    .test-card {
+        padding: 18px;
     }
-
-    .button{
-        width:100%;
-        text-align:center;
+    .test-status-box {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .test-btn {
+        justify-content: center;
+        text-align: center;
     }
 }
-
 </style>
 
+<div class="test-list-container">
+    <h1 class="page-heading">Mavjud Testlar Ro‘yxati</h1>
 
-<div class="test-list">
+    {% for t in tests %}
+    <div class="test-card">
+        <div class="test-card-header">
+            <h3 class="test-title">{{ t['name'] }}</h3>
+        </div>
 
-<h2>Testlar ro'yxati</h2>
+        <div class="test-meta">
+            <span><i class="fa-regular fa-clock"></i> Vaqt: {{ t['time'] }} minut</span>
+            <span><i class="fa-solid fa-bullseye"></i> O‘tish bali: {{ t['min_score'] }}%</span>
+        </div>
 
-{% for t in tests %}
-
-<div class="test-item">
-
-<h3>{{ t['name'] }}</h3>
-
-<p>Vaqt: {{ t['time'] }} minut</p>
-<p>Minimal ball: {{ t['min_score'] }}%</p>
-
-{% if test_results.get(t['id']) %}
-
-{% set res = test_results[t['id']] %}
-
-<p>Sizning oxirgi natijangiz: <b>{{ res['score'] }}%</b></p>
-
-{% if res['score'] >= t['min_score'] %}
-
-<p class="passed">Testdan o'tdingiz ✅</p>
-
-{% else %}
-
-<p class="failed">Minimal ballga yetmadingiz ❌</p>
-
-<a class="button"
-href="{{ url_for('student.start_test', test_id=t['id']) }}">
-Qayta topshirish
-</a>
-
-{% endif %}
-
-{% else %}
-
-<p>Siz hali test ishlamagansiz</p>
-
-{% endif %}
-
-<a class="button"
-href="{{ url_for('student.start_test', test_id=t['id']) }}">
-Testni boshlash
-</a>
-
+        <div class="test-status-box">
+            {% if test_results.get(t['id']) %}
+                {% set res = test_results[t['id']] %}
+                <div>
+                    Natija: <b>{{ res['score'] }}%</b> 
+                    {% if res['score'] >= t['min_score'] %}
+                        <span class="status-badge passed">✅ O‘tdingiz</span>
+                    {% else %}
+                        <span class="status-badge failed">❌ Yetarli emas</span>
+                    {% endif %}
+                </div>
+                <a class="test-btn" href="{{ url_for('student.start_test', test_id=t['id']) }}">
+                    <i class="fa-solid fa-rotate-right"></i> Qayta topshirish
+                </a>
+            {% else %}
+                <div class="status-badge unattempted">Hali topshirilmagan</div>
+                <a class="test-btn" href="{{ url_for('student.start_test', test_id=t['id']) }}">
+                    <i class="fa-solid fa-play"></i> Testni boshlash
+                </a>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
 </div>
-
-{% endfor %}
-
-</div>
-
 {% endblock %}

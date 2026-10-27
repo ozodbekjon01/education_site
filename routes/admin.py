@@ -852,26 +852,47 @@ def test_attempts(test_id):
 
 
 
-@bp.route("/tests/<int:test_id>/delete")
+@bp.route("/tests/<int:test_id>/delete", methods=["GET", "POST"])
 @admin_required
 def delete_test(test_id):
-
     conn = get_db()
     c = conn.cursor()
 
-    # Test mavjudligini tekshirish
-    test = c.execute("SELECT id FROM tests WHERE id = ?", (test_id,)).fetchone()
-    if not test:
+    try:
+        # Test mavjudligini tekshirish
+        test = c.execute("SELECT id, name FROM tests WHERE id = ?", (test_id,)).fetchone()
+        if not test:
+            conn.close()
+            flash("Test topilmadi ❌", "error")
+            return redirect(url_for("admin.tests"))
+
+        # 1. Mavzular (topics) dagi test_id bog'liqligini tozalash
+        c.execute("UPDATE topics SET test_id = NULL WHERE test_id = ?", (test_id,))
+
+        # 2. Ushbu testga tegishli savollarning javoblarini (answers) tozalash
+        c.execute("""
+            DELETE FROM answers 
+            WHERE question_id IN (SELECT id FROM questions WHERE test_id = ?)
+        """, (test_id,))
+
+        # 3. Ushbu test savollarini (questions) o'chirish
+        c.execute("DELETE FROM questions WHERE test_id = ?", (test_id,))
+
+        # 4. Ushbu test bo'yicha imtihon natijalarini (exams) o'chirish
+        c.execute("DELETE FROM exams WHERE test_id = ?", (test_id,))
+
+        # 5. Testning o'zini o'chirish
+        c.execute("DELETE FROM tests WHERE id = ?", (test_id,))
+
+        conn.commit()
+        flash(f"Test #{test_id} ({test[1]}) va barcha savollari muvaffaqiyatli o‘chirildi ✅", "success")
+    except Exception as e:
+        conn.rollback()
+        flash(f"Testni o'chirishda xatolik yuz berdi: {str(e)} ❌", "error")
+    finally:
         conn.close()
-        abort(404)
 
-    # O‘chirish
-    c.execute("DELETE FROM tests WHERE id = ?", (test_id,))
-    conn.commit()
-    conn.close()
-
-    flash("Test o‘chirildi ✅", "success")
-    return redirect("/admin/tests")
+    return redirect(url_for("admin.tests"))
 
 
     
@@ -1192,8 +1213,8 @@ def delete_question(question_id):
         conn.close()
         abort(404)
 
-    # Savolga bog‘liq variantlarni o‘chirish (CASCADE ishlasa bu qadam shart emas)
-    # c.execute("DELETE FROM answers WHERE question_id = ?", (question_id,))
+    # Savolga bog‘liq variantlarni o‘chirish
+    c.execute("DELETE FROM answers WHERE question_id = ?", (question_id,))
 
     # Savolni o‘chirish
     c.execute("DELETE FROM questions WHERE id = ?", (question_id,))
@@ -1488,8 +1509,142 @@ def profile():
     conn.close()
 
     return render_template("admin/profile.html", admin=admin)
-    
-    
+
+
+# ================= AI SETTINGS & GROQ API KEYS =================
+@bp.route("/ai-settings", methods=["GET"])
+@admin_required
+def ai_settings():
+    conn = get_db()
+    conn.row_factory = sqlite3.Row
+    c = conn.cursor()
+    c.execute("SELECT * FROM ai_api_keys ORDER BY id DESC")
+    keys = c.fetchall()
+    conn.close()
+    return render_template("admin/ai_settings.html", keys=keys)
+
+
+@bp.route("/ai-settings/add", methods=["POST"])
+@admin_required
+def ai_settings_add():
+    title = request.form.get("title", "").strip()
+    provider = request.form.get("provider", "groq").strip()
+    api_key = request.form.get("api_key", "").strip()
+    model_name = request.form.get("model_name", "llama-3.3-70b-versatile").strip()
+    is_active = 1 if request.form.get("is_active") == "1" else 0
+
+    if not title or not api_key:
+        flash("Sarlavha va API kalit maydoni to'ldirilishi shart!", "error")
+        return redirect(url_for("admin.ai_settings"))
+
+    conn = get_db()
+    c = conn.cursor()
+    c.execute(
+        "INSERT INTO ai_api_keys (title, provider, api_key, model_name, is_active) VALUES (?, ?, ?, ?, ?)",
+        (title, provider, api_key, model_name, is_active)
+    )
+    conn.commit()
+    conn.close()
+    flash("Yangi AI API kaliti muvaffaqiyatli qo'shildi! ✅", "success")
+    return redirect(url_for("admin.ai_settings"))
+
+
+@bp.route("/ai-settings/edit/<int:key_id>", methods=["POST"])
+@admin_required
+def ai_settings_edit(key_id):
+    title = request.form.get("title", "").strip()
+    provider = request.form.get("provider", "groq").strip()
+    api_key = request.form.get("api_key", "").strip()
+    model_name = request.form.get("model_name", "llama-3.3-70b-versatile").strip()
+    is_active = 1 if request.form.get("is_active") == "1" else 0
+
+    conn = get_db()
+    c = conn.cursor()
+    if api_key:
+        c.execute(
+            "UPDATE ai_api_keys SET title=?, provider=?, api_key=?, model_name=?, is_active=? WHERE id=?",
+            (title, provider, api_key, model_name, is_active, key_id)
+        )
+    else:
+        c.execute(
+            "UPDATE ai_api_keys SET title=?, provider=?, model_name=?, is_active=? WHERE id=?",
+            (title, provider, model_name, is_active, key_id)
+        )
+    conn.commit()
+    conn.close()
+    flash("AI kalit ma'lumotlari yangilandi! ✅", "success")
+    return redirect(url_for("admin.ai_settings"))
+
+
+@bp.route("/ai-settings/toggle/<int:key_id>", methods=["POST"])
+@admin_required
+def ai_settings_toggle(key_id):
+    conn = get_db()
+    c = conn.cursor()
+    c.execute("UPDATE ai_api_keys SET is_active = (1 - is_active) WHERE id=?", (key_id,))
+    conn.commit()
+    conn.close()
+    return redirect(url_for("admin.ai_settings"))
+
+
+@bp.route("/ai-settings/delete/<int:key_id>", methods=["POST", "GET"])
+@admin_required
+def ai_settings_delete(key_id):
+    conn = get_db()
+    c = conn.cursor()
+    c.execute("DELETE FROM ai_api_keys WHERE id=?", (key_id,))
+    conn.commit()
+    conn.close()
+    flash("API kalit o'chirildi!", "info")
+    return redirect(url_for("admin.ai_settings"))
+
+
+@bp.route("/ai-settings/test/<int:key_id>", methods=["POST"])
+@admin_required
+def ai_settings_test(key_id):
+    import urllib.request
+    import json
+    import time
+
+    conn = get_db()
+    conn.row_factory = sqlite3.Row
+    c = conn.cursor()
+    c.execute("SELECT * FROM ai_api_keys WHERE id=?", (key_id,))
+    row = c.fetchone()
+    conn.close()
+
+    if not row:
+        return {"success": False, "error": "Kalit topilmadi"}
+
+    api_key = row["api_key"]
+    model_name = row["model_name"]
+
+    start = time.time()
+    try:
+        url = "https://api.groq.com/openai/v1/chat/completions"
+        headers = {
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json"
+        }
+        body = json.dumps({
+            "model": model_name,
+            "messages": [{"role": "user", "content": "Salom, 1 ta so'z bilan javob ber: Aloqa."}],
+            "max_tokens": 10
+        }).encode("utf-8")
+
+        req = urllib.request.Request(url, data=body, headers=headers, method="POST")
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+            latency_ms = round((time.time() - start) * 1000)
+            ai_reply = data["choices"][0]["message"]["content"].strip()
+            return {
+                "success": True,
+                "latency_ms": latency_ms,
+                "model": model_name,
+                "reply": ai_reply
+            }
+    except Exception as e:
+        return {"success": False, "error": str(e)}
 
 
 

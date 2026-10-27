@@ -3,240 +3,163 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-<title>{% block title %}{% endblock %}</title>
+    <!-- Favicon & Brand Icons -->
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon-16x16.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+<title>{% block title %}{% endblock %} - Ta'lim Platformasi</title>
 
 <style>
-
 :root {
-    --bg-color: #ffffff;
-    --text-color: #000000;
-    --card-bg: #f3f4f6;
-    --nav-bg: rgba(255,255,255,0.8);
-}
-
-/* --- Body & Background --- */
-body {
-    margin: 0;
-    font-family: 'Inter', sans-serif;
-    background: linear-gradient(135deg, #0f111a 0%, #1c1f2a 100%);
-    color: #e5e7eb;
-    min-height: 100vh;
-}
-
-body {
-    background: var(--bg-color);
+    --bg-color: #f8fafc;
+    --text-color: #0f172a;
+    --text-muted: #64748b;
+    --card-bg: #ffffff;
+    --card-border: #e2e8f0;
+    --nav-bg: rgba(255, 255, 255, 0.85);
+    --primary: #4f46e5;
+    --primary-hover: #4338ca;
+    --primary-light: #eef2ff;
+    --accent: #2563eb;
+    --shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
 }
 
 body.dark {
-    --bg-color: #0f111a;
-    --text-color: #e5e7eb;
-    --card-bg: #1f2233;
-    --nav-bg: rgba(110, 2, 235, 0.41);
+    --bg-color: #0f172a;
+    --text-color: #f8fafc;
+    --text-muted: #94a3b8;
+    --card-bg: #1e293b;
+    --card-border: #334155;
+    --nav-bg: rgba(15, 23, 42, 0.85);
+    --primary: #6366f1;
+    --primary-hover: #818cf8;
+    --primary-light: rgba(99, 102, 241, 0.15);
+    --accent: #38bdf8;
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
-/* foydalanish */
+/* ========================================================= */
+/* GOOGLE TRANSLATE BANNER & GAP SUPPRESSION (100% YASHIRISH) */
+/* ========================================================= */
+.goog-te-banner-frame.skiptranslate,
+.goog-te-banner-frame,
+iframe.goog-te-banner-frame,
+iframe.skiptranslate,
+#goog-gt-tt,
+.goog-te-balloon-frame,
+.goog-tooltip,
+.goog-tooltip:hover {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    height: 0 !important;
+    width: 0 !important;
+    border: none !important;
+    pointer-events: none !important;
+}
+
 body {
-    background: var(--bg-color);
-    color: var(--text-color);
+    top: 0px !important;
+    position: static !important;
 }
 
+.goog-text-highlight {
+    background: none !important;
+    box-shadow: none !important;
+}
+
+#google_translate_element,
+.goog-te-gadget {
+    display: none !important;
+}
+
+/* --- Base Typography & Body --- */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.contentbar {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- Top Navbar --- */
 nav {
     background: var(--nav-bg);
-}
-
-.feature-card {
-    background: var(--card-bg);
-}
-
-
-
-
-/* --- Navbar --- */
-nav {
-    border-radius: 20px;
-    padding: 0px 30px;
+    border-bottom: 1px solid var(--card-border);
+    padding: 12px 28px;
     display: flex;
     position: sticky;
-    top: 10px;
+    top: 0;
     justify-content: space-between;
     align-items: center;
     z-index: 1000;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: var(--shadow);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.logo-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 700;
+    font-size: 1.15rem;
+}
+
+.logo-icon-svg {
+    width: 36px;
+    height: 36px;
+    color: var(--primary);
 }
 
 .navigation {
     display: flex;
-    gap: 12px;
-}
-
-
-#google_translate_element {
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-.goog-te-gadget {
-    color: transparent !important;
-}
-
-.goog-te-combo {
-    padding: 6px;
-    border-radius: 6px;
-    border: none;
-    background: var(--card-bg);
-    color: var(--text-color);
-}
-
-
-.theme-toggle {
-    width: 60px;
-    height: 30px;
-    background: var(--bg-color);
-    border-radius: 50px;
-    position: relative;
-    cursor: pointer;
-    display: flex;
     align-items: center;
-    padding: 3px;
-    transition: all 0.3s ease;
-    box-shadow: inset 0 0 5px rgba(0,0,0,0.4);
-}
-
-.toggle-circle {
-    width: 24px;
-    height: 24px;
-    background: #ff9900;
-    border-radius: 50%;
-    position: absolute;
-    left: 3px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-}
-
-.toggle-circle i {
-    position: absolute;
-    font-size: 12px;
-    color: white;
-    transition: opacity 0.3s ease;
-}
-
-.toggle-circle .fa-sun {
-    opacity: 0;
-}
-
-/* DARK MODE */
-body.dark .theme-toggle {
-    background: var(--bg-color);
-}
-
-body.dark .toggle-circle {
-    left: 33px;
-    background: linear-gradient(135deg, #0e41f8, #0121d4);
-}
-
-body.dark .fa-sun {
-    opacity: 1;
-}
-
-body.dark .fa-moon {
-    opacity: 0;
+    gap: 8px;
 }
 
 .navbut {
     text-decoration: none;
-    padding: 10px 18px;
-    background: rgba(30, 40, 95, 0.15);
+    padding: 8px 14px;
+    background: transparent;
     border-radius: 8px;
-    color: white;
+    color: var(--text-color);
     font-weight: 600;
-    display: flex;
+    font-size: 0.92rem;
+    display: inline-flex;
     align-items: center;
     gap: 8px;
-    transition: all 0.3s ease;
-    box-sizing: border-box;
-    background: var(--card-bg);color: var(--text-color);
-
+    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
-.navbut:hover {
-    background: rgba(161, 195, 250, 0.3);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+.navbut:hover, .navbut.active {
+    background: var(--card-bg);
+    color: var(--primary);
+    transform: translateY(-1px);
 }
 
-.icon {
-    height: 50px;
-}
-
-/* --- Footer --- */
-.footer {
-    background: #0f111a;
-    color: #cbd5e1;
-    padding: 35px 10px;
-    margin-top: 50px;
-    text-align: center;
-    border-top: 2px solid #3b82f6;
-}
-
-.footer-links {
-    display: flex;
-    justify-content: center;
-    gap: 25px;
-    flex-wrap: wrap;
-    margin-bottom: 15px;
-}
-
-.footer-links a {
-    color: #cbd5e1;
-    text-decoration: none;
-    font-size: 15px;
+.nav-actions {
     display: flex;
     align-items: center;
-    gap: 6px;
-    transition: color 0.3s;
+    gap: 12px;
 }
 
-.footer-links a:hover {
-    color: #3b82f6;
-}
-
-.footer-copy {
-    font-size: 13px;
-    opacity: 0.8;
-}
-
-/* --- Mobile Bottom Navbar --- */
-.bottom-nav {
-    display: none;
-}
-
-/* Default (LIGHT MODE) */
-.toggle-circle .fa-sun {
-    opacity: 1;
-}
-
-.toggle-circle .fa-moon {
-    opacity: 0;
-}
-
-/* DARK MODE */
-body.dark .fa-sun {
-    opacity: 0;
-}
-
-body.dark .fa-moon {
-    opacity: 1;
-}
-
-
-
+/* Language Selector */
 .lang-selector {
     position: relative;
     user-select: none;
@@ -245,60 +168,157 @@ body.dark .fa-moon {
 .lang-current {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     background: var(--card-bg);
-    padding: 8px 14px;
-    border-radius: 10px;
+    border: 1px solid var(--card-border);
+    padding: 7px 12px;
+    border-radius: 8px;
     cursor: pointer;
     font-weight: 600;
-    transition: 0.3s;
+    font-size: 0.85rem;
+    color: var(--text-color);
+    transition: border-color 0.2s ease;
 }
 
 .lang-current:hover {
-    background: rgba(100,100,255,0.2);
+    border-color: var(--primary);
 }
 
 .lang-dropdown {
     position: absolute;
-    top: 45px;
+    top: 42px;
     right: 0;
     background: var(--card-bg);
+    border: 1px solid var(--card-border);
     border-radius: 10px;
     overflow: hidden;
     display: none;
     flex-direction: column;
-    min-width: 160px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    min-width: 140px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
     z-index: 999;
 }
 
 .lang-dropdown div {
-    padding: 10px 14px;
+    padding: 9px 14px;
     cursor: pointer;
-    transition: 0.2s;
+    font-size: 0.88rem;
+    color: var(--text-color);
+    transition: background 0.15s ease;
 }
 
 .lang-dropdown div:hover {
-    background: rgba(100,100,255,0.2);
+    background: rgba(59, 130, 246, 0.1);
+    color: var(--primary);
 }
 
-
-.goog-te-banner-frame.skiptranslate {
-    display: none !important;
+/* Theme Toggle Button */
+.theme-toggle {
+    width: 52px;
+    height: 28px;
+    background: var(--card-border);
+    border-radius: 50px;
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 3px;
+    transition: background 0.3s ease;
 }
 
-body {
-    top: 0px !important;
+.toggle-circle {
+    width: 22px;
+    height: 22px;
+    background: #f59e0b;
+    border-radius: 50%;
+    position: absolute;
+    left: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease;
 }
 
-.goog-te-gadget {
-    display: none !important;
+.toggle-circle i {
+    position: absolute;
+    font-size: 11px;
+    color: white;
 }
 
-/* --- Responsive --- */
-@media (max-width:1100px){
+.toggle-circle .fa-moon { opacity: 0; }
+.toggle-circle .fa-sun { opacity: 1; }
+
+body.dark .theme-toggle {
+    background: #334155;
+}
+
+body.dark .toggle-circle {
+    transform: translateX(24px);
+    background: #3b82f6;
+}
+
+body.dark .toggle-circle .fa-moon { opacity: 1; }
+body.dark .toggle-circle .fa-sun { opacity: 0; }
+
+/* Main Content Area */
+.content {
+    flex: 1;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+/* Footer */
+.footer {
+    background: var(--card-bg);
+    border-top: 1px solid var(--card-border);
+    color: var(--text-muted);
+    padding: 24px 16px;
+    margin-top: 40px;
+    text-align: center;
+    transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+.footer-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+    color: var(--primary);
+}
+
+.footer-copy {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+/* Mobile Bottom Navigation */
+.bottom-nav {
+    display: none;
+}
+
+@media (max-width: 900px) {
     .navigation {
         display: none;
+    }
+
+    nav {
+        padding: 10px 16px;
     }
 
     .bottom-nav {
@@ -310,87 +330,164 @@ body {
         left: 0;
         width: 100%;
         height: 60px;
-        background: rgba(15,17,26,0.98);
-        border-top: 1px solid #3b82f6;
-        box-shadow: 0 -2px 10px rgba(0,0,0,0.3);
+        background: var(--card-bg);
+        border-top: 1px solid var(--card-border);
+        box-shadow: 0 -4px 15px rgba(0,0,0,0.08);
         z-index: 1000;
-        backdrop-filter: blur(8px);
+        backdrop-filter: blur(10px);
     }
 
     .bottom-nav a {
         text-decoration: none;
-        color: #e5e7eb;
-        font-size: 12px;
+        color: var(--text-muted);
+        font-size: 11px;
         display: flex;
         flex-direction: column;
         align-items: center;
-        transition: color 0.3s, transform 0.3s;
+        gap: 4px;
+        transition: color 0.2s ease, transform 0.2s ease;
     }
 
-    .bottom-nav a:hover {
-        color: #3b82f6;
-        transform: translateY(-3px);
+    .bottom-nav a:hover, .bottom-nav a.active {
+        color: var(--primary);
+        transform: translateY(-2px);
     }
 
     .bottom-nav i {
-        font-size: 20px;
+        font-size: 18px;
     }
 
     .content {
-        padding-bottom: 80px;
+        padding-bottom: 75px;
     }
 }
 
-/* --- Smooth Transition for All Elements --- */
-* {
-    transition: all 0.3s ease;
-}
+/* SQL Lab Fallbacks for Grid and Gap */
+.sql-lab-container > * + * { margin-top: 16px; }
+.lab-main-studio { display: flex !important; flex-wrap: wrap; margin: -8px; }
+.lab-main-studio > :nth-child(1) { flex: 1 1 240px; margin: 8px; }
+.lab-main-studio > :nth-child(2) { flex: 2 1 400px; margin: 8px; }
+.lab-main-studio > :nth-child(3) { flex: 1 1 300px; margin: 8px; }
+.domain-banner { margin: -5px; }
+.domain-banner > * { margin: 5px; }
+.domain-info > * + * { margin-left: 10px; }
+.lab-header-bar { margin: -6px; }
+.lab-header-bar > * { margin: 6px; }
+.lab-title-box > * + * { margin-left: 12px; }
+.lab-controls-group { margin: -4px; }
+.lab-controls-group > * { margin: 4px; }
+.btn-lab > i { margin-right: 6px; }
+.panel-header-title > i { margin-right: 8px; }
+.editor-output-panel > * + * { margin-top: 14px; }
+.challenge-header { margin: -4px; }
+.challenge-header > * { margin: 4px; }
+.task-badge > i { margin-right: 4px; }
+.challenge-meta-row > * + * { margin-left: 10px; }
+.hint-toggle-btn > i { margin-right: 6px; }
+.submit-solution-btn > i { margin-right: 6px; }
+.ai-helper-btn > i { margin-right: 6px; }
+.ai-check-btn > i { margin-right: 6px; }
+
 </style>
 
-</head>
+<style>
+/* Fallback for older browsers without gap support */
+.flex-gap-fallback { margin: -8px; }
+.flex-gap-fallback > * { margin: 8px; }
+.bottom-nav a i { margin-bottom: 4px; }
+.navbut i { margin-right: 10px; }
+.logo-brand img { margin-right: 12px; }
+.courses-grid { display: flex !important; flex-wrap: wrap; margin: -12px; }
+.courses-grid > * { flex: 1 1 300px; margin: 12px; max-width: calc(100% - 24px); }
+.dash-grid { display: flex !important; flex-wrap: wrap; margin: -10px; }
+.dash-grid > * { flex: 1 1 250px; margin: 10px; }
+</style>
+<script>
+window.addEventListener("DOMContentLoaded", function() {
+    var flex = document.createElement("div");
+    flex.style.display = "flex";
+    flex.style.flexDirection = "column";
+    flex.style.rowGap = "1px";
+    flex.appendChild(document.createElement("div"));
+    flex.appendChild(document.createElement("div"));
+    document.body.appendChild(flex);
+    var isSupported = flex.scrollHeight === 1;
+    flex.parentNode.removeChild(flex);
 
+    if (!isSupported) {
+        document.body.classList.add("no-flex-gap");
+        // Convert all elements with grid/gap to fallback classes if needed
+        document.querySelectorAll('.courses-grid, .dash-grid').forEach(function(el) {
+            // Already handled by CSS overrides above since we use !important or rely on it
+        });
+        
+        // Add fallback margin to flex containers
+        var sheets = document.styleSheets;
+        for(var i=0; i<sheets.length; i++) {
+            try {
+                var rules = sheets[i].cssRules || sheets[i].rules;
+                if(!rules) continue;
+                for(var j=0; j<rules.length; j++) {
+                    if (rules[j].style && rules[j].style.display === 'flex' && rules[j].style.gap) {
+                        var gap = parseInt(rules[j].style.gap);
+                        if (gap) {
+                            sheets[i].insertRule(rules[j].selectorText + ' > * { margin: ' + (gap/2) + 'px; }', rules.length);
+                            rules[j].style.margin = '-' + (gap/2) + 'px';
+                        }
+                    }
+                }
+            } catch(e) {}
+        }
+    }
+});
+</script>
+
+</head>
 <body>
 
 <div class="contentbar">
 
 <nav>
-    <div style="display: flex; gap: 15px; align-items: center;">
-        <img class="icon" src="https://static.vecteezy.com/system/resources/thumbnails/036/904/596/small/graduation-hat-flat-icon-education-symbol-class-of-sign-for-graphic-design-logo-website-social-media-mobile-app-ui-illustration-png.png" alt="Logo">
-        
-    </div>
-
-    <div style="display: flex; gap: 12px; align-items: center;">
-    <div class="navigation">
-        <a href="/student/dashboard"><button class="navbut"><i class="fa-solid fa-house"></i> Bosh sahifa</button></a>
-        <a href="/student/courses"><button class="navbut"><i class="fa-solid fa-book-open-reader"></i> Kurslar</button></a>
-        <a href="/student/tests"><button class="navbut"><i class="fa-solid fa-clipboard-question"></i> Testlar</button></a>
-        <a href="/student/achievements"><button class="navbut"><i class="fa-solid fa-medal"></i> Yutuqlar</button></a>
-        <a href="/student/forum"><button class="navbut"><i class="fa-solid fa-comment"></i> Forum</button></a>
-        <a href="/student/resources"><button class="navbut"><i class="fa-solid fa-folder-open"></i> Resurslar</button></a>
-        <a href="/student/profile"><button class="navbut"><i class="fa-solid fa-circle-user"></i> Profil</button></a>
-    </div>
-    <div class="lang-selector">
-    <div class="lang-current" onclick="toggleLangMenu()">
-        <i class="fa-solid fa-globe"></i>
-        <span id="current-lang">UZ</span>
-        <i class="fa-solid fa-chevron-down"></i>
-    </div>
-
-    <div class="lang-dropdown" id="lang-menu">
-        <div onclick="changeLang('uz')">🇺🇿 O‘zbek</div>
-        <div onclick="changeLang('en')">🇬🇧 English</div>
-        <div onclick="changeLang('ru')">🇷🇺 Русский</div>
-    </div>
-</div>
-
-<!-- Google translate hidden -->
-<div id="google_translate_element" style="display:none;"></div>
-    <div class="theme-toggle" onclick="toggleTheme()">
-        <div class="toggle-circle">
-            <i class="fa-solid fa-moon"></i>
-            <i class="fa-solid fa-sun"></i>
+    <a href="/student/dashboard" class="logo-brand">
+        <div style="display: flex; align-items: center;  ">
+            <img src="{{ url_for('static', filename='logo.svg') }}" alt="Logo" style="height: 42px; width: 42px; border-radius: 10px; object-fit: contain; box-shadow: 0 2px 10px rgba(79, 70, 229, 0.25);">
+            <span style="font-weight: 700; font-size: 1.3rem; color: var(--primary); letter-spacing: -0.02em;">DigitalPlatform</span>
         </div>
+    </a>
+
+    <div class="navigation">
+        <a href="/student/dashboard" class="navbut {% if request.path == '/student/dashboard' %}active{% endif %}"><i class="fa-solid fa-house"></i> Bosh sahifa</a>
+        <a href="/student/courses" class="navbut {% if request.path == '/student/courses' %}active{% endif %}"><i class="fa-solid fa-book-open-reader"></i> Kurslar</a>
+        <a href="/student/sql-lab" class="navbut {% if request.path == '/student/sql-lab' %}active{% endif %}"><i class="fa-solid fa-terminal"></i> SQL Lab</a>
+        <a href="/student/achievements" class="navbut {% if request.path == '/student/achievements' %}active{% endif %}"><i class="fa-solid fa-medal"></i> Yutuqlar</a>
+        <a href="/student/forum" class="navbut {% if request.path == '/student/forum' %}active{% endif %}"><i class="fa-solid fa-comment"></i> Forum</a>
+        <a href="/student/resources" class="navbut {% if request.path == '/student/resources' %}active{% endif %}"><i class="fa-solid fa-folder-open"></i> Resurslar</a>
+        <a href="/student/profile" class="navbut {% if request.path == '/student/profile' %}active{% endif %}"><i class="fa-solid fa-circle-user"></i> Profil</a>
     </div>
+
+    <div class="nav-actions">
+        <div class="lang-selector">
+            <div class="lang-current" onclick="toggleLangMenu()">
+                <i class="fa-solid fa-globe"></i>
+                <span id="current-lang">UZ</span>
+                <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i>
+            </div>
+
+            <div class="lang-dropdown" id="lang-menu">
+                <div onclick="changeLang('uz')">🇺🇿 O‘zbek</div>
+                <div onclick="changeLang('en')">🇬🇧 English</div>
+                <div onclick="changeLang('ru')">🇷🇺 Русский</div>
+            </div>
+        </div>
+
+        <div id="google_translate_element" style="display:none;"></div>
+
+        <div class="theme-toggle" onclick="toggleTheme()" title="Mavzuni almashtirish">
+            <div class="toggle-circle">
+                <i class="fa-solid fa-sun"></i>
+                <i class="fa-solid fa-moon"></i>
+            </div>
+        </div>
     </div>
 </nav>
 
@@ -400,144 +497,37 @@ body {
 
 </div>
 
-<footer class="footer" style="background: linear-gradient(135deg, #1f2937 0%, #4b5563 100%);">
+<footer class="footer">
     <div class="footer-links">
-        <a href="https://youtube.com" target="_blank" style="color: #FF0000;">
-            <i class="fa-brands fa-youtube" style="font-size: 20px;"></i> YouTube
-        </a>
-        <a href="https://t.me/your_channel" target="_blank" style="color: #05c6f1;">
-            <i class="fa-brands fa-telegram" style="font-size: 20px;"></i> Telegram
-        </a>
-        <a href="https://instagram.com" target="_blank" style="color: #E1306C;">
-            <i class="fa-brands fa-instagram" style="font-size: 20px;"></i> Instagram
-        </a>
+        <a href="https://t.me" target="_blank"><i class="fa-brands fa-telegram"></i> Telegram</a>
+        <a href="https://youtube.com" target="_blank"><i class="fa-brands fa-youtube"></i> YouTube</a>
+        <a href="https://instagram.com" target="_blank"><i class="fa-brands fa-instagram"></i> Instagram</a>
     </div>
+    <div class="footer-copy">© 2026 DigitalPlatform.</div>
 </footer>
 
 <div class="bottom-nav">
-    <a href="/student/dashboard"><i class="fa-solid fa-house"></i><span>Bosh sahifa</span></a>
-    <a href="/student/courses"><i class="fa-solid fa-book-open-reader"></i><span>Kurslar</span></a>
-    <a href="/student/tests"><i class="fa-solid fa-clipboard-question"></i><span>Testlar</span></a>
-    <a href="/student/achievements"><i class="fa-solid fa-medal"></i><span>Yutuqlar</span></a>
-    <a href="/student/forum"><i class="fa-solid fa-comment"></i><span>Forum</span></a>
-    <a href="/student/resources"><i class="fa-solid fa-folder-open"></i><span>Resurslar</span></a>
-    <a href="/student/profile"><i class="fa-solid fa-circle-user"></i><span>Profil</span></a>
+    <a href="/student/dashboard" class="{% if request.path == '/student/dashboard' %}active{% endif %}"><i class="fa-solid fa-house"></i><span>Bosh sahifa</span></a>
+    <a href="/student/courses" class="{% if request.path == '/student/courses' %}active{% endif %}"><i class="fa-solid fa-book-open-reader"></i><span>Kurslar</span></a>
+    <a href="/student/sql-lab" class="{% if request.path == '/student/sql-lab' %}active{% endif %}"><i class="fa-solid fa-terminal"></i><span>SQL Lab</span></a>
+    <a href="/student/achievements" class="{% if request.path == '/student/achievements' %}active{% endif %}"><i class="fa-solid fa-medal"></i><span>Yutuqlar</span></a>
+    <a href="/student/forum" class="{% if request.path == '/student/forum' %}active{% endif %}"><i class="fa-solid fa-comment"></i><span>Forum</span></a>
+    <a href="/student/resources" class="{% if request.path == '/student/resources' %}active{% endif %}"><i class="fa-solid fa-folder-open"></i><span>Resurslar</span></a>
+    <a href="/student/profile" class="{% if request.path == '/student/profile' %}active{% endif %}"><i class="fa-solid fa-circle-user"></i><span>Profil</span></a>
 </div>
 
-
 <script>
-
-/* ================= CONFIG ================= */
+/* Theme & Language Handlers */
 const LANG_KEY = "lang";
+const THEME_KEY = "theme";
 
-/* ================= GOOGLE INIT ================= */
-function googleTranslateElementInit() {
-    new google.translate.TranslateElement({
-        pageLanguage: 'uz',
-        includedLanguages: 'uz,en,ru'
-    }, 'google_translate_element');
-}
-
-/* ================= UTILS ================= */
-function getTranslateSelect() {
-    return document.querySelector(".goog-te-combo");
-}
-
-/* ================= LANGUAGE ================= */
-function applyLanguage(lang) {
-    const select = getTranslateSelect();
-    if (!select) return false;
-
-    select.value = lang;
-    select.dispatchEvent(new Event("change"));
-
-    const currentLang = document.getElementById("current-lang");
-    if (currentLang) {
-        currentLang.innerText = lang.toUpperCase();
-    }
-
-    return true;
-}
-
-function changeLang(lang) {
-    localStorage.setItem(LANG_KEY, lang);
-
-    let attempts = 0;
-
-    function tryApply() {
-        if (applyLanguage(lang)) return;
-
-        if (++attempts < 30) {
-            setTimeout(tryApply, 200);
-        }
-    }
-
-    tryApply();
-    closeLangMenu();
-}
-
-/* ================= DROPDOWN ================= */
-function toggleLangMenu() {
-    const menu = document.getElementById("lang-menu");
-    if (!menu) return;
-
-    menu.style.display = menu.style.display === "flex" ? "none" : "flex";
-}
-
-function closeLangMenu() {
-    const menu = document.getElementById("lang-menu");
-    if (menu) menu.style.display = "none";
-}
-
-/* ================= INIT ================= */
-window.addEventListener("load", () => {
-
-    /* ===== LANGUAGE INIT ===== */
-    const savedLang = localStorage.getItem(LANG_KEY) || "uz";
-
-    const currentLang = document.getElementById("current-lang");
-    if (currentLang) {
-        currentLang.innerText = savedLang.toUpperCase();
-    }
-
-    let attempts = 0;
-
-    function waitForTranslate() {
-        if (applyLanguage(savedLang)) return;
-
-        if (++attempts < 30) {
-            setTimeout(waitForTranslate, 200);
-        }
-    }
-
-    waitForTranslate();
-
-    /* ===== CLICK OUTSIDE ===== */
-    document.addEventListener("click", (e) => {
-        const menu = document.getElementById("lang-menu");
-        const btn = document.querySelector(".lang-current");
-
-        if (!menu || !btn) return;
-
-        if (!btn.contains(e.target) && !menu.contains(e.target)) {
-            menu.style.display = "none";
-        }
-    });
-
-    /* ===== THEME INIT ===== */
-    const savedTheme = localStorage.getItem("theme") || "light";
-    setTheme(savedTheme);
-
-});
-
-/* ================= THEME ================= */
 function setTheme(theme) {
     if (theme === "dark") {
         document.body.classList.add("dark");
     } else {
         document.body.classList.remove("dark");
     }
-    localStorage.setItem("theme", theme);
+    localStorage.setItem(THEME_KEY, theme);
 }
 
 function toggleTheme() {
@@ -545,10 +535,75 @@ function toggleTheme() {
     setTheme(isDark ? "light" : "dark");
 }
 
+function toggleLangMenu() {
+    const menu = document.getElementById("lang-menu");
+    if (!menu) return;
+    menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+}
+
+function setGoogleCookie(lang) {
+    document.cookie = "googtrans=/uz/" + lang + "; path=/";
+    document.cookie = "googtrans=/uz/" + lang + "; domain=" + window.location.hostname + "; path=/";
+}
+
+function changeLang(lang) {
+    localStorage.setItem(LANG_KEY, lang);
+    const currentLang = document.getElementById("current-lang");
+    if (currentLang) currentLang.innerText = lang.toUpperCase();
+
+    setGoogleCookie(lang);
+
+    const select = document.querySelector(".goog-te-combo");
+    if (select) {
+        select.value = lang;
+        select.dispatchEvent(new Event("change"));
+    } else {
+        window.location.reload();
+    }
+    
+    const menu = document.getElementById("lang-menu");
+    if (menu) menu.style.display = "none";
+}
+
+document.addEventListener("click", (e) => {
+    const menu = document.getElementById("lang-menu");
+    const btn = document.querySelector(".lang-current");
+    if (!menu || !btn) return;
+    if (!btn.contains(e.target) && !menu.contains(e.target)) {
+        menu.style.display = "none";
+    }
+});
+
+// Periodic suppression to prevent any Google Translate injected banner from showing
+function cleanTranslateBanners() {
+    document.querySelectorAll('.goog-te-banner-frame, iframe.skiptranslate, #goog-gt-tt').forEach(el => {
+        el.style.display = 'none';
+        el.style.visibility = 'hidden';
+    });
+    if (document.body.style.top !== "0px" && document.body.style.top !== "") {
+        document.body.style.top = "0px";
+    }
+}
+setInterval(cleanTranslateBanners, 200);
+
+// Initialize on Load
+window.addEventListener("DOMContentLoaded", () => {
+    const savedTheme = localStorage.getItem(THEME_KEY) || "light";
+    setTheme(savedTheme);
+
+    const savedLang = localStorage.getItem(LANG_KEY) || "uz";
+    const currentLang = document.getElementById("current-lang");
+    if (currentLang) currentLang.innerText = savedLang.toUpperCase();
+});
+
+function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+        pageLanguage: 'uz',
+        includedLanguages: 'uz,en,ru',
+        autoDisplay: false
+    }, 'google_translate_element');
+}
 </script>
-
-<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
-
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async defer></script>
 </body>
 </html>

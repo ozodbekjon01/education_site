@@ -50,33 +50,30 @@ def require_login():
 @bp.route('/dashboard')
 def student_dashboard():
     db = get_db()
+    user_id = session.get("user_id")
 
-    # 🔹 1. Umumiy foydalanuvchilar soni
-    users = db.execute("SELECT COUNT(*) FROM users WHERE role='student'").fetchone()[0]
-
-    # 🔹 2. Kursga yozilganlar (unique userlar)
-    enrolled = db.execute("""
-        SELECT COUNT(DISTINCT user_id) FROM enrollments
-    """).fetchone()[0]
-
-    # 🔹 3. Sertifikat olganlar
-    certified = db.execute("""
-        SELECT COUNT(*) FROM certificates
-    """).fetchone()[0]
-
-    stats = {
-        "users": users,
-        "enrolled": enrolled,
-        "certified": certified
-    }
+    courses = db.execute("""
+        SELECT 
+            co.id,
+            co.name,
+            co.title,
+            co.img,
+            COUNT(DISTINCT t.id) as total_topics,
+            SUM(CASE WHEN s.id IS NOT NULL THEN 1 ELSE 0 END) as topics_done
+        FROM courses co
+        LEFT JOIN chapters ch ON ch.course_id = co.id
+        LEFT JOIN topics t ON t.chapter_id = ch.id
+        LEFT JOIN studies s ON s.topic_id = t.id AND s.user_id = ?
+        GROUP BY co.id
+        ORDER BY co.id ASC
+    """, (user_id,)).fetchall()
 
     return render_template(
         "student/dashboard.html",
-        stats=stats
+        courses=courses
     )
-    
-    
-    
+
+
 @bp.route("/courses")
 def student_courses():
     conn = get_db()
@@ -718,8 +715,8 @@ def achievements():
         SELECT t.id, t.name, t.time
         FROM studies s
         JOIN topics t ON s.topic_id=t.id
-        WHERE s.user_id=? AND s.value='succesfully' AND s.date>=?
-    """, (user_id, seven_days_ago)).fetchall()
+        WHERE s.user_id=? AND s.value='succesfully'
+    """, (user_id,)).fetchall()
 
     total_minutes = sum([t["time"] for t in recent_topics if t["time"]])
     total_topics = len(recent_topics)

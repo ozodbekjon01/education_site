@@ -5,7 +5,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">    
+        <!-- Favicon & Brand Icons -->
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon-16x16.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <title>Admin-{% block title %}{% endblock %}</title>
+
+<style>
+/* Fallback for older browsers without gap support */
+.flex-gap-fallback { margin: -8px; }
+.flex-gap-fallback > * { margin: 8px; }
+.bottom-nav a i { margin-bottom: 4px; }
+.navbut i { margin-right: 10px; }
+.logo-brand img { margin-right: 12px; }
+.courses-grid { display: flex !important; flex-wrap: wrap; margin: -12px; }
+.courses-grid > * { flex: 1 1 300px; margin: 12px; max-width: calc(100% - 24px); }
+.dash-grid { display: flex !important; flex-wrap: wrap; margin: -10px; }
+.dash-grid > * { flex: 1 1 250px; margin: 10px; }
+</style>
+<script>
+window.addEventListener("DOMContentLoaded", function() {
+    var flex = document.createElement("div");
+    flex.style.display = "flex";
+    flex.style.flexDirection = "column";
+    flex.style.rowGap = "1px";
+    flex.appendChild(document.createElement("div"));
+    flex.appendChild(document.createElement("div"));
+    document.body.appendChild(flex);
+    var isSupported = flex.scrollHeight === 1;
+    flex.parentNode.removeChild(flex);
+
+    if (!isSupported) {
+        document.body.classList.add("no-flex-gap");
+        // Convert all elements with grid/gap to fallback classes if needed
+        document.querySelectorAll('.courses-grid, .dash-grid').forEach(function(el) {
+            // Already handled by CSS overrides above since we use !important or rely on it
+        });
+        
+        // Add fallback margin to flex containers
+        var sheets = document.styleSheets;
+        for(var i=0; i<sheets.length; i++) {
+            try {
+                var rules = sheets[i].cssRules || sheets[i].rules;
+                if(!rules) continue;
+                for(var j=0; j<rules.length; j++) {
+                    if (rules[j].style && rules[j].style.display === 'flex' && rules[j].style.gap) {
+                        var gap = parseInt(rules[j].style.gap);
+                        if (gap) {
+                            sheets[i].insertRule(rules[j].selectorText + ' > * { margin: ' + (gap/2) + 'px; }', rules.length);
+                            rules[j].style.margin = '-' + (gap/2) + 'px';
+                        }
+                    }
+                }
+            } catch(e) {}
+        }
+    }
+});
+</script>
+
 </head>
 <body>
 
@@ -14,7 +73,7 @@
 <div class="nav">
     <div>
         <div class="bosh">
-            <img class="icon" src="{{ url_for('static', filename='icons/logo.png') }}" alt="">
+            <img class="icon" src="{{ url_for('static', filename='logo.svg') }}" alt="Logo" style="height: 48px; width: 48px; border-radius: 12px; object-fit: contain; box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);">
             
         </div>
         <hr>
@@ -25,6 +84,7 @@
             <a href="/admin/students"><button class="navbut"> <i class="fa-solid fa-medal"></i> o'quvchilar</button></a>
             <a href="/admin/forum"><button class="navbut"><i class="fa-solid fa-comment"></i> forum</button></a>
             <a href="/admin/resources"><button class="navbut"><i class="fa-solid fa-folder-open"></i> resurslar</button></a>
+            <a href="/admin/ai-settings"><button class="navbut" style="color:#00f0ff;"><i class="fa-solid fa-robot"></i> AI Sozlamalari</button></a>
             <a href="/admin/profile"><button class="navbut"> <i class="fa-solid fa-circle-user"></i> profil</button></a>
         </div>
     </div>

@@ -1,149 +1,803 @@
 {% extends "admin_base.html" %}
-{% block title %}Resurs boshqaruvi{% endblock %}
+{% block title %}Resurslar Boshqaruvi{% endblock %}
 
 {% block content %}
-
 <style>
-
-.container{
-    max-width:900px;
-    margin:auto;
-    padding:20px;
-    color: var(--text);
+.res-container {
+    max-width: 960px;
+    margin: 20px auto;
+    padding: 0 16px;
+    color: var(--text-color, #0f172a);
 }
 
-/* RESOURCE CARD */
-.resource-card{
-    background: var(--white);
-    padding:15px;
-    border-radius:10px;
-    margin-bottom:10px;
-
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-
-    box-shadow:0 6px 20px rgba(0,0,0,0.4);
-    transition:.3s;
+.res-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 12px;
 }
 
-.resource-card:hover{
-    transform: translateY(-2px);
-    box-shadow:0 10px 25px rgba(0,0,0,0.5);
+.res-header h2 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin: 0;
+    color: var(--text-color, #0f172a);
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-/* DELETE BUTTON */
-.delete-btn{
-    background:#ef4444;
-    color:white;
-    padding:6px 12px;
-    border-radius:6px;
-    text-decoration:none;
-    transition:.2s;
+/* UPLOAD CARD */
+.upload-card {
+    background: var(--card-bg, #ffffff);
+    border: 1px solid var(--card-border, #e2e8f0);
+    border-radius: 18px;
+    padding: 26px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
 }
 
-.delete-btn:hover{
-    background:#dc2626;
+.upload-card h3 {
+    margin: 0 0 18px 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--primary, #4f46e5);
 }
 
-/* UPLOAD FORM */
-.upload-form{
-    background: var(--white);
-    padding:20px;
-    border-radius:12px;
-    margin-bottom:20px;
-    box-shadow:0 6px 20px rgba(0,0,0,0.4);
+.form-group {
+    margin-bottom: 16px;
 }
 
-.upload-form input{
-    width:100%;
-    padding:8px;
-    margin-bottom:10px;
-    border-radius:6px;
-    border:1px solid var(--border);
-    background:#020617;
-    color: var(--text);
+.form-group label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.92rem;
+    margin-bottom: 6px;
+    color: var(--text-color, #0f172a);
 }
 
-/* BUTTON */
-.upload-form button{
-    background: var(--primary);
-    color:white;
-    border:none;
-    padding:8px 16px;
-    border-radius:6px;
-    cursor:pointer;
-    transition:.3s;
+.form-control {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1.5px solid var(--card-border, #cbd5e1);
+    background: var(--bg-color, #f8fafc);
+    color: var(--text-color, #0f172a);
+    font-size: 0.98rem;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
 }
 
-.upload-form button:hover{
-    background: var(--primary-light);
+.form-control:focus {
+    outline: none;
+    border-color: var(--primary, #4f46e5);
 }
 
-/* LINK */
-.resource-card a{
-    color: var(--primary);
-    text-decoration:none;
-    margin-right:10px;
+/* File Drop Zone */
+.file-dropzone {
+    border: 2px dashed var(--card-border, #cbd5e1);
+    border-radius: 14px;
+    padding: 24px 16px;
+    text-align: center;
+    background: var(--bg-color, #f8fafc);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    position: relative;
 }
 
-.resource-card a:hover{
-    text-decoration: underline;
+.file-dropzone:hover, .file-dropzone.dragover {
+    border-color: var(--primary, #4f46e5);
+    background: rgba(79, 70, 229, 0.04);
 }
 
+.file-dropzone input[type="file"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.dropzone-icon {
+    font-size: 2.4rem;
+    color: var(--primary, #4f46e5);
+    margin-bottom: 8px;
+}
+
+.dropzone-text {
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--text-color, #0f172a);
+    margin-bottom: 4px;
+}
+
+.dropzone-hint {
+    font-size: 0.82rem;
+    color: var(--text-muted, #64748b);
+}
+
+.selected-file-info {
+    display: none;
+    margin-top: 12px;
+    padding: 10px 14px;
+    background: rgba(79, 70, 229, 0.08);
+    border: 1px solid rgba(79, 70, 229, 0.2);
+    border-radius: 10px;
+    font-weight: 600;
+    color: var(--primary, #4f46e5);
+    font-size: 0.92rem;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* PROGRESS BAR */
+.progress-container {
+    display: none;
+    margin-top: 18px;
+    padding: 16px;
+    background: var(--bg-color, #f8fafc);
+    border: 1px solid var(--card-border, #e2e8f0);
+    border-radius: 12px;
+}
+
+.progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.progress-status {
+    color: var(--primary, #4f46e5);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.progress-percent {
+    font-size: 1.1rem;
+    color: var(--primary, #4f46e5);
+    font-weight: 800;
+}
+
+.progress-track {
+    width: 100%;
+    height: 12px;
+    background: var(--card-border, #e2e8f0);
+    border-radius: 50px;
+    overflow: hidden;
+    position: relative;
+}
+
+.progress-bar-fill {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #4f46e5 0%, #2563eb 50%, #38bdf8 100%);
+    border-radius: 50px;
+    transition: width 0.15s ease;
+    box-shadow: 0 0 12px rgba(79, 70, 229, 0.5);
+}
+
+.progress-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 6px;
+    font-size: 0.8rem;
+    color: var(--text-muted, #64748b);
+}
+
+.btn-upload {
+    background: linear-gradient(135deg, #4f46e5 0%, #2563eb 100%);
+    color: #ffffff;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 15px -2px rgba(79, 70, 229, 0.35);
+}
+
+.btn-upload:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(79, 70, 229, 0.45);
+}
+
+.btn-upload:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* RESOURCE LIST */
+.resources-list-section {
+    background: var(--card-bg, #ffffff);
+    border: 1px solid var(--card-border, #e2e8f0);
+    border-radius: 18px;
+    padding: 26px;
+    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+}
+
+.list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--card-border, #e2e8f0);
+}
+
+.list-header h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-color, #0f172a);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.reorder-hint {
+    font-size: 0.84rem;
+    color: var(--text-muted, #64748b);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.resource-item {
+    background: var(--bg-color, #f8fafc);
+    border: 1px solid var(--card-border, #e2e8f0);
+    border-radius: 14px;
+    padding: 14px 18px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.resource-item:hover {
+    border-color: var(--primary, #4f46e5);
+    background: var(--card-bg, #ffffff);
+    box-shadow: 0 4px 15px -3px rgba(0,0,0,0.06);
+}
+
+.resource-item.dragging {
+    opacity: 0.4;
+    border: 2px dashed var(--primary, #4f46e5);
+}
+
+.res-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex: 1;
+    min-width: 0;
+}
+
+.drag-handle {
+    cursor: grab;
+    color: var(--text-muted, #94a3b8);
+    font-size: 1.2rem;
+    padding: 4px 6px;
+}
+
+.drag-handle:active {
+    cursor: grabbing;
+}
+
+.res-order-badge {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: rgba(79, 70, 229, 0.1);
+    color: var(--primary, #4f46e5);
+    font-weight: 800;
+    font-size: 0.88rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.res-details {
+    min-width: 0;
+    flex: 1;
+}
+
+.res-title {
+    font-weight: 700;
+    font-size: 1.02rem;
+    color: var(--text-color, #0f172a);
+    margin-bottom: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.res-meta {
+    font-size: 0.82rem;
+    color: var(--text-muted, #64748b);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.res-size-badge {
+    background: var(--card-border, #e2e8f0);
+    color: var(--text-color, #0f172a);
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.76rem;
+}
+
+.res-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.btn-move {
+    background: var(--card-bg, #ffffff);
+    border: 1px solid var(--card-border, #cbd5e1);
+    color: var(--text-color, #0f172a);
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    font-size: 0.85rem;
+}
+
+.btn-move:hover {
+    background: var(--primary, #4f46e5);
+    color: #ffffff;
+    border-color: var(--primary, #4f46e5);
+}
+
+.btn-preview {
+    background: rgba(37, 99, 235, 0.1);
+    color: #2563eb;
+    padding: 7px 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.88rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+}
+
+.btn-preview:hover {
+    background: #2563eb;
+    color: #ffffff;
+}
+
+.btn-delete {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    padding: 7px 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.88rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+}
+
+.btn-delete:hover {
+    background: #ef4444;
+    color: #ffffff;
+}
+
+/* Toast notification */
+.toast-notice {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: #0f172a;
+    color: #ffffff;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.92rem;
+    display: none;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    z-index: 9999;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 680px) {
+    .resource-item {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+    .res-actions {
+        justify-content: flex-end;
+    }
+}
 </style>
 
-</style>
+<div class="res-container">
+    <div class="res-header">
+        <h2><i class="fa-solid fa-folder-open"></i> Resurslar Boshqaruvi</h2>
+        <a href="/student/resources" target="_blank" class="btn-preview">
+            <i class="fa-solid fa-eye"></i> Talaba ko‘rinishida ochish
+        </a>
+    </div>
 
-<div class="container">
+    <!-- 1. RESURS YUKLASH FORMASI -->
+    <div class="upload-card">
+        <h3><i class="fa-solid fa-cloud-arrow-up"></i> Yangi Resurs / Kitob Qo‘shish (100MB+)</h3>
 
-<h2>Resurs boshqaruvi</h2>
+        <form id="uploadForm" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="is_ajax" value="1">
+            
+            <div class="form-group">
+                <label for="resTitle">Resurs / Kitob nomi:</label>
+                <input type="text" id="resTitle" name="title" class="form-control" placeholder="Masalan: Ma'lumotlar Bazasi Asoslari (PDF)" required>
+            </div>
 
-<div class="upload-form">
+            <div class="form-group">
+                <label>Kitob yoki Faylni tanlang (PDF, DOCX, ZIP va h.k.):</label>
+                <div class="file-dropzone" id="dropzone">
+                    <input type="file" id="fileInput" name="file" required>
+                    <div class="dropzone-icon"><i class="fa-solid fa-file-arrow-up"></i></div>
+                    <div class="dropzone-text">Faylni bu yerga tashlang yoki tanlash uchun bosing</div>
+                    <div class="dropzone-hint">100MB gacha bo‘lgan darsliklar va materiallar qo‘llab-quvvatlanadi</div>
+                </div>
 
-<form method="POST" enctype="multipart/form-data">
+                <div class="selected-file-info" id="selectedFileInfo">
+                    <span id="selectedFileName"><i class="fa-solid fa-file-pdf"></i> Tanlangan fayl</span>
+                    <span id="selectedFileSize" class="res-size-badge">0 MB</span>
+                </div>
+            </div>
 
-<input type="text" name="title" placeholder="Resurs nomi" required>
+            <!-- PROGRES BAR -->
+            <div class="progress-container" id="progressContainer">
+                <div class="progress-header">
+                    <span class="progress-status" id="progressStatus">
+                        <i class="fa-solid fa-spinner fa-spin"></i> Yuklanmoqda...
+                    </span>
+                    <span class="progress-percent" id="progressPercent">0%</span>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-bar-fill" id="progressBarFill"></div>
+                </div>
+                <div class="progress-footer">
+                    <span id="progressLoaded">0 MB / 0 MB</span>
+                    <span id="progressSpeed">0 MB/s</span>
+                </div>
+            </div>
 
-<input type="file" name="file" required>
+            <div style="margin-top: 18px;">
+                <button type="submit" class="btn-upload" id="submitBtn">
+                    <i class="fa-solid fa-upload"></i> Resursni Yuklash
+                </button>
+            </div>
+        </form>
+    </div>
 
-<button type="submit">Yuklash</button>
+    <!-- 2. MAVJUD RESURSLAR VA TARTIBLASH -->
+    <div class="resources-list-section">
+        <div class="list-header">
+            <h3><i class="fa-solid fa-list-ol"></i> Mavjud Resurslar ({{ resources|length }} ta)</h3>
+            <div class="reorder-hint">
+                <i class="fa-solid fa-arrows-up-down"></i> Tartibini o‘zgartirish uchun suring (Drag & Drop) yoki ▲ ▼ tugmalarini bosing
+            </div>
+        </div>
 
-</form>
+        <div id="resourcesList">
+            {% if resources %}
+                {% for r in resources %}
+                <div class="resource-item" draggable="true" data-id="{{ r.id }}">
+                    <div class="res-left">
+                        <div class="drag-handle" title="Tartibini o'zgartirish uchun torting">
+                            <i class="fa-solid fa-grip-vertical"></i>
+                        </div>
+                        <div class="res-order-badge">#{{ loop.index }}</div>
+                        <div class="res-details">
+                            <div class="res-title">{{ r.title }}</div>
+                            <div class="res-meta">
+                                <span><i class="fa-solid fa-file"></i> {{ r.file }}</span>
+                                {% if r.size %}
+                                <span class="res-size-badge">{{ r.size }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
 
+                    <div class="res-actions">
+                        <!-- Up / Down Buttons -->
+                        <button type="button" class="btn-move" onclick="moveItem({{ r.id }}, 'up')" title="Yuqoriga ko'chirish">
+                            <i class="fa-solid fa-arrow-up"></i>
+                        </button>
+                        <button type="button" class="btn-move" onclick="moveItem({{ r.id }}, 'down')" title="Pastga ko'chirish">
+                            <i class="fa-solid fa-arrow-down"></i>
+                        </button>
+
+                        <a href="/static/resources/{{ r.file }}" target="_blank" class="btn-preview">
+                            <i class="fa-solid fa-download"></i> Ko‘rish
+                        </a>
+
+                        <a href="/admin/resources/delete/{{ r.id }}" class="btn-delete" onclick="return confirm('Haqiqatan ham ushbu resursni o‘chirmoqchimisiz?')">
+                            <i class="fa-solid fa-trash"></i> O‘chirish
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div style="text-align: center; padding: 35px 16px; color: var(--text-muted, #64748b);">
+                    <i class="fa-solid fa-box-open" style="font-size: 2.2rem; margin-bottom: 8px; color: var(--primary, #4f46e5);"></i>
+                    <p style="margin: 0; font-size: 0.98rem;">Hozircha resurslar qo‘shilmagan. Yuqoridagi formadan yangi kitob yoki resurs yuklang.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
 </div>
 
-<h3>Mavjud resurslar</h3>
-
-{% for r in resources %}
-
-<div class="resource-card">
-
-<div>
-
-<b>{{ r[1] }}</b><br>
-<small>{{ r[2] }}</small>
-
+<div class="toast-notice" id="toastNotice">
+    <i class="fa-solid fa-circle-check" style="color: #10b981;"></i>
+    <span id="toastMessage">Tartib saqlandi</span>
 </div>
 
-<div>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const uploadForm = document.getElementById("uploadForm");
+    const fileInput = document.getElementById("fileInput");
+    const resTitle = document.getElementById("resTitle");
+    const selectedFileInfo = document.getElementById("selectedFileInfo");
+    const selectedFileName = document.getElementById("selectedFileName");
+    const selectedFileSize = document.getElementById("selectedFileSize");
+    const progressContainer = document.getElementById("progressContainer");
+    const progressBarFill = document.getElementById("progressBarFill");
+    const progressPercent = document.getElementById("progressPercent");
+    const progressStatus = document.getElementById("progressStatus");
+    const progressLoaded = document.getElementById("progressLoaded");
+    const progressSpeed = document.getElementById("progressSpeed");
+    const submitBtn = document.getElementById("submitBtn");
+    const dropzone = document.getElementById("dropzone");
 
-<a href="/static/resources/{{ r[2] }}" target="_blank">
-Ko‘rish
-</a>
+    // 1. File Selection Preview
+    fileInput.addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            selectedFileInfo.style.display = "flex";
+            selectedFileName.innerHTML = `<i class="fa-solid fa-file-pdf"></i> ${file.name}`;
+            
+            const mb = (file.size / (1024 * 1024)).toFixed(1);
+            selectedFileSize.textContent = `${mb} MB`;
 
-<a href="/admin/resources/delete/{{ r[0] }}"
-class="delete-btn"
-onclick="return confirm('O‘chirmoqchimisiz?')">
-O'chirish
-</a>
+            // Auto-fill title if empty
+            if (!resTitle.value.trim()) {
+                const nameWithoutExt = file.name.replace(/\.[^/.]+$/, "");
+                resTitle.value = nameWithoutExt.replace(/[_-]/g, " ");
+            }
+        }
+    });
 
-</div>
+    // 2. Drag & Drop Visuals for Dropzone
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropzone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            dropzone.classList.add('dragover');
+        });
+    });
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropzone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('dragover');
+        });
+    });
 
-</div>
+    // 3. XHR Progress Upload
+    uploadForm.addEventListener("submit", (e) => {
+        e.preventDefault();
 
-{% endfor %}
+        const file = fileInput.files[0];
+        if (!file) {
+            alert("Iltimos, yuklash uchun faylni tanlang!");
+            return;
+        }
 
-</div>
+        const formData = new FormData(uploadForm);
+        const xhr = new XMLHttpRequest();
 
+        // UI Prep
+        progressContainer.style.display = "block";
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Yuklanmoqda...`;
+        progressBarFill.style.width = "0%";
+        progressPercent.textContent = "0%";
+        progressStatus.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Yuklanmoqda...`;
+
+        let startTime = Date.now();
+        let prevLoaded = 0;
+
+        xhr.upload.onprogress = (event) => {
+            if (event.lengthComputable) {
+                const percent = Math.round((event.loaded / event.total) * 100);
+                progressBarFill.style.width = percent + "%";
+                progressPercent.textContent = percent + "%";
+
+                const loadedMB = (event.loaded / (1024 * 1024)).toFixed(1);
+                const totalMB = (event.total / (1024 * 1024)).toFixed(1);
+                progressLoaded.textContent = `${loadedMB} MB / ${totalMB} MB`;
+
+                // Speed calculation
+                const elapsedSec = (Date.now() - startTime) / 1000;
+                if (elapsedSec > 0.5) {
+                    const speedMBps = (event.loaded / (1024 * 1024) / elapsedSec).toFixed(1);
+                    progressSpeed.textContent = `${speedMBps} MB/s`;
+                }
+
+                if (percent >= 100) {
+                    progressStatus.innerHTML = `<i class="fa-solid fa-gear fa-spin"></i> Serverda saqlanmoqda...`;
+                    progressSpeed.textContent = "Yakunlanmoqda...";
+                }
+            }
+        };
+
+        xhr.onload = () => {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                progressBarFill.style.width = "100%";
+                progressPercent.textContent = "100%";
+                progressStatus.innerHTML = `<i class="fa-solid fa-circle-check" style="color:#10b981;"></i> Muvaffaqiyatli yuklandi!`;
+                showToast("Resurs muvaffaqiyatli yuklandi ✅");
+                setTimeout(() => {
+                    window.location.reload();
+                }, 800);
+            } else {
+                alert("Fayl yuklashda xatolik yuz berdi. Server javobi: " + xhr.status);
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = `<i class="fa-solid fa-upload"></i> Resursni Yuklash`;
+            }
+        };
+
+        xhr.onerror = () => {
+            alert("Internet yoki tarmoq xatosi tufayli yuklash to'xtadi.");
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = `<i class="fa-solid fa-upload"></i> Resursni Yuklash`;
+        };
+
+        xhr.open("POST", "/admin/resources", true);
+        xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+        xhr.send(formData);
+    });
+
+    // 4. Drag & Drop Reordering for Resource Items
+    const listContainer = document.getElementById("resourcesList");
+    let draggedItem = null;
+
+    listContainer.addEventListener("dragstart", (e) => {
+        const item = e.target.closest(".resource-item");
+        if (item) {
+            draggedItem = item;
+            item.classList.add("dragging");
+            e.dataTransfer.effectAllowed = "move";
+        }
+    });
+
+    listContainer.addEventListener("dragend", (e) => {
+        const item = e.target.closest(".resource-item");
+        if (item) {
+            item.classList.remove("dragging");
+            draggedItem = null;
+            saveNewOrder();
+        }
+    });
+
+    listContainer.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        const afterElement = getDragAfterElement(listContainer, e.clientY);
+        if (draggedItem) {
+            if (afterElement == null) {
+                listContainer.appendChild(draggedItem);
+            } else {
+                listContainer.insertBefore(draggedItem, afterElement);
+            }
+        }
+    });
+
+    function getDragAfterElement(container, y) {
+        const draggableElements = [...container.querySelectorAll('.resource-item:not(.dragging)')];
+        return draggableElements.reduce((closest, child) => {
+            const box = child.getBoundingClientRect();
+            const offset = y - box.top - box.height / 2;
+            if (offset < 0 && offset > closest.offset) {
+                return { offset: offset, element: child };
+            } else {
+                return closest;
+            }
+        }, { offset: Number.NEGATIVE_INFINITY }).element;
+    }
+
+    // 5. Save Order AJAX
+    window.saveNewOrder = function() {
+        const items = [...listContainer.querySelectorAll(".resource-item")];
+        const orderIds = items.map(item => parseInt(item.getAttribute("data-id")));
+
+        // Update visual badge numbers
+        items.forEach((item, idx) => {
+            const badge = item.querySelector(".res-order-badge");
+            if (badge) badge.textContent = `#${idx + 1}`;
+        });
+
+        fetch("/admin/resources/reorder", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-Requested-With": "XMLHttpRequest"
+            },
+            body: JSON.stringify({ order: orderIds })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === "success") {
+                showToast("Resurslar tartibi saqlandi ✅");
+            }
+        })
+        .catch(err => console.error("Reorder error:", err));
+    };
+
+    // 6. Move Item 1-click Up/Down
+    window.moveItem = function(id, direction) {
+        fetch(`/admin/resources/move/${id}/${direction}`, {
+            method: "POST",
+            headers: { "X-Requested-With": "XMLHttpRequest" }
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === "success") {
+                window.location.reload();
+            }
+        })
+        .catch(err => console.error("Move error:", err));
+    };
+
+    // 7. Toast helper
+    function showToast(msg) {
+        const toast = document.getElementById("toastNotice");
+        const text = document.getElementById("toastMessage");
+        text.textContent = msg;
+        toast.style.display = "flex";
+        setTimeout(() => {
+            toast.style.display = "none";
+        }, 3000);
+    }
+});
+</script>
 {% endblock %}

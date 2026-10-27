@@ -3,181 +3,156 @@
 {% block title %}{{ test['name'] }}{% endblock %}
 
 {% block content %}
-
 <style>
-
-.test-container{
-    max-width:900px;
-    margin:auto;
-    background:#1f1f1f; /* qoramtir fon */
-    padding:25px;
-    border-radius:12px;
-    box-shadow:0 4px 18px rgba(0,0,0,0.6);
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color:#f5f5f5; /* matn oq rangda */
+.test-container {
+    max-width: 860px;
+    margin: 30px auto;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    color: var(--text-color);
 }
 
-/* HEADER */
-
-.test-header{
-    margin-bottom:25px;
-    border-bottom:1px solid #333;
-    padding-bottom:12px;
+.test-header {
+    margin-bottom: 25px;
+    border-bottom: 1px solid var(--card-border);
+    padding-bottom: 15px;
 }
 
-.test-header h2{
-    margin:0;
-    color:#3b82f6; /* sarlavha ko‘k */
+.test-header h2 {
+    margin: 0 0 8px 0;
+    color: var(--primary);
+    font-size: 1.6rem;
+    font-weight: 700;
 }
 
-.test-header p{
-    color:#d1d5db;
+.test-header p {
+    color: var(--text-muted);
+    margin: 0;
+    font-size: 0.95rem;
 }
 
-/* QUESTION CARD */
-
-.question-card{
-    background:#2a2a2a; /* kartalar qoramtir */
-    padding:18px;
-    border-radius:10px;
-    margin-bottom:18px;
-    border:1px solid #3b3b3b;
-    transition:0.2s;
+.question-card {
+    background: var(--bg-color);
+    border: 1px solid var(--card-border);
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.question-card:hover{
-    box-shadow:0 3px 12px rgba(0,0,0,0.8);
+.question-card:hover {
+    border-color: var(--primary);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
 }
 
-/* QUESTION TITLE */
-
-.question-title{
-    font-size:16px;
-    margin-bottom:14px;
-    font-weight:500;
-    color:#f5f5f5;
+.question-title {
+    font-size: 1.05rem;
+    margin-bottom: 16px;
+    font-weight: 600;
+    color: var(--text-color);
+    line-height: 1.5;
 }
 
-/* ANSWERS */
-
-.answer{
-    display:block;
-    padding:10px 12px;
-    border-radius:6px;
-    cursor:pointer;
-    transition:0.2s;
-    border:1px solid transparent;
-    color:#f5f5f5;
+.answer-option {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid var(--card-border);
+    background: var(--card-bg);
+    color: var(--text-color);
+    margin-bottom: 8px;
 }
 
-.answer:hover{
-    background:#3b3b3b;
+.answer-option:hover {
+    background: rgba(59, 130, 246, 0.08);
+    border-color: var(--primary);
 }
 
-.answer input{
-    margin-right:8px;
+.answer-option input[type="radio"] {
+    margin-right: 12px;
+    width: 18px;
+    height: 18px;
+    accent-color: var(--primary);
+    cursor: pointer;
 }
 
-/* SELECTED ANSWER */
-
-.answer input:checked + span{
-    font-weight:600;
-    color:#3b82f6;
+.answer-option span {
+    font-size: 0.95rem;
+    line-height: 1.4;
 }
 
-.answer:has(input:checked){
-    background:#2563eb33; /* biroz ko‘k rangli fon */
-    border:1px solid #3b82f6;
+.submit-btn-box {
+    margin-top: 30px;
+    text-align: right;
 }
 
-/* SUBMIT BUTTON */
-
-.submit-btn{
-    margin-top:20px;
-    background:#3b82f6;
-    color:white;
-    border:none;
-    padding:12px 25px;
-    font-size:15px;
-    border-radius:8px;
-    cursor:pointer;
-    transition:0.2s;
+.submit-btn {
+    background: var(--primary);
+    color: #ffffff;
+    border: none;
+    padding: 13px 32px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.submit-btn:hover{
-    background:#2563eb;
-    transform:scale(1.02);
+.submit-btn:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
 }
 
-/* MOBILE */
+@media (max-width: 768px) {
+    .test-container {
+        padding: 18px;
+        margin: 15px auto;
+        border-radius: 12px;
+    }
 
-@media (max-width:768px){
-
-.test-container{
-    padding:18px;
+    .submit-btn {
+        width: 100%;
+        justify-content: center;
+    }
 }
-
-.question-title{
-    font-size:15px;
-}
-
-.answer{
-    padding:12px;
-}
-
-.submit-btn{
-    width:100%;
-}
-
-}
-
 </style>
 
-
 <div class="test-container">
+    <div class="test-header">
+        <h2>{{ test['name'] }}</h2>
+        <p>{{ test['title'] or "Ushbu test orqali o‘zlashtirgan bilimlaringizni tekshirib ko‘ring." }}</p>
+    </div>
 
-<div class="test-header">
-<h2>{{ test['name'] }}</h2>
-<p>{{ test['title'] }}</p>
+    <form method="post">
+        {% for q in questions %}
+        <div class="question-card">
+            <div class="question-title">
+                <b>{{ loop.index }}.</b> {{ q['text'] }}
+            </div>
+
+            {% for a in answers[q['id']] %}
+            <label class="answer-option">
+                <input type="radio" name="{{ q['id'] }}" value="{{ a['id'] }}" required>
+                <span>{{ a['text'] }}</span>
+            </label>
+            {% endfor %}
+        </div>
+        {% endfor %}
+
+        <div class="submit-btn-box">
+            <button class="submit-btn" type="submit">
+                <i class="fa-solid fa-check"></i> Testni topshirish
+            </button>
+        </div>
+    </form>
 </div>
-
-<form method="post">
-
-{% for q in questions %}
-
-<div class="question-card">
-
-<p class="question-title">
-<b>{{ loop.index }}.</b> {{ q['text'] }}
-</p>
-
-{% for a in answers[q['id']] %}
-
-<label class="answer">
-
-<input
-type="radio"
-name="{{ q['id'] }}"
-value="{{ a['id'] }}"
-required
->
-
-<span>{{ a['text'] }}</span>
-
-</label>
-
-{% endfor %}
-
-</div>
-
-{% endfor %}
-
-<button class="submit-btn" type="submit">
-Testni topshirish
-</button>
-
-</form>
-
-</div>
-
 {% endblock %}

@@ -1,0 +1,341 @@
+{% extends "admin_base.html" %}
+{% block title %}AI Sozlamalari & Groq API{% endblock %}
+
+{% block content %}
+<style>
+.ai-settings-container {
+    padding: 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.ai-header-card {
+    background: #1e293b;
+    border: 1px solid rgba(0, 240, 255, 0.3);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 24px;
+    color: #ffffff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.ai-header-card h2 {
+    margin: 0 0 8px 0;
+    color: #00f0ff;
+    font-size: 1.6rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ai-header-card p {
+    margin: 0;
+    color: #94a3b8;
+    font-size: 0.95rem;
+}
+
+.ai-grid-layout {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 24px;
+    align-items: start;
+}
+
+.card-box {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 16px;
+    padding: 20px;
+    color: #ffffff;
+}
+
+.card-box h3 {
+    margin: 0 0 16px 0;
+    font-size: 1.2rem;
+    color: #38bdf8;
+    border-bottom: 1px solid #334155;
+    padding-bottom: 10px;
+}
+
+/* Key items table */
+.keys-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.keys-table th {
+    text-align: left;
+    padding: 10px;
+    background: #0f172a;
+    color: #94a3b8;
+    border-bottom: 1px solid #334155;
+}
+
+.keys-table td {
+    padding: 12px 10px;
+    border-bottom: 1px solid #334155;
+    vertical-align: middle;
+}
+
+.badge-status {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+.badge-active { background: rgba(16, 185, 129, 0.2); color: #10b981; border: 1px solid #10b981; }
+.badge-inactive { background: rgba(239, 68, 68, 0.2); color: #ef4444; border: 1px solid #ef4444; }
+
+.key-code {
+    font-family: monospace;
+    background: #0f172a;
+    padding: 3px 6px;
+    border-radius: 4px;
+    color: #00f0ff;
+}
+
+/* Action buttons */
+.btn-sm {
+    padding: 5px 10px;
+    border-radius: 6px;
+    border: none;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.2s;
+}
+
+.btn-test { background: #3b82f6; color: white; }
+.btn-test:hover { background: #2563eb; }
+
+.btn-toggle { background: #64748b; color: white; }
+.btn-toggle:hover { background: #475569; }
+
+.btn-del { background: #ef4444; color: white; }
+.btn-del:hover { background: #dc2626; }
+
+/* Add form */
+.form-row {
+    margin-bottom: 14px;
+}
+
+.form-row label {
+    display: block;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #cbd5e1;
+    margin-bottom: 6px;
+}
+
+.form-row input, .form-row select {
+    width: 100%;
+    padding: 10px 12px;
+    background: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 0.9rem;
+    box-sizing: border-box;
+}
+
+.form-row input:focus, .form-row select:focus {
+    outline: none;
+    border-color: #00f0ff;
+}
+
+.btn-submit-key {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #00f0ff 0%, #3b82f6 100%);
+    color: #050811;
+    border: none;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 0.95rem;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+}
+
+.btn-submit-key:hover {
+    box-shadow: 0 0 25px rgba(0, 240, 255, 0.6);
+}
+
+.flash-msg {
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 18px;
+    font-size: 0.92rem;
+}
+.flash-success { background: rgba(16, 185, 129, 0.2); border: 1px solid #10b981; color: #10b981; }
+.flash-error { background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; color: #ef4444; }
+
+@media(max-width: 900px) {
+    .ai-grid-layout {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+<div class="ai-settings-container">
+
+    <div class="ai-header-card">
+        <h2><i class="fa-solid fa-robot"></i> AI SOZLAMALARI (GROQ CLOUD API)</h2>
+        <p>SQL Laboratoriyasida sun'iy intellekt orqali dinamik topshiriqlar generatsiya qilish uchun Groq Free API kalitlari va modellarini boshqaring.</p>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, msg in messages %}
+          <div class="flash-msg flash-{{ 'success' if category=='success' else 'error' }}">{{ msg }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <div class="ai-grid-layout">
+        
+        <!-- Left: API Keys List -->
+        <div class="card-box">
+            <h3><i class="fa-solid fa-key"></i> Faol API Kalitlar va Modellar ({{ keys|length }})</h3>
+
+            {% if keys %}
+            <div style="overflow-x: auto;">
+                <table class="keys-table">
+                    <thead>
+                        <tr>
+                            <th>Nomi</th>
+                            <th>Model</th>
+                            <th>API Kalit</th>
+                            <th>Holati</th>
+                            <th>Amallar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for k in keys %}
+                        <tr>
+                            <td><b>{{ k['title'] }}</b></td>
+                            <td><span style="color:#a855f7; font-weight:600;">{{ k['model_name'] }}</span></td>
+                            <td><span class="key-code">{{ k['api_key'][:8] }}••••••••{{ k['api_key'][-4:] }}</span></td>
+                            <td>
+                                {% if k['is_active'] == 1 %}
+                                <span class="badge-status badge-active">Faol</span>
+                                {% else %}
+                                <span class="badge-status badge-inactive">O‘chirilgan</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <div style="display:flex;  ">
+                                    <button class="btn-sm btn-test" onclick="testKey({{ k['id'] }})" title="Ulanishni tekshirish">
+                                        <i class="fa-solid fa-bolt"></i> Test
+                                    </button>
+                                    <form action="/admin/ai-settings/toggle/{{ k['id'] }}" method="POST" style="margin:0;">
+                                        <button type="submit" class="btn-sm btn-toggle" title="Holatni o'zgartirish">
+                                            <i class="fa-solid fa-power-off"></i>
+                                        </button>
+                                    </form>
+                                    <a href="/admin/ai-settings/delete/{{ k['id'] }}" class="btn-sm btn-del" onclick="return confirm('Haqiqatan ham o‘chirmoqchimisiz?')" title="O'chirish">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p style="color:#94a3b8; text-align:center; padding:30px;">Hozircha birorta ham API kalit qo‘shilmagan. O‘ng tomondagi forma orqali bepul Groq API kalitini qo‘shing.</p>
+            {% endif %}
+
+            <!-- Test Result Box -->
+            <div id="testResultBox" style="display:none; margin-top:20px; padding:14px; border-radius:10px; font-size:0.9rem;"></div>
+        </div>
+
+        <!-- Right: Add New Key Form -->
+        <div class="card-box">
+            <h3><i class="fa-solid fa-plus-circle"></i> Yangi API Kalit Qo‘shish</h3>
+            
+            <form action="/admin/ai-settings/add" method="POST">
+                <div class="form-row">
+                    <label>Kalit Tavsifi / Nomi:</label>
+                    <input type="text" name="title" placeholder="Masalan: Groq Asosiy Kalit #1" required>
+                </div>
+
+                <div class="form-row">
+                    <label>Provayder:</label>
+                    <select name="provider">
+                        <option value="groq" selected>Groq Cloud (Tezkor & Bepul)</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <label>AI Modeli:</label>
+                    <select name="model_name">
+                        <option value="llama-3.3-70b-versatile" selected>llama-3.3-70b-versatile (Tavsiya etiladi)</option>
+                        <option value="llama-3.1-8b-instant">llama-3.1-8b-instant (Juda tezkor)</option>
+                        <option value="mixtral-8x7b-32768">mixtral-8x7b-32768</option>
+                        <option value="gemma2-9b-it">gemma2-9b-it</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <label>Groq API Key (`gsk_...`):</label>
+                    <input type="password" name="api_key" placeholder="gsk_..." required>
+                    <small style="color:#64748b; display:block; margin-top:4px;">
+                        Bepul olish: <a href="https://console.groq.com/keys" target="_blank" style="color:#00f0ff;">console.groq.com/keys</a>
+                    </small>
+                </div>
+
+                <div class="form-row">
+                    <label style="display:flex; align-items:center;   cursor:pointer;">
+                        <input type="checkbox" name="is_active" value="1" checked style="width:auto;">
+                        <span>Darhol faollashtirish</span>
+                    </label>
+                </div>
+
+                <button type="submit" class="btn-submit-key">
+                    <i class="fa-solid fa-floppy-disk"></i> Kalitni Saqlash
+                </button>
+            </form>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+async function testKey(keyId) {
+    const box = document.getElementById('testResultBox');
+    box.style.display = 'block';
+    box.style.background = '#0f172a';
+    box.style.border = '1px solid #334155';
+    box.style.color = '#94a3b8';
+    box.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Groq API bilan aloqa tekshirilmoqda...';
+
+    try {
+        const res = await fetch(`/admin/ai-settings/test/${keyId}`, { method: 'POST' });
+        const data = await res.json();
+
+        if (data.success) {
+            box.style.background = 'rgba(16, 185, 129, 0.15)';
+            box.style.border = '1px solid #10b981';
+            box.style.color = '#10b981';
+            box.innerHTML = `<b>✅ Muvaffaqiyatli!</b> Model: <code>${data.model}</code>, Javob vaqti: <b>${data.latency_ms} ms</b>. AI javobi: "${data.reply}"`;
+        } else {
+            box.style.background = 'rgba(239, 68, 68, 0.15)';
+            box.style.border = '1px solid #ef4444';
+            box.style.color = '#ef4444';
+            box.innerHTML = `<b>❌ Xatolik:</b> ${data.error}`;
+        }
+    } catch(err) {
+        box.style.background = 'rgba(239, 68, 68, 0.15)';
+        box.style.border = '1px solid #ef4444';
+        box.style.color = '#ef4444';
+        box.innerHTML = `<b>❌ Server xatosi:</b> ${err.message}`;
+    }
+}
+</script>
+{% endblock %}

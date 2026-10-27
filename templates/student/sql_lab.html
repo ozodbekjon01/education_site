@@ -1,0 +1,1147 @@
+{% extends "base.html" %}
+{% block title %}SQL Laboratoriyasi - Dinamik AI Baza & Amaliyot{% endblock %}
+
+{% block content %}
+<style>
+.sql-lab-container {
+    max-width: 1400px;
+    margin: 20px auto 40px auto;
+    padding: 0 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Domain Scenario Banner */
+.domain-banner {
+    background: linear-gradient(135deg, rgba(0, 240, 255, 0.12) 0%, rgba(168, 85, 247, 0.12) 100%);
+    border: 1px solid rgba(0, 240, 255, 0.35);
+    border-radius: 12px;
+    padding: 12px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.domain-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.domain-badge {
+    background: #00f0ff;
+    color: #050811;
+    font-weight: 800;
+    font-size: 0.78rem;
+    padding: 3px 8px;
+    border-radius: 6px;
+    text-transform: uppercase;
+}
+
+.domain-title {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--text-color);
+}
+
+.domain-desc {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+}
+
+/* Header & Action Bar */
+.lab-header-bar {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow);
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.lab-title-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.lab-title-icon {
+    font-size: 1.6rem;
+    color: #00f0ff;
+    background: rgba(0, 240, 255, 0.1);
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 240, 255, 0.3);
+}
+
+.lab-title-box h1 {
+    font-size: 1.3rem;
+    font-weight: 800;
+    margin: 0;
+    color: var(--text-color);
+}
+
+.lab-title-box p {
+    margin: 2px 0 0 0;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+}
+
+.lab-controls-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.btn-lab {
+    padding: 8px 15px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.88rem;
+    cursor: pointer;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+}
+
+.btn-generate-db {
+    background: linear-gradient(135deg, #a855f7 0%, #3b82f6 100%);
+    color: #ffffff;
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+}
+.btn-generate-db:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 25px rgba(168, 85, 247, 0.7);
+}
+
+.btn-run {
+    background: linear-gradient(135deg, #00f0ff 0%, #3b82f6 100%);
+    color: #050811;
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.35);
+}
+.btn-run:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 25px rgba(0, 240, 255, 0.6);
+}
+
+.btn-reset {
+    background: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.4);
+}
+.btn-reset:hover {
+    background: #ef4444;
+    color: #ffffff;
+}
+
+.btn-templates {
+    background: var(--bg-color);
+    border: 1px solid var(--card-border);
+    color: var(--text-color);
+}
+.btn-templates:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+/* Main 3-Column Studio */
+.lab-main-studio {
+    display: grid;
+    grid-template-columns: 260px 1fr 380px;
+    gap: 16px;
+    align-items: start;
+}
+
+/* 1. Left Column: Schema Explorer */
+.schema-panel {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: var(--shadow);
+    max-height: 740px;
+    overflow-y: auto;
+}
+
+.panel-header-title {
+    font-size: 0.92rem;
+    font-weight: 800;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0 0 12px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid var(--card-border);
+    padding-bottom: 8px;
+}
+
+.table-schema-item {
+    margin-bottom: 12px;
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    background: var(--bg-color);
+    overflow: hidden;
+}
+
+.table-name-header {
+    padding: 8px 12px;
+    font-weight: 700;
+    font-size: 0.88rem;
+    color: var(--text-color);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(59, 130, 246, 0.08);
+}
+
+.table-name-header:hover {
+    color: var(--primary);
+}
+
+.table-columns-list {
+    padding: 6px 12px;
+    list-style: none;
+    margin: 0;
+}
+
+.column-item {
+    font-size: 0.82rem;
+    padding: 3px 0;
+    display: flex;
+    justify-content: space-between;
+    color: var(--text-muted);
+    cursor: pointer;
+}
+
+.column-item:hover {
+    color: var(--primary);
+}
+
+.col-type {
+    font-family: monospace;
+    font-size: 0.75rem;
+    color: #a855f7;
+}
+
+/* 2. Center Column: Editor & Result */
+.editor-output-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.editor-box {
+    background: #090d16;
+    border: 1px solid rgba(0, 240, 255, 0.3);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+}
+
+.editor-header-tab {
+    background: rgba(15, 23, 42, 0.9);
+    padding: 8px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(0, 240, 255, 0.2);
+    font-family: monospace;
+    font-size: 0.8rem;
+    color: #00f0ff;
+}
+
+#sqlEditorArea {
+    width: 100%;
+    height: 180px;
+    background: #090d16;
+    color: #00f0ff;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 15px;
+    line-height: 1.5;
+    padding: 16px;
+    border: none;
+    outline: none;
+    resize: vertical;
+    box-sizing: border-box;
+}
+
+/* Output Results Table */
+.output-box {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: var(--shadow);
+    min-height: 250px;
+    display: flex;
+    flex-direction: column;
+}
+
+.output-status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 0.88rem;
+    font-weight: 600;
+}
+
+.exec-metrics-badge {
+    background: rgba(16, 185, 129, 0.15);
+    color: #10b981;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+}
+
+.table-result-wrapper {
+    flex: 1;
+    max-height: 400px;
+    overflow-x: auto;
+    overflow-y: auto;
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+}
+
+.sql-result-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    text-align: left;
+}
+
+.sql-result-table th {
+    background: var(--bg-color);
+    color: var(--primary);
+    font-weight: 700;
+    padding: 9px 12px;
+    border-bottom: 2px solid var(--card-border);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.sql-result-table td {
+    padding: 7px 12px;
+    border-bottom: 1px solid var(--card-border);
+    color: var(--text-color);
+}
+
+.sql-result-table tr:nth-child(even) {
+    background: rgba(0, 0, 0, 0.02);
+}
+
+body.dark .sql-result-table tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.sql-error-box {
+    background: rgba(239, 68, 68, 0.15);
+    border: 1px solid #ef4444;
+    color: #f87171;
+    padding: 14px 18px;
+    border-radius: 10px;
+    font-family: monospace;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+/* 3. Right Column: AI Generator & Challenges */
+.challenges-panel {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: var(--shadow);
+    max-height: 740px;
+    overflow-y: auto;
+}
+
+/* AI Generator Box */
+.ai-generator-box {
+    background: linear-gradient(135deg, rgba(0, 240, 255, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+    border: 1.5px solid rgba(0, 240, 255, 0.35);
+    border-radius: 14px;
+    padding: 14px;
+    margin-bottom: 18px;
+    box-shadow: 0 4px 15px rgba(0, 240, 255, 0.15);
+}
+
+.ai-generator-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.btn-generate-ai {
+    width: 100%;
+    padding: 9px 14px;
+    background: linear-gradient(135deg, #00f0ff 0%, #a855f7 100%);
+    color: #050811;
+    border: none;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+    transition: all 0.25s ease;
+}
+
+.btn-generate-ai:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 25px rgba(0, 240, 255, 0.7);
+}
+
+.ai-task-card {
+    display: none;
+    background: var(--bg-color);
+    border: 1px solid rgba(0, 240, 255, 0.3);
+    border-radius: 12px;
+    padding: 12px;
+    margin-top: 12px;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.ai-task-badge-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.badge-difficulty {
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+.diff-oson { background: rgba(16, 185, 129, 0.2); color: #10b981; }
+.diff-orta { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
+.diff-murakkab { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+
+.challenge-card {
+    background: var(--bg-color);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 10px;
+    transition: all 0.2s ease;
+}
+
+.challenge-card:hover {
+    border-color: var(--primary);
+}
+
+.challenge-card.solved {
+    border-color: #10b981;
+    background: rgba(16, 185, 129, 0.08);
+}
+
+.challenge-title {
+    font-weight: 700;
+    font-size: 0.88rem;
+    color: var(--text-color);
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.challenge-desc {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+    margin-bottom: 8px;
+}
+
+.challenge-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-task-action {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid var(--card-border);
+    background: var(--card-bg);
+    color: var(--text-color);
+    transition: all 0.15s ease;
+}
+
+.btn-task-action:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.btn-task-check {
+    background: var(--primary);
+    color: #ffffff;
+    border: none;
+}
+.btn-task-check:hover {
+    background: var(--primary-hover);
+}
+
+/* Template dropdown menu */
+.templates-dropdown-menu {
+    display: none;
+    position: absolute;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    z-index: 100;
+    min-width: 280px;
+    max-width: 380px;
+    padding: 6px 0;
+}
+
+.templates-dropdown-menu div {
+    padding: 8px 14px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    color: var(--text-color);
+    transition: background 0.15s;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.templates-dropdown-menu div:hover {
+    background: rgba(59, 130, 246, 0.1);
+    color: var(--primary);
+}
+
+@media(max-width: 1050px) {
+    .lab-main-studio {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+<div class="sql-lab-container">
+    
+    <!-- Active Domain Banner -->
+    <div class="domain-banner" id="domainBanner">
+        <div class="domain-info">
+            <span class="domain-badge" id="domainBadge">Standart Baza</span>
+            <div>
+                <span class="domain-title" id="domainTitle">Universitet & Talabalar Tizimi</span>
+                <span class="domain-desc" id="domainDesc">— Talabalar, fanlar, baholar va xodimlar bazasi</span>
+            </div>
+        </div>
+        <div style="font-size:0.8rem; color:var(--text-muted);" id="domainSource">
+            Manba: Standart
+        </div>
+    </div>
+
+    <!-- Top Action Bar -->
+    <div class="lab-header-bar">
+        <div class="lab-title-box">
+            <div class="lab-title-icon"><i class="fa-solid fa-database"></i></div>
+            <div>
+                <h1>SQL LABORATORIYASI</h1>
+                <p>AI orqali yangi baza yaratish, real-time so‘rovlar va dinamik topshiriqlar</p>
+            </div>
+        </div>
+
+        <div class="lab-controls-group">
+            <!-- 1. AI DB Generator Button -->
+            <button class="btn-lab btn-generate-db" id="btnGenDB" onclick="generateNewAIDatabase()" title="AI orqali butunlay yangi mavzuda baza generatsiya qilish">
+                <i class="fa-solid fa-dice"></i> Yangi Baza Yaratish (AI)
+            </button>
+
+            <!-- 2. Sample Queries Dropdown -->
+            <div style="position: relative;">
+                <button class="btn-lab btn-templates" onclick="toggleTemplatesMenu()">
+                    <i class="fa-solid fa-code"></i> Namuna So‘rovlar <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i>
+                </button>
+                <div class="templates-dropdown-menu" id="templatesMenu"></div>
+            </div>
+
+            <!-- 3. Reset DB Button -->
+            <button class="btn-lab btn-reset" onclick="resetSandboxDB()" title="Standart bazaga qaytarish">
+                <i class="fa-solid fa-rotate-left"></i> Standart Baza
+            </button>
+
+            <!-- 4. Run Button -->
+            <button class="btn-lab btn-run" onclick="executeSQL()">
+                <i class="fa-solid fa-play"></i> Bajarish (Ctrl+Enter)
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Studio Grid -->
+    <div class="lab-main-studio">
+        
+        <!-- 1. Schema Explorer -->
+        <div class="schema-panel">
+            <div class="panel-header-title">
+                <i class="fa-solid fa-table"></i> Baza Tuzilmasi
+            </div>
+
+            <div id="schemaContainer"></div>
+        </div>
+
+        <!-- 2. Editor & Results -->
+        <div class="editor-output-panel">
+            
+            <div class="editor-box">
+                <div class="editor-header-tab">
+                    <span>SQL_QUERY_CONSOLE.sql</span>
+                    <span>Shortcut: [Ctrl + Enter]</span>
+                </div>
+                <textarea id="sqlEditorArea" spellcheck="false" placeholder="SELECT * FROM ...">SELECT * FROM talabalar LIMIT 10;</textarea>
+            </div>
+
+            <!-- Output Box -->
+            <div class="output-box">
+                <div class="output-status-bar">
+                    <span style="color:var(--text-color);"><i class="fa-solid fa-terminal"></i> Natijalar</span>
+                    <span class="exec-metrics-badge" id="metricsBadge" style="display:none;">0 qator (0 ms)</span>
+                </div>
+
+                <div id="outputContentArea">
+                    <p style="color:var(--text-muted); text-align:center; margin-top:50px;">
+                        SQL so‘rovingizni yozing va <b>"Bajarish"</b> tugmasini bosing.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 3. Right Column: AI Generator & Challenges -->
+        <div class="challenges-panel">
+            
+            <!-- AI GENERATOR BOX -->
+            <div class="ai-generator-box">
+                <div class="ai-generator-header">
+                    <span style="font-weight:800; font-size:0.92rem; color:#00f0ff;">
+                        <i class="fa-solid fa-robot"></i> AI TOPSHIRIQ GENERATORI
+                    </span>
+                    <span style="font-size:0.75rem; color:var(--text-muted);">Groq LLaMA 3.3</span>
+                </div>
+                <button class="btn-generate-ai" id="btnGenAI" onclick="generateNewAITask()">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Yangi Maxsus Topshiriq Olish
+                </button>
+
+                <!-- Active AI Task Card -->
+                <div class="ai-task-card" id="aiTaskCard">
+                    <div class="ai-task-badge-row">
+                        <span class="badge-difficulty diff-orta" id="aiTaskDiff">O‘rta</span>
+                        <span id="aiTaskSource" style="font-size:0.75rem; color:var(--text-muted);">AI</span>
+                    </div>
+                    <div id="aiTaskTitle" style="font-weight:700; font-size:0.92rem; color:var(--text-color); margin-bottom:4px;"></div>
+                    <div id="aiTaskDesc" style="font-size:0.83rem; color:var(--text-muted); line-height:1.45; margin-bottom:10px;"></div>
+
+                    <div style="display:flex;  ">
+                        <button class="btn-task-action" onclick="showAIHint()">
+                            <i class="fa-regular fa-lightbulb"></i> Maslahat
+                        </button>
+                        <button class="btn-task-action btn-task-check" onclick="checkAITaskChallenge()">
+                            <i class="fa-solid fa-check-double"></i> Tekshirish
+                        </button>
+                    </div>
+
+                    <div id="aiFeedbackBox" style="display:none; margin-top:10px; padding:10px; border-radius:8px; font-size:0.85rem;"></div>
+                </div>
+            </div>
+
+            <!-- Dynamic Tasks Container Header -->
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                <div class="panel-header-title" style="margin:0;">
+                    <i class="fa-solid fa-award"></i> Amaliy Topshiriqlar
+                </div>
+                <button class="btn-task-action" style="padding:4px 10px; font-size:0.78rem; font-weight:700; color:#00f0ff; border-color:rgba(0,240,255,0.4);" onclick="fetchBatchAITasks()" title="Ushbu baza bo'yicha 4 ta yangi AI topshiriq to'plamini tuzish">
+                    <i class="fa-solid fa-arrows-rotate"></i> Yangilash
+                </button>
+            </div>
+
+            <div id="tasksContainer"></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+const editor = document.getElementById('sqlEditorArea');
+let currentAITask = null;
+let activeSampleQueries = [];
+let activeTasks = [];
+
+// Initial Data from Server
+const initialSchema = {{ schema | tojson | safe }};
+const initialQueries = {{ sample_queries | tojson | safe }};
+
+function setQuery(query) {
+    if (!query) return;
+    editor.value = query;
+    editor.focus();
+    toggleTemplatesMenu(false);
+}
+
+function insertText(text) {
+    const start = editor.selectionStart;
+    const end = editor.selectionEnd;
+    editor.value = editor.value.substring(0, start) + text + editor.value.substring(end);
+    editor.selectionStart = editor.selectionEnd = start + text.length;
+    editor.focus();
+}
+
+function toggleTemplatesMenu(forceState) {
+    const menu = document.getElementById('templatesMenu');
+    if (forceState !== undefined) {
+        menu.style.display = forceState ? 'block' : 'none';
+        return;
+    }
+    menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+}
+
+document.addEventListener('click', (e) => {
+    const menu = document.getElementById('templatesMenu');
+    const btn = document.querySelector('.btn-templates');
+    if (menu && btn && !btn.contains(e.target) && !menu.contains(e.target)) {
+        menu.style.display = 'none';
+    }
+});
+
+// Shortcut Ctrl + Enter to run
+editor.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        e.preventDefault();
+        executeSQL();
+    }
+});
+
+async function executeSQL() {
+    const query = editor.value.trim();
+    if (!query) return;
+
+    const outputArea = document.getElementById('outputContentArea');
+    const badge = document.getElementById('metricsBadge');
+    outputArea.innerHTML = '<p style="text-align:center; color:var(--text-muted); padding:30px;"><i class="fa-solid fa-spinner fa-spin"></i> Bajarilmoqda...</p>';
+
+    try {
+        const res = await fetch('/student/sql-lab/api/execute', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ query: query })
+        });
+        const data = await res.json();
+
+        if (!data.success) {
+            badge.style.display = 'none';
+            outputArea.innerHTML = `<div class="sql-error-box"><i class="fa-solid fa-triangle-exclamation"></i> <b>Xatolik:</b> ${escapeHtml(data.error)}</div>`;
+            return;
+        }
+
+        if (data.is_select) {
+            badge.style.display = 'inline-block';
+            badge.innerText = `✅ ${data.row_count} ta qator (${data.time_ms} ms)`;
+
+            if (data.rows.length === 0) {
+                outputArea.innerHTML = '<p style="color:var(--text-muted); text-align:center; padding:30px;">Natijalar topilmadi (0 ta qator).</p>';
+                return;
+            }
+
+            let tableHtml = '<div class="table-result-wrapper"><table class="sql-result-table"><thead><tr>';
+            data.columns.forEach(col => {
+                tableHtml += `<th>${escapeHtml(col)}</th>`;
+            });
+            tableHtml += '</tr></thead><tbody>';
+
+            data.rows.forEach(row => {
+                tableHtml += '<tr>';
+                row.forEach(val => {
+                    tableHtml += `<td>${val !== null ? escapeHtml(String(val)) : '<i style="color:#94a3b8">NULL</i>'}</td>`;
+                });
+                tableHtml += '</tr>';
+            });
+            tableHtml += '</tbody></table></div>';
+            outputArea.innerHTML = tableHtml;
+        } else {
+            badge.style.display = 'inline-block';
+            badge.innerText = `✅ ${data.time_ms} ms`;
+            outputArea.innerHTML = `<div style="padding:20px; color:#16a34a; font-weight:700;"><i class="fa-solid fa-circle-check"></i> ${escapeHtml(data.message)} (${data.rows_affected} qator ta'sir qildi).</div>`;
+        }
+    } catch(err) {
+        outputArea.innerHTML = `<div class="sql-error-box"><i class="fa-solid fa-triangle-exclamation"></i> Aloqa xatosi: ${escapeHtml(err.message)}</div>`;
+    }
+}
+
+function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+}
+
+// 1. GENERATE NEW AI DATABASE & SCENARIO
+async function generateNewAIDatabase() {
+    const btn = document.getElementById('btnGenDB');
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> AI Yangi Baza yaratmoqda...';
+    btn.disabled = true;
+
+    try {
+        const res = await fetch('/student/sql-lab/api/ai-generate-database', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({})
+        });
+        const data = await res.json();
+
+        if (data.success) {
+            // Update Banner
+            document.getElementById('domainBadge').innerText = 'AI Baza';
+            document.getElementById('domainTitle').innerText = data.domain_name;
+            document.getElementById('domainDesc').innerText = data.description ? `— ${data.description}` : '';
+            document.getElementById('domainSource').innerText = `Manba: ${data.source || 'Groq AI'}`;
+
+            // Re-render Schema Explorer
+            renderSchemaExplorer(data.schema);
+
+            // Re-render Sample Queries
+            renderSampleQueries(data.sample_queries || []);
+
+            // Re-render Tasks
+            renderTasks(data.tasks || []);
+
+            // Set first table query in editor
+            const firstTable = Object.keys(data.schema)[0];
+            if (firstTable) {
+                editor.value = `SELECT * FROM ${firstTable} LIMIT 10;`;
+                executeSQL();
+            }
+
+            // Reset active task
+            document.getElementById('aiTaskCard').style.display = 'none';
+            currentAITask = null;
+        } else {
+            alert("Baza generatsiyasida xatolik: " + (data.error || 'Noma\'lum xatolik'));
+        }
+    } catch(err) {
+        alert("Server bilan aloqa xatosi: " + err.message);
+    } finally {
+        btn.innerHTML = '<i class="fa-solid fa-dice"></i> Yangi Baza Yaratish (AI)';
+        btn.disabled = false;
+    }
+}
+
+function renderSchemaExplorer(schema) {
+    const container = document.getElementById('schemaContainer');
+    let html = '';
+    for (const [tbl, cols] of Object.entries(schema)) {
+        html += `
+        <div class="table-schema-item">
+            <div class="table-name-header" onclick="selectFirstTableQuery('${escapeHtml(tbl)}')">
+                <span><i class="fa-solid fa-table-cells"></i> ${escapeHtml(tbl)}</span>
+                <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:11px; opacity:0.6;"></i>
+            </div>
+            <ul class="table-columns-list">
+        `;
+        cols.forEach(col => {
+            html += `
+                <li class="column-item" onclick="insertText('${escapeHtml(col.name)}')">
+                    <span>• ${escapeHtml(col.name)}</span>
+                    <span class="col-type">${escapeHtml(col.type)}</span>
+                </li>
+            `;
+        });
+        html += `</ul></div>`;
+    }
+    container.innerHTML = html;
+}
+
+function selectFirstTableQuery(tableName) {
+    setQuery(`SELECT * FROM ${tableName} LIMIT 10;`);
+    executeSQL();
+}
+
+function renderSampleQueries(queries) {
+    activeSampleQueries = queries || [];
+    const menu = document.getElementById('templatesMenu');
+    let html = '';
+    activeSampleQueries.forEach((q, idx) => {
+        html += `<div onclick="applySampleQuery(${idx})">${escapeHtml(q.title)}</div>`;
+    });
+    menu.innerHTML = html;
+}
+
+function applySampleQuery(index) {
+    if (activeSampleQueries && activeSampleQueries[index]) {
+        setQuery(activeSampleQueries[index].query);
+        executeSQL();
+    }
+}
+
+async function fetchBatchAITasks() {
+    const container = document.getElementById('tasksContainer');
+    container.innerHTML = '<p style="color:var(--text-muted); font-size:0.85rem; padding:15px; text-align:center;"><i class="fa-solid fa-spinner fa-spin"></i> Yangi AI topshiriqlar to\'plami tuzilmoqda...</p>';
+    try {
+        const res = await fetch('/student/sql-lab/api/ai-generate-tasks-batch', { method: 'POST' });
+        const data = await res.json();
+        if (data.success && data.tasks && data.tasks.length > 0) {
+            renderTasks(data.tasks);
+        } else {
+            renderTasks([]);
+        }
+    } catch(err) {
+        container.innerHTML = `<p style="color:#ef4444; font-size:0.85rem; padding:10px;">Topshiriqlarni yuklashda xatolik: ${escapeHtml(err.message)}</p>`;
+    }
+}
+
+function renderTasks(tasks) {
+    activeTasks = tasks || [];
+    const container = document.getElementById('tasksContainer');
+    if (activeTasks.length === 0) {
+        container.innerHTML = '<p style="color:var(--text-muted); font-size:0.85rem; padding:10px;">Hozircha topshiriqlar mavjud emas. Yuqoridagi "Yangilash" tugmasini bosing.</p>';
+        return;
+    }
+    let html = '';
+    activeTasks.forEach((t, idx) => {
+        const diff = (t.difficulty || 'O‘rta').toLowerCase();
+        let diffClass = 'diff-orta';
+        let diffLabel = 'O‘rta';
+        if (diff.includes('oson')) {
+            diffClass = 'diff-oson';
+            diffLabel = 'Oson';
+        } else if (diff.includes('murakkab')) {
+            diffClass = 'diff-murakkab';
+            diffLabel = 'Murakkab';
+        }
+
+        html += `
+        <div class="challenge-card" id="taskCard${idx}">
+            <div class="challenge-title">
+                <span>${escapeHtml(t.title)}</span>
+                <span class="badge-difficulty ${diffClass}">${diffLabel}</span>
+            </div>
+            <div class="challenge-desc">${escapeHtml(t.description)}</div>
+            <div class="challenge-actions">
+                <button class="btn-task-action" onclick="applyTaskHint(${idx})">
+                    <i class="fa-regular fa-lightbulb"></i> Maslahat
+                </button>
+                <button class="btn-task-action btn-task-check" onclick="checkTaskByIndex(${idx})">
+                    <i class="fa-solid fa-check"></i> Tekshirish
+                </button>
+                <span id="taskBadge${idx}" style="font-size:12px; margin-left:auto;"></span>
+            </div>
+        </div>
+        `;
+    });
+    container.innerHTML = html;
+}
+
+function applyTaskHint(index) {
+    if (activeTasks && activeTasks[index] && activeTasks[index].hint) {
+        const hintText = activeTasks[index].hint;
+        if (hintText.toUpperCase().startsWith("SELECT")) {
+            setQuery(hintText);
+        } else {
+            alert("💡 Maslahat: " + hintText);
+        }
+    }
+}
+
+async function checkTaskByIndex(index) {
+    if (!activeTasks || !activeTasks[index]) return;
+    const task = activeTasks[index];
+    const query = editor.value.trim();
+    if (!query) {
+        alert("Iltimos, avval SQL so'rovingizni yozing!");
+        return;
+    }
+
+    const card = document.getElementById(`taskCard${index}`);
+    const badge = document.getElementById(`taskBadge${index}`);
+    if (badge) badge.innerHTML = '<i class="fa-solid fa-spinner fa-spin" style="color:var(--text-muted);"></i>';
+
+    try {
+        const res = await fetch('/student/sql-lab/api/ai-check-task', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ query: query, gold_sql: task.gold_sql })
+        });
+        const data = await res.json();
+        if (data.success && data.correct) {
+            if (card) card.classList.add('solved');
+            if (badge) badge.innerHTML = '<span style="color:#10b981; font-weight:bold;">✅ To‘g‘ri</span>';
+            alert(data.message);
+        } else {
+            if (card) card.classList.remove('solved');
+            if (badge) badge.innerHTML = '<span style="color:#ef4444; font-weight:bold;">❌ Xato</span>';
+            alert(data.message || data.error);
+        }
+    } catch(err) {
+        if (badge) badge.innerHTML = '';
+        alert("Xatolik: " + err.message);
+    }
+}
+
+async function resetSandboxDB() {
+    if (!confirm("Standart ma'lumotlar bazasiga qaytmoqchimisiz?")) return;
+    const res = await fetch('/student/sql-lab/api/reset', { method: 'POST' });
+    const data = await res.json();
+    if (data.success) {
+        document.getElementById('domainBadge').innerText = 'Standart Baza';
+        document.getElementById('domainTitle').innerText = 'Universitet & Talabalar Tizimi';
+        document.getElementById('domainDesc').innerText = '— Talabalar, fanlar, baholar va xodimlar bazasi';
+        document.getElementById('domainSource').innerText = 'Manba: Standart';
+
+        renderSchemaExplorer(data.schema);
+        renderSampleQueries(data.sample_queries);
+        editor.value = 'SELECT * FROM talabalar LIMIT 10;';
+        executeSQL();
+        fetchBatchAITasks();
+        alert("✅ Standart baza muvaffaqiyatli tiklandi!");
+    } else {
+        alert("Xatolik: " + data.error);
+    }
+}
+
+async function generateNewAITask() {
+    const btn = document.getElementById('btnGenAI');
+    const card = document.getElementById('aiTaskCard');
+    const titleEl = document.getElementById('aiTaskTitle');
+    const descEl = document.getElementById('aiTaskDesc');
+    const diffEl = document.getElementById('aiTaskDiff');
+    const srcEl = document.getElementById('aiTaskSource');
+    const fbBox = document.getElementById('aiFeedbackBox');
+
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> AI Topshiriq tuzmoqda...';
+    btn.disabled = true;
+    fbBox.style.display = 'none';
+
+    try {
+        const res = await fetch('/student/sql-lab/api/ai-generate-task', { method: 'POST' });
+        const data = await res.json();
+
+        if (data.success && data.task) {
+            currentAITask = data.task;
+            titleEl.innerText = data.task.title;
+            descEl.innerText = data.task.description;
+            srcEl.innerText = data.task.source || 'Groq AI';
+
+            const diff = (data.task.difficulty || 'O‘rta').toLowerCase();
+            diffEl.className = 'badge-difficulty';
+            if (diff.includes('oson')) {
+                diffEl.classList.add('diff-oson');
+                diffEl.innerText = 'Oson';
+            } else if (diff.includes('murakkab')) {
+                diffEl.classList.add('diff-murakkab');
+                diffEl.innerText = 'Murakkab';
+            } else {
+                diffEl.classList.add('diff-orta');
+                diffEl.innerText = 'O‘rta';
+            }
+
+            card.style.display = 'block';
+        } else {
+            alert("AI topshiriq generatsiyasida xatolik yuz berdi.");
+        }
+    } catch(err) {
+        alert("Server bilan aloqa xatosi: " + err.message);
+    } finally {
+        btn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> Yangi Maxsus Topshiriq Olish';
+        btn.disabled = false;
+    }
+}
+
+function showAIHint() {
+    if (!currentAITask || !currentAITask.hint) {
+        alert("Hozirgi topshiriq uchun maslahat mavjud emas.");
+        return;
+    }
+    const hintText = currentAITask.hint;
+    if (hintText.toUpperCase().startsWith("SELECT")) {
+        setQuery(hintText);
+    } else {
+        alert("💡 Maslahat: " + hintText);
+    }
+}
+
+async function checkAITaskChallenge() {
+    if (!currentAITask) {
+        alert("Iltimos, avval AI topshiriqni oling!");
+        return;
+    }
+
+    const query = editor.value.trim();
+    if (!query) {
+        alert("Iltimos, avval SQL so'rovingizni yozing!");
+        return;
+    }
+
+    const fbBox = document.getElementById('aiFeedbackBox');
+    fbBox.style.display = 'block';
+    fbBox.style.background = '#0f172a';
+    fbBox.style.color = '#94a3b8';
+    fbBox.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Tekshirilmoqda...';
+
+    try {
+        const res = await fetch('/student/sql-lab/api/ai-check-task', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                query: query,
+                gold_sql: currentAITask.gold_sql
+            })
+        });
+        const data = await res.json();
+
+        if (data.success && data.correct) {
+            fbBox.style.background = 'rgba(16, 185, 129, 0.2)';
+            fbBox.style.border = '1px solid #10b981';
+            fbBox.style.color = '#10b981';
+            fbBox.innerHTML = `<b>${escapeHtml(data.message)}</b>`;
+        } else {
+            fbBox.style.background = 'rgba(239, 68, 68, 0.2)';
+            fbBox.style.border = '1px solid #ef4444';
+            fbBox.style.color = '#ef4444';
+            fbBox.innerHTML = `<b>❌ Noto‘g‘ri:</b> ${escapeHtml(data.message || data.error)}`;
+        }
+    } catch(err) {
+        fbBox.style.background = 'rgba(239, 68, 68, 0.2)';
+        fbBox.style.border = '1px solid #ef4444';
+        fbBox.style.color = '#ef4444';
+        fbBox.innerHTML = `<b>❌ Xatolik:</b> ${escapeHtml(err.message)}`;
+    }
+}
+
+// Initial Run on load
+document.addEventListener("DOMContentLoaded", () => {
+    renderSchemaExplorer(initialSchema);
+    renderSampleQueries(initialQueries);
+    executeSQL();
+    fetchBatchAITasks();
+});
+</script>
+{% endblock %}

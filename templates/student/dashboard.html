@@ -1,148 +1,725 @@
 {% extends "base.html" %}
-{% block content %}
+{% block title %}Bosh Sahifa - Ma'lumotlar Bazasi va Axborot Tizimlari{% endblock %}
 
-<!-- HERO SECTION -->
-<section style="background: var(--card-bg);color: var(--text-color); padding:100px 20px; text-align:center; border-radius:20px; margin:20px 10px; overflow:hidden;">
-  <div style="max-width:1100px; margin:auto;">
-    <h1 style=" font-weight:700; margin-bottom:20px; line-height:1.2; animation:fadeIn 1.5s ease forwards; opacity:0;">MALUMOTLAR BAZASI VA AXBOROT TIZIMLARI</h1>
-    <p style="font-size:1.2rem; margin-bottom:40px; line-height:1.5; background: var(--card-bg);color: var(--text-color); animation:fadeIn 2s ease forwards; opacity:0;">Interaktiv kurslar, real vaqt mashqlar va professional ta’lim tizimi barchasi bir platformada. Bilimingizni yangi bosqichga ko‘tarish uchun ideal yechim.</p>
-    <div style="display:flex; justify-content:center; gap:20px; flex-wrap:wrap; animation:fadeIn 2.5s ease forwards; opacity:0;">
-      <a href="/student/courses" style="background:#3b82f6; color:white; padding:15px 30px; border-radius:10px; text-decoration:none; font-weight:600; transition: all 0.3s;">Kurslarni boshlash</a>
-      <a href="#features" style="background:none; border:2px solid var(--text-color); background: var(--card-bg);color: var(--text-color); padding:15px 30px; border-radius:10px; text-decoration:none; font-weight:600; transition: all 0.3s;">Demo ko‘rish</a>
-    </div>
-  </div>
-</section>
+{% block content %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
 
 <style>
-@keyframes fadeIn {
-  from {opacity:0; transform:translateY(20px);}
-  to {opacity:1; transform:translateY(0);}
+.home-shell {
+    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --surface-subtle: #f1f5f9;
+    --code-bg: #0d1117;
+    --code-header: #161b22;
+    --code-border: #30363d;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 28px 20px 72px;
+    font-family: var(--font-sans);
 }
-a:hover {
-  transform: scale(1.03);
+
+body.dark .home-shell {
+    --surface-subtle: rgba(30, 41, 59, 0.55);
+    --code-bg: #090d16;
+    --code-header: #0f172a;
+    --code-border: #1e293b;
 }
-.feature-card:hover {
-  transform: translateY(-5px) scale(1.02);
-  box-shadow:0 10px 20px rgba(0,0,0,0.2);
+
+/* =========================================================
+   1. SPLIT HERO SECTION
+   ========================================================= */
+.hero-split {
+    display: grid;
+    grid-template-columns: 1.08fr 0.92fr;
+    gap: 40px;
+    align-items: center;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 44px 42px;
+    box-shadow: var(--shadow);
+    margin-bottom: 48px;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-split::before {
+    content: "";
+    position: absolute;
+    top: -120px;
+    right: -120px;
+    width: 340px;
+    height: 340px;
+    background: radial-gradient(circle, rgba(79, 70, 229, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.hero-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: var(--primary);
+    background: var(--primary-light);
+    padding: 6px 12px;
+    border-radius: 6px;
+    margin-bottom: 18px;
+    letter-spacing: 0.03em;
+}
+
+.hero-kicker-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--primary);
+}
+
+.hero-heading {
+    font-family: var(--font-display);
+    font-size: 2.55rem;
+    font-weight: 700;
+    color: var(--text-color);
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+    margin: 0 0 18px 0;
+}
+
+.hero-lead {
+    font-size: 1.04rem;
+    color: var(--text-muted);
+    line-height: 1.65;
+    margin: 0 0 30px 0;
+    max-width: 520px;
+}
+
+.hero-cta-group {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.btn-hero-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--primary);
+    color: #ffffff !important;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.96rem;
+    padding: 13px 24px;
+    border-radius: 10px;
+    transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 14px rgba(79, 70, 229, 0.25);
+}
+
+.btn-hero-primary:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+}
+
+.btn-hero-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--surface-subtle);
+    color: var(--text-color) !important;
+    border: 1px solid var(--card-border);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.96rem;
+    padding: 13px 22px;
+    border-radius: 10px;
+    transition: border-color 0.2s ease, transform 0.15s ease;
+}
+
+.btn-hero-secondary:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+}
+
+/* Right Visual: Interactive SQL & Schema Window */
+.db-studio-preview {
+    background: var(--code-bg);
+    border: 1px solid var(--code-border);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 18px 40px -12px rgba(0, 0, 0, 0.35);
+    font-family: var(--font-mono);
+}
+
+.db-studio-bar {
+    background: var(--code-header);
+    padding: 11px 16px;
+    border-bottom: 1px solid var(--code-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.db-window-controls {
+    display: flex;
+    gap: 7px;
+}
+
+.db-window-controls span {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.db-window-controls .c-red { background: #ff5f56; }
+.db-window-controls .c-yellow { background: #ffbd2e; }
+.db-window-controls .c-green { background: #27c93f; }
+
+.db-studio-tabs {
+    display: flex;
+    gap: 6px;
+    font-size: 0.74rem;
+}
+
+.db-tab {
+    padding: 3px 9px;
+    border-radius: 5px;
+    color: #8b949e;
+}
+
+.db-tab.active {
+    background: rgba(56, 189, 248, 0.12);
+    color: #38bdf8;
+    font-weight: 600;
+}
+
+.db-code-area {
+    padding: 18px 20px;
+    font-size: 0.82rem;
+    line-height: 1.65;
+    color: #e2e8f0;
+    border-bottom: 1px solid var(--code-border);
+}
+
+.sq-kw { color: #ff7b72; font-weight: 600; }
+.sq-fn { color: #d2a8ff; }
+.sq-tb { color: #79c0ff; }
+.sq-cm { color: #6e7681; }
+
+.db-result-area {
+    padding: 12px 16px 14px;
+    background: rgba(255, 255, 255, 0.015);
+}
+
+.db-result-label {
+    font-size: 0.7rem;
+    color: #8b949e;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.db-result-label .status-ok {
+    color: #3fb950;
+}
+
+.db-mini-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.76rem;
+    color: #cbd5e1;
+}
+
+.db-mini-table th {
+    text-align: left;
+    color: #8b949e;
+    font-weight: 500;
+    padding: 5px 8px;
+    border-bottom: 1px solid var(--code-border);
+}
+
+.db-mini-table td {
+    padding: 6px 8px;
+    border-bottom: 1px solid rgba(48, 54, 61, 0.5);
+}
+
+.db-mini-table tr:last-child td {
+    border-bottom: none;
+}
+
+.pk-pill {
+    background: rgba(56, 189, 248, 0.15);
+    color: #38bdf8;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 0.68rem;
+}
+
+/* =========================================================
+   2. COURSES SECTION
+   ========================================================= */
+.sec-block {
+    margin-bottom: 48px;
+}
+
+.sec-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 22px;
+    gap: 12px;
+}
+
+.sec-title-wrap h2 {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-color);
+    margin: 0 0 4px 0;
+    letter-spacing: -0.02em;
+}
+
+.sec-title-wrap p {
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+.sec-all-link {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--primary);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+.sec-all-link:hover {
+    text-decoration: underline;
+}
+
+.courses-showcase-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 24px;
+}
+
+.course-showcase-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow);
+    transition: transform 0.22s ease, border-color 0.22s ease;
+}
+
+.course-showcase-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--primary);
+}
+
+.course-thumb-wrap {
+    height: 185px;
+    position: relative;
+    overflow: hidden;
+    background: #0f172a;
+    border-bottom: 1px solid var(--card-border);
+}
+
+.course-thumb-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.35s ease;
+}
+
+.course-showcase-card:hover .course-thumb-wrap img {
+    transform: scale(1.03);
+}
+
+.course-lesson-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: rgba(15, 23, 42, 0.82);
+    backdrop-filter: blur(8px);
+    color: #ffffff;
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    font-weight: 600;
+    padding: 5px 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.course-body-wrap {
+    padding: 22px 24px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.course-body-wrap h3 {
+    font-size: 1.22rem;
+    font-weight: 700;
+    color: var(--text-color);
+    margin: 0 0 8px 0;
+}
+
+.course-body-wrap p {
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    line-height: 1.55;
+    margin: 0 0 20px 0;
+    flex: 1;
+}
+
+.course-progress-box {
+    margin-bottom: 18px;
+}
+
+.course-progress-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+}
+
+.course-progress-track {
+    height: 7px;
+    background: var(--surface-subtle);
+    border-radius: 99px;
+    overflow: hidden;
+}
+
+.course-progress-fill {
+    height: 100%;
+    background: var(--primary);
+    border-radius: 99px;
+}
+
+.course-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 16px;
+    border-top: 1px solid var(--card-border);
+}
+
+.course-tags {
+    display: flex;
+    gap: 10px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.course-tags span {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-course-go {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: var(--primary);
+    color: #ffffff !important;
+    text-decoration: none;
+    font-size: 0.88rem;
+    font-weight: 600;
+    padding: 9px 18px;
+    border-radius: 8px;
+    transition: background 0.2s ease;
+}
+
+.btn-course-go:hover {
+    background: var(--primary-hover);
+}
+
+/* =========================================================
+   3. WORKFLOW BENTO GRID (3 STEPS)
+   ========================================================= */
+.bento-steps-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.bento-step-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 26px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: var(--shadow);
+    transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.bento-step-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-3px);
+}
+
+.bento-top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+}
+
+.bento-step-num {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--primary);
+    background: var(--primary-light);
+    padding: 4px 10px;
+    border-radius: 6px;
+}
+
+.bento-step-icon {
+    font-size: 1.25rem;
+    color: var(--text-muted);
+}
+
+.bento-step-card h3 {
+    font-size: 1.12rem;
+    font-weight: 700;
+    color: var(--text-color);
+    margin: 0 0 8px 0;
+}
+
+.bento-step-card p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.55;
+    margin: 0 0 18px 0;
+}
+
+.bento-step-link {
+    font-size: 0.86rem;
+    font-weight: 600;
+    color: var(--primary);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+@media (max-width: 960px) {
+    .hero-split {
+        grid-template-columns: 1fr;
+        padding: 32px 24px;
+        gap: 28px;
+    }
+    .hero-heading {
+        font-size: 2rem;
+    }
+    .bento-steps-grid {
+        grid-template-columns: 1fr;
+    }
 }
 </style>
 
-<!-- FEATURES SECTION -->
-<section id="features" style="padding:80px 20px; max-width:1100px; margin:auto;">
-  <h2 style="text-align:center; font-size:2rem; font-weight:700; margin-bottom:50px; ">Platforma imkoniyatlari</h2>
-  <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:30px;">
-    
-    <div class="feature-card" style="background: var(--card-bg);color: var(--text-color); padding:30px; border-radius:15px; width:300px; text-align:center; box-shadow:0 4px 15px rgba(0,0,0,0.08); transition: transform 0.3s, box-shadow 0.3s;">
-      <div style="font-size:2.8rem; margin-bottom:20px;"><i class="fa-solid fa-video"></i></div>
-      <h3 style="font-weight:700; margin-bottom:15px; background: var(--card-bg);color: var(--text-color);">Interaktiv darslar</h3>
-      <p style="background: var(--card-bg);color: var(--text-color);">Video va interaktiv darslar orqali bilimlaringizni tez va samarali oling.</p>
-    </div>
+<div class="home-shell">
+    <!-- 1. SPLIT HERO -->
+    <section class="hero-split">
+        <div class="hero-left">
+            <div class="hero-kicker">
+                <span class="hero-kicker-dot"></span>
+                <span>INTERAKTIV TA’LIM PLATFORMASI</span>
+            </div>
+            <h1 class="hero-heading">Ma’lumotlar bazasi va axborot tizimlari</h1>
+            <p class="hero-lead">
+                Relyatsion ma’lumotlar bazasini loyihalash, SQL so‘rovlar tili hamda amaliy dasturiy tizimlarni video darslar va virtual laboratoriya orqali o‘rganing.
+            </p>
+            <div class="hero-cta-group">
+                <a href="/student/courses" class="btn-hero-primary">
+                    <span>Kurslarni boshlash</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+                <a href="/student/sql-lab" class="btn-hero-secondary">
+                    <i class="fa-solid fa-terminal"></i>
+                    <span>SQL Laboratoriya</span>
+                </a>
+            </div>
+        </div>
 
-    <div class="feature-card" style="background: var(--card-bg);color: var(--text-color); padding:30px; border-radius:15px; width:300px; text-align:center; box-shadow:0 4px 15px rgba(0,0,0,0.08); transition: transform 0.3s, box-shadow 0.3s;">
-      <div style="font-size:2.8rem; margin-bottom:20px;"><i class="fa-solid fa-pen-to-square"></i></div>
-      <h3 style="font-weight:700; margin-bottom:15px; background: var(--card-bg);color: var(--text-color);">Amaliy mashqlar</h3>
-      <p style="background: var(--card-bg);color: var(--text-color);">Bilimlaringizni real vaqt mashqlari orqali mustahkamlang.</p>
-    </div>
+        <div class="hero-right">
+            <div class="db-studio-preview">
+                <div class="db-studio-bar">
+                    <div class="db-window-controls">
+                        <span class="c-red"></span>
+                        <span class="c-yellow"></span>
+                        <span class="c-green"></span>
+                    </div>
+                    <div class="db-studio-tabs">
+                        <span class="db-tab active">query.sql</span>
+                        <span class="db-tab">schema</span>
+                    </div>
+                </div>
+                <div class="db-code-area">
+                    <div><span class="sq-cm">-- Kurslar va mavzular statistikasi</span></div>
+                    <div><span class="sq-kw">SELECT</span> c.id, c.name, <span class="sq-fn">COUNT</span>(t.id) <span class="sq-kw">AS</span> mavzular</div>
+                    <div><span class="sq-kw">FROM</span> <span class="sq-tb">courses</span> c</div>
+                    <div><span class="sq-kw">LEFT JOIN</span> <span class="sq-tb">chapters</span> ch <span class="sq-kw">ON</span> ch.course_id = c.id</div>
+                    <div><span class="sq-kw">LEFT JOIN</span> <span class="sq-tb">topics</span> t <span class="sq-kw">ON</span> t.chapter_id = ch.id</div>
+                    <div><span class="sq-kw">GROUP BY</span> c.id;</div>
+                </div>
+                <div class="db-result-area">
+                    <div class="db-result-label">
+                        <span>Natija ({{ courses|length }} qator)</span>
+                        <span class="status-ok">● 0.002s</span>
+                    </div>
+                    <table class="db-mini-table">
+                        <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>name</th>
+                                <th>mavzular</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for c in courses %}
+                            <tr>
+                                <td><span class="pk-pill">PK {{ c['id'] }}</span></td>
+                                <td>{{ c['name'] }}</td>
+                                <td>{{ c['total_topics'] }} ta</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <div class="feature-card" style="background: var(--card-bg);color: var(--text-color); padding:30px; border-radius:15px; width:300px; text-align:center; box-shadow:0 4px 15px rgba(0,0,0,0.08); transition: transform 0.3s, box-shadow 0.3s;">
-      <div style="font-size:2.8rem; margin-bottom:20px;"><i class="fa-solid fa-message"></i></div>
-      <h3 style="font-weight:700; margin-bottom:15px; background: var(--card-bg);color: var(--text-color);">Savollar bilan muloqot</h3>
-      <p style="background: var(--card-bg);color: var(--text-color);">Savollaringizga tezkor javob oling va bilimlaringizni kengaytiring.</p>
-    </div>
+    <!-- 2. O'QUV KURSLARI -->
+    <section class="sec-block">
+        <div class="sec-header">
+            <div class="sec-title-wrap">
+                <h2>O‘quv kurslari</h2>
+                <p>Mavzulashtirilgan video darslar, PDF konspektlar va amaliy topshiriqlar</p>
+            </div>
+            <a href="/student/courses" class="sec-all-link">
+                Barcha kurslar <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
 
-  </div>
-</section>
+        <div class="courses-showcase-grid">
+            {% for course in courses %}
+            {% set total = course['total_topics'] or 0 %}
+            {% set done = course['topics_done'] or 0 %}
+            {% set percent = (done / total * 100) if total > 0 else 0 %}
+            <div class="course-showcase-card">
+                <div class="course-thumb-wrap">
+                    {% if course['img'] %}
+                        {% if course['img'].startswith('http') or course['img'].startswith('/') %}
+                        <img src="{{ course['img'] }}" alt="{{ course['name'] }}">
+                        {% else %}
+                        <img src="{{ url_for('static', filename='icons/' + course['img']) }}" alt="{{ course['name'] }}">
+                        {% endif %}
+                    {% else %}
+                        <div style="width:100%; height:100%; background:linear-gradient(135deg, #1e3a8a, #3b82f6); display:flex; align-items:center; justify-content:center; color:#fff; font-size:2.8rem;">
+                            <i class="fa-solid fa-database"></i>
+                        </div>
+                    {% endif %}
+                    <span class="course-lesson-badge">{{ total }} ta mavzu</span>
+                </div>
 
-<!-- STATISTICS SECTION -->
-<!-- STATISTICS SECTION -->
-<section style="padding:80px 20px; text-align:center; background: var(--card-bg);color: var(--text-color); border-radius:20px; margin:40px 10px;">
-  <h2 style="font-size:2rem; font-weight:700; margin-bottom:50px; background: var(--card-bg);color: var(--text-color);">Platforma statistikasi</h2>
-  <div style="display:flex; justify-content:center; gap:60px; flex-wrap:wrap;">
-    <div>
-      <h3 style="font-size:2rem; font-weight:700; color:#3b82f6;" class="counter" data-target="{{ stats['users'] }}">0</h3>
-      <p style="background: var(--card-bg);color: var(--text-color);">foydalanuvchilar</p>
-    </div>
-    <div>
-      <h3 style="font-size:2rem; font-weight:700; color:#3b82f6;" class="counter" data-target="{{ stats['enrolled'] }}">0</h3>
-      <p style="background: var(--card-bg);color: var(--text-color);">kursga ro'yxatdan o'tganlar</p>
-    </div>
-    <div>
-      <h3 style="font-size:2rem; font-weight:700; color:#3b82f6;" class="counter" data-target="{{ stats['certified'] }}">0</h3>
-      <p style="background: var(--card-bg);color: var(--text-color);">sertifikat olganlar</p>
-    </div>
-  </div>
-</section>
+                <div class="course-body-wrap">
+                    <h3>{{ course['name'] }}</h3>
+                    <p>{{ course['title'] }}</p>
 
-<script>
-const counters = document.querySelectorAll('.counter');
-counters.forEach(counter => {
-  const updateCount = () => {
-    const target = +counter.getAttribute('data-target');
-    const count = +counter.innerText;
-    const speed = 50;
-    const inc = target / speed;
-    if(count < target){
-      counter.innerText = Math.ceil(count + inc);
-      setTimeout(updateCount, 20);
-    } else {
-      counter.innerText = target;
-    }
-  }
-  updateCount();
-});
-</script>
+                    {% if session.get('user_id') and total > 0 %}
+                    <div class="course-progress-box">
+                        <div class="course-progress-meta">
+                            <span>O‘zlashtirish ko‘rsatkichi</span>
+                            <span>{{ percent | round | int }}%</span>
+                        </div>
+                        <div class="course-progress-track">
+                            <div class="course-progress-fill" style="width: {{ percent }}%;"></div>
+                        </div>
+                    </div>
+                    {% endif %}
 
+                    <div class="course-card-footer">
+                        <div class="course-tags">
+                            <span><i class="fa-solid fa-circle-play"></i> Video</span>
+                            <span><i class="fa-solid fa-file-pdf"></i> PDF</span>
+                            <span><i class="fa-solid fa-list-check"></i> Test</span>
+                        </div>
+                        <a href="{{ url_for('student.course_detail', course_id=course['id']) }}" class="btn-course-go">
+                            Kursga o‘tish <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
 
-<script>
-const counters = document.querySelectorAll('.counter');
-counters.forEach(counter => {
-  const updateCount = () => {
-    const target = +counter.getAttribute('data-target');
-    const count = +counter.innerText;
-    const speed = 50;
-    const inc = target / speed;
-    if(count < target){
-      counter.innerText = Math.ceil(count + inc);
-      setTimeout(updateCount, 20);
-    } else {
-      counter.innerText = target;
-    }
-  }
-  updateCount();
-});
-</script>
+    <!-- 3. O'QUV JARAYONI (3 TA ASOSIY YO'NALISH) -->
+    <section class="sec-block" style="margin-bottom: 0;">
+        <div class="sec-header">
+            <div class="sec-title-wrap">
+                <h2>O‘quv jarayoni</h2>
+                <p>Nazariy bilimdan amaliy ko‘nikma va sertifikatgacha bo‘lgan bosqichlar</p>
+            </div>
+        </div>
 
-<!-- TESTIMONIALS SECTION -->
-<section style="padding:80px 20px; text-align:center; margin:40px 10px;">
-  <h2 style="font-size:2rem; font-weight:700; margin-bottom:50px; color: var(--text-color);">Foydalanuvchilar fikri</h2>
-  <div id="testimonials" style="max-width:650px; margin:auto; border-radius:15px; padding:30px; background: var(--card-bg);color: var(--text-color); box-shadow:0 4px 15px rgba(0,0,0,0.08); opacity:1; transition: opacity 0.5s; background: var(--card-bg);color: var(--text-color);">
-    <p>"Bu platforma menga bilim olishni osonlashtirdi. Kurslar interaktiv va tushunarli!"</p>
-    <strong>- Diyor</strong>
-  </div>
-</section>
+        <div class="bento-steps-grid">
+            <a href="/student/courses" class="bento-step-card">
+                <div>
+                    <div class="bento-top-row">
+                        <span class="bento-step-num">01-BOSQICH</span>
+                        <i class="fa-solid fa-book-open-reader bento-step-icon"></i>
+                    </div>
+                    <h3>Nazariya va video darslar</h3>
+                    <p>Har bir modul bo‘yicha tartiblangan video darsliklar va PDF ma’ruza materiallari bilan tanishing.</p>
+                </div>
+                <span class="bento-step-link">Darslarni ko‘rish <i class="fa-solid fa-arrow-right"></i></span>
+            </a>
 
-<script>
-const testi = [
-  '"Bu platforma menga bilim olishni osonlashtirdi. Kurslar interaktiv va tushunarli!" - Diyor',
-  '"Platformada testlar ajoyib va foydali. Men har kuni ishlayman." - Nilufar',
-  '"O‘qituvchilar doim javob berishadi va chat juda tez ishlaydi." - Jasur'
-];
-let index = 0;
-const testDiv = document.getElementById('testimonials');
-setInterval(() => {
-  index = (index + 1) % testi.length;
-  testDiv.style.opacity = 0;
-  setTimeout(() => {
-    testDiv.innerHTML = testi[index];
-    testDiv.style.opacity = 1;
-  }, 500);
-}, 4000);
-</script>
+            <a href="/student/sql-lab" class="bento-step-card">
+                <div>
+                    <div class="bento-top-row">
+                        <span class="bento-step-num">02-BOSQICH</span>
+                        <i class="fa-solid fa-terminal bento-step-icon"></i>
+                    </div>
+                    <h3>SQL amaliy laboratoriya</h3>
+                    <p>Qo‘shimcha dastur o‘rnatmasdan, brauzerning o‘zida SQL so‘rovlarni yozib amalda sinab ko‘ring.</p>
+                </div>
+                <span class="bento-step-link">Laboratoriyani ochish <i class="fa-solid fa-arrow-right"></i></span>
+            </a>
 
-<!-- CTA SECTION -->
-<section style="background: var(--card-bg);color: var(--text-color); text-align:center; padding:80px 20px; border-radius:20px; margin:40px 10px;">
-  <h2 style="font-size:2.5rem; font-weight:700; margin-bottom:30px;">Bugunoq o‘rganishni boshlang</h2>
-  <a href="/login" style="background:#3b82f6; color:white; padding:20px 40px; border-radius:10px; text-decoration:none; font-weight:700; transition: all 0.3s;">Ro‘yxatdan o‘tish</a>
-</section>
-
+            <a href="/certificate/verify" class="bento-step-card">
+                <div>
+                    <div class="bento-top-row">
+                        <span class="bento-step-num">03-BOSQICH</span>
+                        <i class="fa-solid fa-qrcode bento-step-icon"></i>
+                    </div>
+                    <h3>QR-kodli sertifikat va tekshirish</h3>
+                    <p>Kursni muvaffaqiyatli yakunlab, maxsus QR-kodli sertifikat oling yoki berilgan sertifikat haqiqiyligini tekshiring.</p>
+                </div>
+                <span class="bento-step-link">Sertifikatni tekshirish <i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+        </div>
+    </section>
+</div>
 {% endblock %}

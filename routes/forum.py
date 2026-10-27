@@ -322,9 +322,9 @@ def resources():
         c = conn.cursor()
 
         c.execute("""
-        SELECT *
+        SELECT id, title, file, COALESCE(order_index, 0)
         FROM resources
-        ORDER BY id DESC
+        ORDER BY COALESCE(order_index, 0) ASC, id ASC
         """)
 
         resources = c.fetchall()
