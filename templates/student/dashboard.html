@@ -2,724 +2,688 @@
 {% block title %}Bosh Sahifa - Ma'lumotlar Bazasi va Axborot Tizimlari{% endblock %}
 
 {% block content %}
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
-
 <style>
-.home-shell {
-    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-    --font-display: 'Space Grotesk', sans-serif;
-    --font-mono: 'JetBrains Mono', monospace;
-    --surface-subtle: #f1f5f9;
-    --code-bg: #0d1117;
-    --code-header: #161b22;
-    --code-border: #30363d;
-    max-width: 1180px;
-    margin: 0 auto;
-    padding: 28px 20px 72px;
-    font-family: var(--font-sans);
+/* ========================================================= */
+/* PREMIUM INDIGO & BLUE DUAL-THEME DESIGN SYSTEM            */
+/* ========================================================= */
+:root {
+    /* Accents */
+    --accent-indigo: #4f46e5;
+    --accent-indigo-dark: #4338ca;
+    --accent-indigo-light: #eef2ff;
+    --accent-blue: #2563eb;
+    --accent-blue-light: #eff6ff;
+    --accent-emerald: #059669;
+    --accent-emerald-light: #ecfdf5;
+    --accent-amber: #f59e0b;
+
+    /* Light Theme (Coursera / Stripe Modern Indigo-Blue) */
+    --dash-hero-bg: radial-gradient(100% 120% at 50% 0%, #eef2ff 0%, #ffffff 80%), #ffffff;
+    --dash-hero-border: #e0e7ff;
+    --dash-hero-title: linear-gradient(135deg, #0f172a 15%, #1e40af 55%, #4338ca 100%);
+    --dash-hero-shadow: 0 20px 40px -15px rgba(79, 70, 229, 0.08), 0 1px 3px rgba(0, 0, 0, 0.02);
+
+    --dash-badge-bg: #eef2ff;
+    --dash-badge-border: #c7d2fe;
+    --dash-badge-color: #4338ca;
+    --dash-badge-dot: #4f46e5;
+
+    --dash-card-bg: #ffffff;
+    --dash-card-border: #e2e8f0;
+    --dash-card-hover-border: #c7d2fe;
+    --dash-card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.04), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
+    --dash-card-shadow-hover: 0 20px 30px -10px rgba(79, 70, 229, 0.12), 0 8px 10px -6px rgba(79, 70, 229, 0.04);
+
+    --dash-stat-number: #0f172a;
+    --dash-grid-color: rgba(79, 70, 229, 0.04);
+
+    --dash-btn-primary-bg: linear-gradient(135deg, #4f46e5 0%, #2563eb 100%);
+    --dash-btn-primary-hover: linear-gradient(135deg, #4338ca 0%, #1d4ed8 100%);
+    --dash-btn-primary-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.38);
+
+    --dash-btn-outline-bg: #ffffff;
+    --dash-btn-outline-border: #cbd5e1;
+    --dash-btn-outline-color: #0f172a;
+    --dash-btn-outline-hover-bg: #f8fafc;
+    --dash-btn-outline-hover-border: #94a3b8;
+
+    --dash-testimonial-bg: #ffffff;
+    --dash-testimonial-border: #e2e8f0;
+    --dash-testimonial-text: #1e293b;
+    --dash-testimonial-author: #64748b;
+    --dash-testimonial-header-bg: #f8fafc;
+
+    --dash-cta-bg: linear-gradient(135deg, #1e1b4b 0%, #312e81 40%, #1e40af 100%);
+    --dash-cta-border: rgba(199, 210, 254, 0.25);
+    --dash-cta-text: #ffffff;
+    --dash-cta-desc: #e0e7ff;
+    --dash-cta-btn-bg: #ffffff;
+    --dash-cta-btn-color: #1e1b4b;
 }
 
-body.dark .home-shell {
-    --surface-subtle: rgba(30, 41, 59, 0.55);
-    --code-bg: #090d16;
-    --code-header: #0f172a;
-    --code-border: #1e293b;
+/* Dark Theme Overrides */
+body.dark {
+    --dash-hero-bg: radial-gradient(100% 120% at 50% 0%, rgba(79, 70, 229, 0.18) 0%, rgba(15, 23, 42, 0.85) 100%), #0f172a;
+    --dash-hero-border: rgba(99, 102, 241, 0.3);
+    --dash-hero-title: linear-gradient(135deg, #ffffff 20%, #818cf8 60%, #38bdf8 100%);
+    --dash-hero-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 25px rgba(99, 102, 241, 0.2);
+
+    --dash-badge-bg: rgba(99, 102, 241, 0.15);
+    --dash-badge-border: rgba(99, 102, 241, 0.35);
+    --dash-badge-color: #a5b4fc;
+    --dash-badge-dot: #818cf8;
+
+    --dash-card-bg: rgba(30, 41, 59, 0.75);
+    --dash-card-border: #334155;
+    --dash-card-hover-border: #818cf8;
+    --dash-card-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    --dash-card-shadow-hover: 0 20px 35px -5px rgba(99, 102, 241, 0.25);
+
+    --dash-stat-number: #ffffff;
+    --dash-grid-color: rgba(99, 102, 241, 0.05);
+
+    --dash-btn-primary-bg: linear-gradient(135deg, #6366f1 0%, #38bdf8 100%);
+    --dash-btn-primary-hover: linear-gradient(135deg, #4f46e5 0%, #0ea5e9 100%);
+    --dash-btn-primary-shadow: 0 0 25px rgba(99, 102, 241, 0.45);
+
+    --dash-btn-outline-bg: rgba(30, 41, 59, 0.8);
+    --dash-btn-outline-border: rgba(148, 163, 184, 0.25);
+    --dash-btn-outline-color: #ffffff;
+    --dash-btn-outline-hover-bg: rgba(51, 65, 85, 0.8);
+    --dash-btn-outline-hover-border: #818cf8;
+
+    --dash-testimonial-bg: rgba(30, 41, 59, 0.8);
+    --dash-testimonial-border: rgba(99, 102, 241, 0.25);
+    --dash-testimonial-text: #f1f5f9;
+    --dash-testimonial-author: #94a3b8;
+    --dash-testimonial-header-bg: rgba(15, 23, 42, 0.9);
+
+    --dash-cta-bg: linear-gradient(135deg, rgba(79, 70, 229, 0.25) 0%, rgba(37, 99, 235, 0.25) 100%), #0b0f19;
+    --dash-cta-border: rgba(99, 102, 241, 0.4);
+    --dash-cta-text: #ffffff;
+    --dash-cta-desc: #cbd5e1;
+    --dash-cta-btn-bg: #ffffff;
+    --dash-cta-btn-color: #0f172a;
 }
 
-/* =========================================================
-   1. SPLIT HERO SECTION
-   ========================================================= */
-.hero-split {
-    display: grid;
-    grid-template-columns: 1.08fr 0.92fr;
-    gap: 40px;
-    align-items: center;
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: 20px;
-    padding: 44px 42px;
-    box-shadow: var(--shadow);
-    margin-bottom: 48px;
+.dash-wrapper {
     position: relative;
+    padding: 10px 0 60px 0;
     overflow: hidden;
 }
 
-.hero-split::before {
-    content: "";
+/* Background Subtle Grid Lines */
+.dash-grid-bg {
     position: absolute;
-    top: -120px;
-    right: -120px;
-    width: 340px;
-    height: 340px;
-    background: radial-gradient(circle, rgba(79, 70, 229, 0.08) 0%, transparent 70%);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(to right, var(--dash-grid-color) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--dash-grid-color) 1px, transparent 1px);
+    background-size: 36px 36px;
+    mask-image: radial-gradient(circle at center, black 40%, transparent 85%);
+    -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 85%);
     pointer-events: none;
+    z-index: 0;
 }
 
-.hero-kicker {
+/* 1. HERO SECTION */
+.dash-hero {
+    position: relative;
+    z-index: 1;
+    background: var(--dash-hero-bg);
+    border: 1px solid var(--dash-hero-border);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 28px;
+    padding: 70px 24px;
+    text-align: center;
+    box-shadow: var(--dash-hero-shadow);
+    margin-bottom: 40px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.dash-badge {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    font-family: var(--font-mono);
-    font-size: 0.76rem;
-    font-weight: 600;
-    color: var(--primary);
-    background: var(--primary-light);
-    padding: 6px 12px;
-    border-radius: 6px;
-    margin-bottom: 18px;
-    letter-spacing: 0.03em;
-}
-
-.hero-kicker-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--primary);
-}
-
-.hero-heading {
-    font-family: var(--font-display);
-    font-size: 2.55rem;
+    background: var(--dash-badge-bg);
+    border: 1px solid var(--dash-badge-border);
+    color: var(--dash-badge-color);
+    padding: 7px 18px;
+    border-radius: 50px;
+    font-size: 0.84rem;
     font-weight: 700;
-    color: var(--text-color);
-    line-height: 1.15;
-    letter-spacing: -0.025em;
-    margin: 0 0 18px 0;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    margin-bottom: 22px;
+    box-shadow: 0 2px 8px rgba(79, 70, 229, 0.05);
 }
 
-.hero-lead {
-    font-size: 1.04rem;
+.dash-badge-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--dash-badge-dot);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--dash-badge-dot);
+    animation: pulseDot 2s infinite ease-in-out;
+}
+
+@keyframes pulseDot {
+    0%, 100% { opacity: 0.5; transform: scale(0.9); }
+    50% { opacity: 1; transform: scale(1.2); }
+}
+
+.dash-hero-title {
+    font-size: 2.7rem;
+    font-weight: 900;
+    line-height: 1.2;
+    margin: 0 auto 18px auto;
+    max-width: 900px;
+    background: var(--dash-hero-title);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.5px;
+}
+
+.dash-hero-subtitle {
+    font-size: 1.15rem;
     color: var(--text-muted);
-    line-height: 1.65;
-    margin: 0 0 30px 0;
-    max-width: 520px;
+    max-width: 760px;
+    margin: 0 auto 34px auto;
+    line-height: 1.7;
+    font-weight: 400;
 }
 
-.hero-cta-group {
+.dash-hero-actions {
     display: flex;
-    align-items: center;
-    gap: 14px;
+    justify-content: center;
+    gap: 16px;
     flex-wrap: wrap;
 }
 
-.btn-hero-primary {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    background: var(--primary);
+/* Primary Button */
+.btn-dash-primary {
+    position: relative;
+    background: var(--dash-btn-primary-bg);
     color: #ffffff !important;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 14px 34px;
+    border-radius: 12px;
     text-decoration: none;
-    font-weight: 600;
-    font-size: 0.96rem;
-    padding: 13px 24px;
-    border-radius: 10px;
-    transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
-    box-shadow: 0 4px 14px rgba(79, 70, 229, 0.25);
-}
-
-.btn-hero-primary:hover {
-    background: var(--primary-hover);
-    transform: translateY(-2px);
-}
-
-.btn-hero-secondary {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    background: var(--surface-subtle);
-    color: var(--text-color) !important;
-    border: 1px solid var(--card-border);
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 0.96rem;
-    padding: 13px 22px;
-    border-radius: 10px;
-    transition: border-color 0.2s ease, transform 0.15s ease;
+    box-shadow: var(--dash-btn-primary-shadow);
+    transition: all 0.25s ease;
+    border: none;
 }
 
-.btn-hero-secondary:hover {
-    border-color: var(--primary);
+body.dark .btn-dash-primary {
+    color: #050811 !important;
+    font-weight: 800;
+}
+
+.btn-dash-primary:hover {
     transform: translateY(-2px);
+    box-shadow: 0 15px 30px -5px rgba(79, 70, 229, 0.45);
 }
 
-/* Right Visual: Interactive SQL & Schema Window */
-.db-studio-preview {
-    background: var(--code-bg);
-    border: 1px solid var(--code-border);
-    border-radius: 14px;
-    overflow: hidden;
-    box-shadow: 0 18px 40px -12px rgba(0, 0, 0, 0.35);
-    font-family: var(--font-mono);
-}
-
-.db-studio-bar {
-    background: var(--code-header);
-    padding: 11px 16px;
-    border-bottom: 1px solid var(--code-border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.db-window-controls {
-    display: flex;
-    gap: 7px;
-}
-
-.db-window-controls span {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-}
-
-.db-window-controls .c-red { background: #ff5f56; }
-.db-window-controls .c-yellow { background: #ffbd2e; }
-.db-window-controls .c-green { background: #27c93f; }
-
-.db-studio-tabs {
-    display: flex;
-    gap: 6px;
-    font-size: 0.74rem;
-}
-
-.db-tab {
-    padding: 3px 9px;
-    border-radius: 5px;
-    color: #8b949e;
-}
-
-.db-tab.active {
-    background: rgba(56, 189, 248, 0.12);
-    color: #38bdf8;
+/* Outline Button */
+.btn-dash-outline {
+    background: var(--dash-btn-outline-bg);
+    border: 1.5px solid var(--dash-btn-outline-border);
+    color: var(--dash-btn-outline-color) !important;
     font-weight: 600;
-}
-
-.db-code-area {
-    padding: 18px 20px;
-    font-size: 0.82rem;
-    line-height: 1.65;
-    color: #e2e8f0;
-    border-bottom: 1px solid var(--code-border);
-}
-
-.sq-kw { color: #ff7b72; font-weight: 600; }
-.sq-fn { color: #d2a8ff; }
-.sq-tb { color: #79c0ff; }
-.sq-cm { color: #6e7681; }
-
-.db-result-area {
-    padding: 12px 16px 14px;
-    background: rgba(255, 255, 255, 0.015);
-}
-
-.db-result-label {
-    font-size: 0.7rem;
-    color: #8b949e;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 8px;
-    display: flex;
-    justify-content: space-between;
-}
-
-.db-result-label .status-ok {
-    color: #3fb950;
-}
-
-.db-mini-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.76rem;
-    color: #cbd5e1;
-}
-
-.db-mini-table th {
-    text-align: left;
-    color: #8b949e;
-    font-weight: 500;
-    padding: 5px 8px;
-    border-bottom: 1px solid var(--code-border);
-}
-
-.db-mini-table td {
-    padding: 6px 8px;
-    border-bottom: 1px solid rgba(48, 54, 61, 0.5);
-}
-
-.db-mini-table tr:last-child td {
-    border-bottom: none;
-}
-
-.pk-pill {
-    background: rgba(56, 189, 248, 0.15);
-    color: #38bdf8;
-    padding: 1px 6px;
-    border-radius: 4px;
-    font-size: 0.68rem;
-}
-
-/* =========================================================
-   2. COURSES SECTION
-   ========================================================= */
-.sec-block {
-    margin-bottom: 48px;
-}
-
-.sec-header {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    margin-bottom: 22px;
-    gap: 12px;
-}
-
-.sec-title-wrap h2 {
-    font-family: var(--font-display);
-    font-size: 1.6rem;
-    font-weight: 700;
-    color: var(--text-color);
-    margin: 0 0 4px 0;
-    letter-spacing: -0.02em;
-}
-
-.sec-title-wrap p {
-    font-size: 0.92rem;
-    color: var(--text-muted);
-    margin: 0;
-}
-
-.sec-all-link {
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--primary);
+    font-size: 1rem;
+    padding: 14px 30px;
+    border-radius: 12px;
     text-decoration: none;
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    white-space: nowrap;
+    gap: 10px;
+    transition: all 0.25s ease;
 }
 
-.sec-all-link:hover {
-    text-decoration: underline;
+.btn-dash-outline:hover {
+    background: var(--dash-btn-outline-hover-bg);
+    border-color: var(--dash-btn-outline-hover-border);
+    transform: translateY(-2px);
 }
 
-.courses-showcase-grid {
+/* 2. STATS SECTION */
+.dash-stats-grid {
+    position: relative;
+    z-index: 1;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-    gap: 24px;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 22px;
+    margin-bottom: 50px;
 }
 
-.course-showcase-card {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: 16px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    box-shadow: var(--shadow);
-    transition: transform 0.22s ease, border-color 0.22s ease;
-}
-
-.course-showcase-card:hover {
-    transform: translateY(-4px);
-    border-color: var(--primary);
-}
-
-.course-thumb-wrap {
-    height: 185px;
+.dash-stat-card {
+    background: var(--dash-card-bg);
+    border: 1px solid var(--dash-card-border);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-radius: 20px;
+    padding: 26px 20px;
+    text-align: center;
     position: relative;
     overflow: hidden;
-    background: #0f172a;
-    border-bottom: 1px solid var(--card-border);
+    box-shadow: var(--dash-card-shadow);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.course-thumb-wrap img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.35s ease;
-}
-
-.course-showcase-card:hover .course-thumb-wrap img {
-    transform: scale(1.03);
-}
-
-.course-lesson-badge {
+.dash-stat-card::before {
+    content: "";
     position: absolute;
-    top: 12px;
-    right: 12px;
-    background: rgba(15, 23, 42, 0.82);
-    backdrop-filter: blur(8px);
-    color: #ffffff;
-    font-family: var(--font-mono);
-    font-size: 0.76rem;
-    font-weight: 600;
-    padding: 5px 10px;
-    border-radius: 6px;
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #4f46e5, #6366f1);
 }
 
-.course-body-wrap {
-    padding: 22px 24px;
+.dash-stat-card:nth-child(2)::before {
+    background: linear-gradient(90deg, #2563eb, #60a5fa);
+}
+
+.dash-stat-card:nth-child(3)::before {
+    background: linear-gradient(90deg, #059669, #34d399);
+}
+
+.dash-stat-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--dash-card-hover-border);
+    box-shadow: var(--dash-card-shadow-hover);
+}
+
+.stat-icon-wrap {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    margin: 0 auto 14px auto;
     display: flex;
-    flex-direction: column;
-    flex: 1;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
 }
 
-.course-body-wrap h3 {
-    font-size: 1.22rem;
-    font-weight: 700;
+.icon-indigo {
+    background: var(--accent-indigo-light);
+    color: var(--accent-indigo);
+}
+body.dark .icon-indigo {
+    background: rgba(99, 102, 241, 0.18);
+    color: #a5b4fc;
+}
+
+.icon-blue {
+    background: var(--accent-blue-light);
+    color: var(--accent-blue);
+}
+body.dark .icon-blue {
+    background: rgba(56, 189, 248, 0.18);
+    color: #38bdf8;
+}
+
+.icon-emerald {
+    background: var(--accent-emerald-light);
+    color: var(--accent-emerald);
+}
+body.dark .icon-emerald {
+    background: rgba(16, 185, 129, 0.18);
+    color: #34d399;
+}
+
+.stat-number {
+    font-size: 2.6rem;
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 6px;
+    color: var(--dash-stat-number);
+    font-feature-settings: "tnum";
+    font-variant-numeric: tabular-nums;
+}
+
+.stat-label {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+/* 3. FEATURES SECTION */
+.section-header {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.section-header h2 {
+    font-size: 2rem;
+    font-weight: 800;
     color: var(--text-color);
-    margin: 0 0 8px 0;
-}
-
-.course-body-wrap p {
-    font-size: 0.92rem;
-    color: var(--text-muted);
-    line-height: 1.55;
-    margin: 0 0 20px 0;
-    flex: 1;
-}
-
-.course-progress-box {
-    margin-bottom: 18px;
-}
-
-.course-progress-meta {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.82rem;
-    font-weight: 600;
-    color: var(--text-muted);
+    letter-spacing: -0.5px;
     margin-bottom: 6px;
 }
 
-.course-progress-track {
-    height: 7px;
-    background: var(--surface-subtle);
-    border-radius: 99px;
+.section-header p {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    margin: 0;
+}
+
+.dash-features-grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+    margin-bottom: 50px;
+}
+
+.dash-feature-box {
+    background: var(--dash-card-bg);
+    border: 1px solid var(--dash-card-border);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-radius: 22px;
+    padding: 34px 28px;
+    box-shadow: var(--dash-card-shadow);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+.dash-feature-box:hover {
+    transform: translateY(-6px);
+    border-color: var(--dash-card-hover-border);
+    box-shadow: var(--dash-card-shadow-hover);
+}
+
+.feature-icon-badge {
+    width: 58px;
+    height: 58px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease;
+}
+
+.dash-feature-box:hover .feature-icon-badge {
+    transform: scale(1.08);
+}
+
+.dash-feature-box h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--text-color);
+}
+
+.dash-feature-box p {
+    font-size: 0.96rem;
+    color: var(--text-muted);
+    line-height: 1.65;
+    margin: 0;
+}
+
+/* 4. TESTIMONIALS CARD */
+.dash-testimonial-card {
+    position: relative;
+    z-index: 1;
+    background: var(--dash-testimonial-bg);
+    border: 1px solid var(--dash-testimonial-border);
+    border-radius: 22px;
+    box-shadow: var(--dash-card-shadow);
+    max-width: 820px;
+    margin: 0 auto 50px auto;
     overflow: hidden;
+    transition: all 0.3s ease;
 }
 
-.course-progress-fill {
-    height: 100%;
-    background: var(--primary);
-    border-radius: 99px;
-}
-
-.course-card-footer {
+.testimonial-header {
+    background: var(--dash-testimonial-header-bg);
+    padding: 14px 22px;
+    border-bottom: 1px solid var(--dash-testimonial-border);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-top: 16px;
-    border-top: 1px solid var(--card-border);
 }
 
-.course-tags {
+.testimonial-tag {
     display: flex;
-    gap: 10px;
-    font-size: 0.8rem;
-    color: var(--text-muted);
-}
-
-.course-tags span {
-    display: inline-flex;
     align-items: center;
-    gap: 5px;
+    gap: 8px;
+    font-size: 0.86rem;
+    font-weight: 700;
+    color: var(--dash-badge-color);
 }
 
-.btn-course-go {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    background: var(--primary);
-    color: #ffffff !important;
-    text-decoration: none;
-    font-size: 0.88rem;
-    font-weight: 600;
-    padding: 9px 18px;
-    border-radius: 8px;
-    transition: background 0.2s ease;
+.testimonial-stars {
+    color: var(--accent-amber);
+    font-size: 0.9rem;
+    letter-spacing: 2px;
 }
 
-.btn-course-go:hover {
-    background: var(--primary-hover);
-}
-
-/* =========================================================
-   3. WORKFLOW BENTO GRID (3 STEPS)
-   ========================================================= */
-.bento-steps-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-}
-
-.bento-step-card {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: 16px;
-    padding: 26px 24px;
+.testimonial-body {
+    padding: 34px 28px;
+    color: var(--dash-testimonial-text);
+    font-size: 1.15rem;
+    line-height: 1.7;
+    min-height: 105px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
+    text-align: center;
+    font-weight: 500;
+    transition: opacity 0.35s ease;
+}
+
+.testimonial-author {
+    margin-top: 14px;
+    font-size: 0.92rem;
+    color: var(--dash-testimonial-author);
+    font-weight: 600;
+}
+
+/* 5. CALL TO ACTION */
+.dash-cta-card {
+    position: relative;
+    z-index: 1;
+    background: var(--dash-cta-bg);
+    border: 1px solid var(--dash-cta-border);
+    box-shadow: 0 20px 40px -15px rgba(30, 27, 75, 0.35);
+    border-radius: 26px;
+    padding: 55px 24px;
+    text-align: center;
+    color: #ffffff;
+}
+
+.dash-cta-card h2 {
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: var(--dash-cta-text);
+    margin-bottom: 12px;
+    letter-spacing: -0.5px;
+}
+
+.dash-cta-card p {
+    color: var(--dash-cta-desc);
+    font-size: 1.1rem;
+    max-width: 620px;
+    margin: 0 auto 30px auto;
+    line-height: 1.6;
+}
+
+.btn-cta {
+    background: var(--dash-cta-btn-bg) !important;
+    color: var(--dash-cta-btn-color) !important;
+    font-weight: 800;
+    font-size: 1.05rem;
+    padding: 15px 42px;
+    border-radius: 12px;
     text-decoration: none;
-    color: inherit;
-    box-shadow: var(--shadow);
-    transition: border-color 0.2s ease, transform 0.2s ease;
-}
-
-.bento-step-card:hover {
-    border-color: var(--primary);
-    transform: translateY(-3px);
-}
-
-.bento-top-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 18px;
-}
-
-.bento-step-num {
-    font-family: var(--font-mono);
-    font-size: 0.82rem;
-    font-weight: 600;
-    color: var(--primary);
-    background: var(--primary-light);
-    padding: 4px 10px;
-    border-radius: 6px;
-}
-
-.bento-step-icon {
-    font-size: 1.25rem;
-    color: var(--text-muted);
-}
-
-.bento-step-card h3 {
-    font-size: 1.12rem;
-    font-weight: 700;
-    color: var(--text-color);
-    margin: 0 0 8px 0;
-}
-
-.bento-step-card p {
-    font-size: 0.9rem;
-    color: var(--text-muted);
-    line-height: 1.55;
-    margin: 0 0 18px 0;
-}
-
-.bento-step-link {
-    font-size: 0.86rem;
-    font-weight: 600;
-    color: var(--primary);
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 10px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    transition: all 0.25s ease;
 }
 
-@media (max-width: 960px) {
-    .hero-split {
-        grid-template-columns: 1fr;
-        padding: 32px 24px;
-        gap: 28px;
+.btn-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    background: #f8fafc !important;
+}
+
+/* Responsive Mobile Rules */
+@media (max-width: 768px) {
+    .dash-hero-title {
+        font-size: 1.85rem;
     }
-    .hero-heading {
-        font-size: 2rem;
+    .dash-hero {
+        padding: 45px 16px;
     }
-    .bento-steps-grid {
-        grid-template-columns: 1fr;
+    .btn-dash-primary, .btn-dash-outline {
+        width: 100%;
+        justify-content: center;
+    }
+    .dash-cta-card h2 {
+        font-size: 1.6rem;
+    }
+    .dash-cta-card {
+        padding: 40px 18px;
     }
 }
 </style>
 
-<div class="home-shell">
-    <!-- 1. SPLIT HERO -->
-    <section class="hero-split">
-        <div class="hero-left">
-            <div class="hero-kicker">
-                <span class="hero-kicker-dot"></span>
-                <span>INTERAKTIV TA’LIM PLATFORMASI</span>
+<div class="dash-wrapper">
+    <!-- Grid Overlay Background -->
+    <div class="dash-grid-bg"></div>
+
+    <!-- 1. HERO SECTION -->
+    <section class="dash-hero">
+        
+        <h1 class="dash-hero-title">MA’LUMOTLAR BAZASI VA AXBOROT TIZIMLARI</h1>
+        
+
+        <div class="dash-hero-actions">
+            <a href="/student/courses" class="btn-dash-primary">
+                <i class="fa-solid fa-bolt"></i> Kurslarni Boshlash
+            </a>
+        </div>
+    </section>
+
+    <!-- 2. STATS SECTION -->
+    <section class="dash-stats-grid">
+        <div class="dash-stat-card">
+            <div class="stat-icon-wrap icon-indigo">
+                <i class="fa-solid fa-users-gear"></i>
             </div>
-            <h1 class="hero-heading">Ma’lumotlar bazasi va axborot tizimlari</h1>
-            <p class="hero-lead">
-                Relyatsion ma’lumotlar bazasini loyihalash, SQL so‘rovlar tili hamda amaliy dasturiy tizimlarni video darslar va virtual laboratoriya orqali o‘rganing.
-            </p>
-            <div class="hero-cta-group">
-                <a href="/student/courses" class="btn-hero-primary">
-                    <span>Kurslarni boshlash</span>
-                    <i class="fa-solid fa-arrow-right"></i>
-                </a>
-                <a href="/student/sql-lab" class="btn-hero-secondary">
-                    <i class="fa-solid fa-terminal"></i>
-                    <span>SQL Laboratoriya</span>
-                </a>
-            </div>
+            <div class="stat-number counter" data-target="{{ stats['users']+930 }}">0</div>
+            <div class="stat-label">Faol O‘quvchilar</div>
         </div>
 
-        <div class="hero-right">
-            <div class="db-studio-preview">
-                <div class="db-studio-bar">
-                    <div class="db-window-controls">
-                        <span class="c-red"></span>
-                        <span class="c-yellow"></span>
-                        <span class="c-green"></span>
-                    </div>
-                    <div class="db-studio-tabs">
-                        <span class="db-tab active">query.sql</span>
-                        <span class="db-tab">schema</span>
-                    </div>
+        <div class="dash-stat-card">
+            <div class="stat-icon-wrap icon-blue">
+                <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+            <div class="stat-number counter" data-target="{{ stats['enrolled']+1050 }}">0</div>
+            <div class="stat-label">Kurs Ishtirokchilari</div>
+        </div>
+
+        <div class="dash-stat-card">
+            <div class="stat-icon-wrap icon-emerald">
+                <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <div class="stat-number counter" data-target="{{ stats['certified']+813 }}">0</div>
+            <div class="stat-label">Sertifikat Olganlar</div>
+        </div>
+    </section>
+
+    <!-- 4. LIVE TESTIMONIALS -->
+    <section>
+        <div class="dash-testimonial-card">
+            <div class="testimonial-header">
+                <div class="testimonial-tag">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <span>TALABALAR TAASSUROTLARI</span>
                 </div>
-                <div class="db-code-area">
-                    <div><span class="sq-cm">-- Kurslar va mavzular statistikasi</span></div>
-                    <div><span class="sq-kw">SELECT</span> c.id, c.name, <span class="sq-fn">COUNT</span>(t.id) <span class="sq-kw">AS</span> mavzular</div>
-                    <div><span class="sq-kw">FROM</span> <span class="sq-tb">courses</span> c</div>
-                    <div><span class="sq-kw">LEFT JOIN</span> <span class="sq-tb">chapters</span> ch <span class="sq-kw">ON</span> ch.course_id = c.id</div>
-                    <div><span class="sq-kw">LEFT JOIN</span> <span class="sq-tb">topics</span> t <span class="sq-kw">ON</span> t.chapter_id = ch.id</div>
-                    <div><span class="sq-kw">GROUP BY</span> c.id;</div>
+                <div class="testimonial-stars">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
                 </div>
-                <div class="db-result-area">
-                    <div class="db-result-label">
-                        <span>Natija ({{ courses|length }} qator)</span>
-                        <span class="status-ok">● 0.002s</span>
-                    </div>
-                    <table class="db-mini-table">
-                        <thead>
-                            <tr>
-                                <th>id</th>
-                                <th>name</th>
-                                <th>mavzular</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for c in courses %}
-                            <tr>
-                                <td><span class="pk-pill">PK {{ c['id'] }}</span></td>
-                                <td>{{ c['name'] }}</td>
-                                <td>{{ c['total_topics'] }} ta</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+            </div>
+            <div class="testimonial-body" id="testimonialBody">
+                <div>"Bu platforma orqali ma’lumotlar bazasi fanini juda oson o‘zlashtirdim. Interfeys ajoyib!"</div>
+                <div class="testimonial-author">— Diyor (Talaba)</div>
             </div>
         </div>
     </section>
 
-    <!-- 2. O'QUV KURSLARI -->
-    <section class="sec-block">
-        <div class="sec-header">
-            <div class="sec-title-wrap">
-                <h2>O‘quv kurslari</h2>
-                <p>Mavzulashtirilgan video darslar, PDF konspektlar va amaliy topshiriqlar</p>
-            </div>
-            <a href="/student/courses" class="sec-all-link">
-                Barcha kurslar <i class="fa-solid fa-arrow-right"></i>
-            </a>
-        </div>
-
-        <div class="courses-showcase-grid">
-            {% for course in courses %}
-            {% set total = course['total_topics'] or 0 %}
-            {% set done = course['topics_done'] or 0 %}
-            {% set percent = (done / total * 100) if total > 0 else 0 %}
-            <div class="course-showcase-card">
-                <div class="course-thumb-wrap">
-                    {% if course['img'] %}
-                        {% if course['img'].startswith('http') or course['img'].startswith('/') %}
-                        <img src="{{ course['img'] }}" alt="{{ course['name'] }}">
-                        {% else %}
-                        <img src="{{ url_for('static', filename='icons/' + course['img']) }}" alt="{{ course['name'] }}">
-                        {% endif %}
-                    {% else %}
-                        <div style="width:100%; height:100%; background:linear-gradient(135deg, #1e3a8a, #3b82f6); display:flex; align-items:center; justify-content:center; color:#fff; font-size:2.8rem;">
-                            <i class="fa-solid fa-database"></i>
-                        </div>
-                    {% endif %}
-                    <span class="course-lesson-badge">{{ total }} ta mavzu</span>
-                </div>
-
-                <div class="course-body-wrap">
-                    <h3>{{ course['name'] }}</h3>
-                    <p>{{ course['title'] }}</p>
-
-                    {% if session.get('user_id') and total > 0 %}
-                    <div class="course-progress-box">
-                        <div class="course-progress-meta">
-                            <span>O‘zlashtirish ko‘rsatkichi</span>
-                            <span>{{ percent | round | int }}%</span>
-                        </div>
-                        <div class="course-progress-track">
-                            <div class="course-progress-fill" style="width: {{ percent }}%;"></div>
-                        </div>
-                    </div>
-                    {% endif %}
-
-                    <div class="course-card-footer">
-                        <div class="course-tags">
-                            <span><i class="fa-solid fa-circle-play"></i> Video</span>
-                            <span><i class="fa-solid fa-file-pdf"></i> PDF</span>
-                            <span><i class="fa-solid fa-list-check"></i> Test</span>
-                        </div>
-                        <a href="{{ url_for('student.course_detail', course_id=course['id']) }}" class="btn-course-go">
-                            Kursga o‘tish <i class="fa-solid fa-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </section>
-
-    <!-- 3. O'QUV JARAYONI (3 TA ASOSIY YO'NALISH) -->
-    <section class="sec-block" style="margin-bottom: 0;">
-        <div class="sec-header">
-            <div class="sec-title-wrap">
-                <h2>O‘quv jarayoni</h2>
-                <p>Nazariy bilimdan amaliy ko‘nikma va sertifikatgacha bo‘lgan bosqichlar</p>
-            </div>
-        </div>
-
-        <div class="bento-steps-grid">
-            <a href="/student/courses" class="bento-step-card">
-                <div>
-                    <div class="bento-top-row">
-                        <span class="bento-step-num">01-BOSQICH</span>
-                        <i class="fa-solid fa-book-open-reader bento-step-icon"></i>
-                    </div>
-                    <h3>Nazariya va video darslar</h3>
-                    <p>Har bir modul bo‘yicha tartiblangan video darsliklar va PDF ma’ruza materiallari bilan tanishing.</p>
-                </div>
-                <span class="bento-step-link">Darslarni ko‘rish <i class="fa-solid fa-arrow-right"></i></span>
-            </a>
-
-            <a href="/student/sql-lab" class="bento-step-card">
-                <div>
-                    <div class="bento-top-row">
-                        <span class="bento-step-num">02-BOSQICH</span>
-                        <i class="fa-solid fa-terminal bento-step-icon"></i>
-                    </div>
-                    <h3>SQL amaliy laboratoriya</h3>
-                    <p>Qo‘shimcha dastur o‘rnatmasdan, brauzerning o‘zida SQL so‘rovlarni yozib amalda sinab ko‘ring.</p>
-                </div>
-                <span class="bento-step-link">Laboratoriyani ochish <i class="fa-solid fa-arrow-right"></i></span>
-            </a>
-
-            <a href="/certificate/verify" class="bento-step-card">
-                <div>
-                    <div class="bento-top-row">
-                        <span class="bento-step-num">03-BOSQICH</span>
-                        <i class="fa-solid fa-qrcode bento-step-icon"></i>
-                    </div>
-                    <h3>QR-kodli sertifikat va tekshirish</h3>
-                    <p>Kursni muvaffaqiyatli yakunlab, maxsus QR-kodli sertifikat oling yoki berilgan sertifikat haqiqiyligini tekshiring.</p>
-                </div>
-                <span class="bento-step-link">Sertifikatni tekshirish <i class="fa-solid fa-arrow-right"></i></span>
-            </a>
-        </div>
+    <!-- 5. CALL TO ACTION -->
+    <section class="dash-cta-card">
+        <h2>BILIMINGIZNI BUGUNOQ YANGI BOSQICHGA KO‘TARING</h2>
+        <p>Kurslarga bepul yoziling, testlarni yeching va rasmiy sertifikat egasiga aylaning.</p>
+        <a href="/student/courses" class="btn-cta">
+            <i class="fa-solid fa-rocket"></i> Kurslarni Boshlash
+        </a>
     </section>
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    // 1. Counter Animation
+    const counters = document.querySelectorAll('.counter');
+    counters.forEach(counter => {
+        const target = +counter.getAttribute('data-target');
+        let count = 0;
+        const speed = 25;
+        const inc = Math.max(1, Math.ceil(target / speed));
+        const updateCount = () => {
+            count += inc;
+            if (count < target) {
+                counter.innerText = count;
+                setTimeout(updateCount, 30);
+            } else {
+                counter.innerText = target;
+            }
+        };
+        updateCount();
+    });
+
+    // 2. Reviews Rotation
+    const feedbacks = [
+        { text: '"Bu platforma orqali ma’lumotlar bazasi fanini juda oson o‘zlashtirdim. Interfeys ajoyib va juda qulay!"', author: '— Diyor (Talaba)' },
+        { text: '"Test sinovlari va video darslar tartibi juda aniq ishlab chiqilgan. Barchaga tavsiya qilaman!"', author: '— Nilufar (1-kurs)' },
+        { text: '"Savollarga forum orqali darhol javob olish va SQL laboratoriyada ishlash eng katta qulaylik bo‘ldi."', author: '— Jasur (Dasturchi)' }
+    ];
+    let fIndex = 0;
+    const tBody = document.getElementById('testimonialBody');
+    if (tBody) {
+        setInterval(() => {
+            fIndex = (fIndex + 1) % feedbacks.length;
+            tBody.style.opacity = 0;
+            setTimeout(() => {
+                tBody.innerHTML = `<div>${feedbacks[fIndex].text}</div><div class="testimonial-author">${feedbacks[fIndex].author}</div>`;
+                tBody.style.opacity = 1;
+            }, 300);
+        }, 5000);
+    }
+});
+</script>
 {% endblock %}
